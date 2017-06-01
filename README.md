@@ -4,7 +4,7 @@ Decentralized, anonymous online marketplace
 [About](#About) - [Installation](#Installing) - [Buying](#Buying) - [Selling](#Selling)
 
 
-# About
+## About
 
 The Eternal Market (TEM) is a distributed application that allows anyone with blockchain 
 access to buy or sell goods and services anonymously. It requires no login, only a valid
@@ -26,7 +26,7 @@ D) Many purchase contracts - contain the funds for each order between buyers and
 TEM has no owner with control over the listings or orders. Right now the owner has *extremely* limited 
 control as an arbitrator over disputed contracts, and a few other housekeeping functions. Eventually this will be phased out and replaced with a share-based community voting mechanism.
 
-Example Order:
+### Example Order:
 Alice wants to purchase a widget from Bob, who has listed widgets on TEM. Alice connects her
 Etereum address to TEM and navigates to the listing page for Bob's widgets. Using Bob's public
 key on the page, Alice encrypts her shipping address and submits an order to Bob. The ether for
@@ -36,7 +36,7 @@ has confirmed that she has received the wiget.
 When Bob receives the order he decrypts Alices address using his private key, and ships the
 widget to Alice. When Alice receives the widget, she confirms delivery and the funds are sent to Bob.
 
-Rejected Orders:
+### Rejected Orders:
 If Bob runs out of widgets to sell, he can remove his listing from TEM. If he runs out of widgets but
 already has orders that are placed, he can cancel the orders and the funds will be returned to the 
 buyers.
@@ -44,18 +44,18 @@ buyers.
 Sellers have three days to confirm shipment of their items. If they have not shipped by the third day,
 the Buyer can cancel their order and receive a refund.
 
-Disputing an Order:
+### Disputing an Order:
 In the event that a Seller fails to provide their good or service after confirming shipment, the buyer
 can (after 3 weeks) choose to dispute the order. If an order is disputed, the seller will not 
 recieve any funds from the purchase. A neutral arbitrator can decide how to allocate the funds locked in
 the order contract between the Buyer and Seller.
 
-Incapacitated Parties:
+### Incapacitated Parties:
 In the event that either Buyer or Seller becomes incapacitated and cannot release the funds, the contract
 which contains the order's fund has a "deadman's switch" to split the funds equally between the two parties. This can 
 only be triggered after the contract has been stagnant for 12 weeks.
 
-Keeping the Market Running Smoothly:
+### Keeping the Market Running Smoothly:
 The number of successful and disputed sales for each listing on TEM is tracked in the database. Listings
 which have a bad ratio of disputed/successful sales can be removed by any Ethereum user. As long as the 
 Seller of a listing keeps selling successfully, the Seller is the only person who has the capability to 
@@ -65,14 +65,14 @@ quickly be weeded out.
 Sellers have incentive to ship their products or deliver their services quickly. Because TEM cannot be shut down,
 Sellers have the potential to reap large profits from listings with a long track history of successful deliveries.
 
-Staying Anonymous on TEM:
+### Staying Anonymous on TEM:
 
 TBD
 
-The future of TEM:
+### The future of TEM:
 TBD
 
-# Installing
+## Installing
 
 The Eternal Market requires Mistbrowser or the chrome Shapeshift plugin to interact (via web3) with the blockchain.
 
@@ -86,7 +86,7 @@ Installation Instructions
 2) Select "New Server" and point the server at your unzipped repository folder
 3) Navigate to the address shown in the Fenix window (Usually http://127.0.0.1:80)
 
-# Buying
+## Buying
 Browse the current listings on the market. You can see the items for sale, 
 read descriptions, and view some stats on each listing which serve
 to authenticate the seller.
@@ -98,7 +98,7 @@ your address will be public and broadcast to the whole world!
 
 How to use PGP to encrypt your shipping address
 
-# Selling
+## Selling
 
 After you have connected your ethereum address (where payment for your orders will be sent),
 specify the following:
