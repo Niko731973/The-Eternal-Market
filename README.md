@@ -1,7 +1,7 @@
 # The Eternal Market
 Decentralized, anonymous online marketplace
 
-[About](#About) - [Installation](#Installing) - [Buying](#Buying) - [Selling](#Selling)
+[About](#about) - [Installation](#installing) - [Buying](#buying) - [Selling](#selling)
 
 
 ## About
