@@ -9,15 +9,15 @@ Decentralized, anonymous online marketplace
 The Eternal Market (TEM) is a distributed application that allows anyone with blockchain access to buy or sell goods and services anonymously. It requires no login, only a valid Ethereum address. Being a distributed application, TEM is not stored on any server, cannot be shut down or hacked. Funds for each order are locked in contracts between the buyer and seller, there is no central wallet to manage orders which is susceptible to attack.
 
 Once a listing is posted, there are only two ways it can be removed:
-A) If the ratio of failed/successful sales is too high
-B) If owner of the listing voluntarily removes it
+* If the ratio of failed/successful sales is too high
+* If owner of the listing voluntarily removes it
 
 TEM is an upgradable set of smart contracts consisting of:
 
-A) A base contract - an unchanging contract which points to the current deployed market contract
-B) A market contract - an upgradeable contract that contains the logic of the market
-C) A database contract - stores the listings and orders
-D) Many purchase contracts - contain the funds for each order between buyers and sellers on TEM
+* A base contract - an unchanging contract which points to the current deployed market contract on the blockchain
+* A market contract - an upgradeable contract that contains the logic of the market
+* A database contract - stores the listings and orders
+* Many purchase contracts - contain the funds for each order between buyers and sellers on TEM
 
 TEM has no owner with control over the listings or orders. Right now the owner has *extremely* limited control as an arbitrator over disputed contracts, and a few other housekeeping functions. Eventually this will be phased out and replaced with a share-based community voting mechanism.
 
@@ -47,11 +47,16 @@ Sellers have incentive to ship their products or deliver their services quickly.
 TBD
 
 ### The future of TEM:
-TBD
+
+* Secure messaging between users
+* Distributed image storage
+* Fixed USD prices
+* Improved front-end
+* ios/android apps
 
 ## Installing
 
-The Eternal Market requires Mistbrowser or the chrome Shapeshift plugin to interact (via web3) with the blockchain.
+The Eternal Market is in alpha right now. TEM requires Mistbrowser or the chrome Shapeshift plugin to interact (via web3) with the blockchain.
 
 Installation Instructions
 1) Download and unzip the repository for The Eternal Market ()
@@ -62,6 +67,8 @@ Installation Instructions
 1) Download and install from http://fenixwebserver.com/
 2) Select "New Server" and point the server at your unzipped repository folder
 3) Navigate to the address shown in the Fenix window (Usually http://127.0.0.1:80)
+
+The setup process will be streamlined shortly.
 
 ## Buying
 Browse the current listings on the market. You can see the items for sale, read descriptions, and view some stats on each listing which serve to authenticate the seller.
