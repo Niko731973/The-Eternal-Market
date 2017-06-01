@@ -4,7 +4,7 @@ Decentralized, anonymous online marketplace
 [About](#About) - [Installation](#Installing) - [Buying](#Buying) - [Selling](#Selling)
 
 
-##About
+#About
 
 The Eternal Market (TEM) is a distributed application that allows anyone with blockchain 
 access to buy or sell goods and services anonymously. It requires no login, only a valid
@@ -72,7 +72,7 @@ TBD
 The future of TEM:
 TBD
 
-##Installing
+#Installing
 The Eternal Market requires Mistbrowser or the chrome Shapeshift plugin to interact (via web3) with the blockchain.
 
 Installation Instructions
@@ -85,7 +85,7 @@ Installation Instructions
 2) Select "New Server" and point the server at your unzipped repository folder
 3) Navigate to the address shown in the Fenix window (Usually http://127.0.0.1:80)
 
-##Buying
+#Buying
 Browse the current listings on the market. You can see the items for sale, 
 read descriptions, and view some stats on each listing which serve
 to authenticate the seller.
@@ -97,7 +97,7 @@ your address will be public and broadcast to the whole world!
 
 How to use PGP to encrypt your shipping address
 
-##Selling
+#Selling
 
 After you have connected your ethereum address (where payment for your orders will be sent),
 specify the following:
