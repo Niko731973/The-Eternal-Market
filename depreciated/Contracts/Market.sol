@@ -10,10 +10,6 @@ contract owned {
         if (msg.sender != owner) throw;
         _;
     }
-
-    function transferOwnership(address newOwner) onlyOwner {
-        owner = newOwner;
-    }
 }
 
 
@@ -32,7 +28,6 @@ contract EternalMarket is owned {
     
     bool freeListingsAndOrders = false;     //new listings and orders can be halted to allow for migration to an updated contract version
     
-    uint public USD = 1;					//the price of one USD in wei
     
     struct Listing {
     
@@ -62,6 +57,7 @@ contract EternalMarket is owned {
     function EternalMarket(address _databaseAddress){
         databaseAddress = _databaseAddress;
         database = Database(databaseAddress);
+        
     }
     
     modifier onlyValidListings(uint index) { 
@@ -112,7 +108,7 @@ contract EternalMarket is owned {
     function addOrder (uint index, string shippingAddress) payable onlyValidListings(index) returns(bool){
         var (seller,,,,price,,,,,listing_enabled) = database.getListing(index);
         
-        if(msg.value < (price*USD) || !(listing_enabled)){ throw;}
+        if(msg.value < price || !(listing_enabled)){ throw;}
         
         //pay the fee for the order
         uint fee = buildOrderFee(price);
@@ -135,7 +131,7 @@ contract EternalMarket is owned {
         
         //check to see that the ether provided is enough to create the listing.
         //This payment for new listings is required to prevent scammers and spam
-        if(getListingFee(_price*USD)>msg.value){ throw; }
+        if(getListingFee(_price)>msg.value){ throw; }
         
         //add the new listing to our database
         database.addListing(msg.sender,_title,_description,_publicKey,_price);
@@ -156,8 +152,9 @@ contract EternalMarket is owned {
        //A listing can be removed in only two cases:
        //1) The seller wishes to remove their own listing
        //2) The listing has a high percent of disputed transactions 
+       //3) The shareholders vote for the listing to be removed (owner is the base contract controlled by the shareholders)
        //This allows any user to purge a listing created by a bad actor
-       if ((msg.sender != seller) && !isBadListing(index) ) {throw;}
+       if ((msg.sender != seller) && !isBadListing(index) && (msg.sender!=owner)) {throw;}
        
        database.removeListing(index);
        
@@ -238,40 +235,13 @@ contract EternalMarket is owned {
     
     /* Market Owner Functions */
     
-    //changes the fee charged on every order placed
-    function changeOrderRate(uint new_rate) onlyOwner returns(bool){
-        order_rate = new_rate;
-        return true;
-    }
-    
-    //update the value of one USD in wei
-    function updateUSD(uint new_rate) onlyOwner {
-    	USD = new_rate;
-    }
-    
-    //changes the fee charged on each listing that is created
-    function changeListingRate(uint new_rate) onlyOwner returns(bool){
-        listing_rate = new_rate;
-        return true;
-    }
-    
     //changes the threshold upon which a listing can be removed by the community
     function change_bad_seller_threshold(uint new_num) onlyOwner returns(bool){
     bad_seller_threshold = new_num;
     }
 
-    //listings and orders may be disallowed to allow for migration to a new market contract
-    function toggleMarketFreeze() onlyOwner{
-    
-        if(freeListingsAndOrders){
-            freeListingsAndOrders = false;
-           return;
-        }
-        freeListingsAndOrders = true;
-    }
-    
     //any funds left in the market contract are recoverable (used when upgrading the market contract)
-    function recover_funds() onlyOwner {
+    function transferFunds() onlyOwner {
         owner.transfer(this.balance);
     }
     
