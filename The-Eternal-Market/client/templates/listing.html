@@ -5,9 +5,10 @@
 Successful Sales: {{salesSuccessful}}, Success Rate: {{ successRate}}, Last Successful Sale: {{ lastsuccessfulSale}}<br>
 Listing Created: {{ timeListed}}<br>
 Seller Public Key<br><textarea rows="4" cols="50" readonly>{{  publicKey}} </textarea><br><br>
+<textarea rows="4" cols="50" id="delivery_address"></textarea>
         
 	<div id = "place"></div>
-	<button type="button" onclick="newOrder({{listingID}})">Place Order</button>
+	<button type="button" onclick="newOrder({{listingID}},delivery_address.value)">Place Order</button>
 	<button type="button" onclick="removeListing({{listingID}})">Remove Listing</button>
 
 	<div id="button_result"></div>

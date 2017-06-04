@@ -1,10 +1,16 @@
 //creates a new order transaction on the blockchain
-newOrder = function newOrder(listing_id,cost,delivery_address)
-{  var conf = confirm("Please confirm that you have encrypted your delivery address!"); 
+newOrder = function newOrder(listing_id,delivery_address)
+			
+{  				var temp = ListingsDB.findOne({listingID : Number(listing_id)});
+                                             
+		var price = web3.toWei(temp.price, "ether");
+
+var conf = confirm("Please confirm that you have encrypted your delivery address!"); 
 	if(conf==true){ 
-	
+	//Once your transaction is confirmed, it will take a few minutes to propagate through the blockchain!<br>Once your transaction has been confirmed by the blockchain, you can check the status of your order under the "My Orders" menu.
 	web3.eth.defaultAccount = accounts[0];
-	var result = EV.addOrder(listing_id, delivery_address, {value: cost});
+	var result = EV.addOrder(listing_id, delivery_address, {value: price});
+	showConfirmationOrError(result);
 }
 }
 
@@ -73,4 +79,11 @@ var result = EV.removeListing(id);
 //gets the listing ID of an order, specified by the order ID
 function listingIDofOrder(id){
 
+}
+
+function showConfirmationOrError(result){
+if(result==true){
+		confirm("Transaction submitted, please allow a few minutes for the blockchain to confirm");
+		}
+		else{confirm ("Transaction failed! Please try again");}
 }

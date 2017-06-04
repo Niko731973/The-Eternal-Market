@@ -4,7 +4,7 @@ Router.configure({
 
 Template.buy.helpers({
     listings_table: function () {
-        return ListingsDB;
+        return ListingsDB.find({enabled : true}).fetch();
     },
     buyTableSettings: function () {
         return buyTableSettings;
@@ -13,11 +13,11 @@ Template.buy.helpers({
 
 Template.sell.helpers({
     listings_table: function () {
-        return ListingsDB;
+        return ListingsDB.find({seller: accounts[0]}).fetch();
     },
     
     orders_table: function (){
-    	return OrdersDB;
+    	return OrdersDB.find({seller:accounts[0]}).fetch();
     },
     sellListingSettings: function () {
         return sellListingSettings;
@@ -29,15 +29,20 @@ Template.sell.helpers({
 
 Template.purchases.helpers({
 	orders_table: function (){
-		return OrdersDB;
-		}
+		return OrdersDB.find({buyer:accounts[0]}).fetch();
+		},
+    purchaseTableSettings: function () {
+        return purchaseTableSettings;
+}
 });
+
 Template.listing.helpers({
 	removeListing: function (id){
 		return removeListing(id);
 		},
-	newOrder: function (id){
-		return newOrder(id);
+	newOrder: function (id,delivery){
+		return newOrder(id,$('textarea').get(1).value);  
+		
 		},
 });
 

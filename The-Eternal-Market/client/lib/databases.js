@@ -30,5 +30,4 @@ var num_listings = Number(EV.nextListingID());
 			var temp = {buyer : r[0] ,seller : r[1] ,shippingAddress : r[2] ,contractAddress : r[3] ,listingID : Number(r[4]) ,orderStatus : Number(r[5]) ,timeListed : timeListed};
 			OrdersDB._collection.insert(temp);
 }
-	LISTING_ID = 0;
 }

@@ -1,4 +1,4 @@
-
+//loads web3
 if(typeof web3 === 'undefined')
 	    web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 
@@ -16,34 +16,14 @@ var database_contract = web3.eth.contract([{"constant":true,"inputs":[],"name":"
 var EM_base = em_base_contract.at(em_base);
 var em_cv = EM_base.currentVersion();
 
-//connect to our contract on the ethereum network
+//connect to our market contract on the ethereum network
 EV = eternalmarketContract.at(em_cv);
 
-//load the current database of listings and orders
+//load the current database of listings and orders contract
 var db = EV.databaseAddress();
 DB = database_contract.at(db);
 
-
-
-accounts = web3.eth.accounts;
-    if(accounts.length>0){
-        //user has an account loaded, display address and balance
-        //document.getElementById("coinbase").innerHTML = 'Your Address: ' + accounts[0] + ', Balance: '+ web3.fromWei(web3.eth.getBalance(accounts[0]), "ether");
-    }
-    else{
-        //user does not have an account loaded
-    //document.getElementById("coinbase").innerHTML = 'Your Address: NaN - Connect an Ethereum address to buy or sell on the market!';
-    }
-//returns the state of an order as a string, given the int value of the state of the purchase contract
-function getOrderState(state){
-	
-	if(state == 0){ return  "Confirm Shipment";}
-	if(state == 1){ return  "Awaiting Delivery Confirmation";}
-    if(state == 2){ return  "Delivered Successfully";}
-    if(state == 3){ return  "Disputed";}
-	return -1;
-}
-
+//loads the databases from our smart contract
 loadDatabases();
 
 
