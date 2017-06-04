@@ -32,6 +32,14 @@ Template.purchases.helpers({
 		return OrdersDB;
 		}
 });
+Template.listing.helpers({
+	removeListing: function (id){
+		return removeListing(id);
+		},
+	newOrder: function (id){
+		return newOrder(id);
+		},
+});
 
 Router.route('/', function () {
   this.render('home');

@@ -44,13 +44,6 @@ function getOrderState(state){
 	return -1;
 }
 
-
-Template.buy.helpers({
-	ListingsDB: function (){
-		return ListingsDB;
-}
-});
-
 loadDatabases();
 
 

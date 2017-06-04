@@ -1,8 +1,11 @@
 //creates a new order transaction on the blockchain
-function new_order(listing_id,cost,delivery_address)
-{  
+newOrder = function newOrder(listing_id,cost,delivery_address)
+{  var conf = confirm("Please confirm that you have encrypted your delivery address!"); 
+	if(conf==true){ 
+	
 	web3.eth.defaultAccount = accounts[0];
 	var result = EV.addOrder(listing_id, delivery_address, {value: cost});
+}
 }
 
 //if the listings ratio of disputed transactions is too high, anyone may remove the listing
@@ -56,11 +59,15 @@ function computeListingFee(original_price){
 
 //designate a listing as "inactive", cannot be reversed. called from the listing page by either
 //the seller of the listing, or any user if the listing has too many disputed sales
-function removeListing(id){
+removeListing = function removeListing(id){
+
+var conf = confirm("Are you sure you would like to remove this listing?");
+if(conf==true){
+                
 web3.eth.defaultAccount = accounts[0];
 var result = EV.removeListing(id);
-document.getElementById("button_result").innerHTML = 'Listing Successfully Removed! Please wait a few minutes for the blockchain to confirm.';
-
+//alert('Listing Successfully Removed! Please wait a few minutes for the blockchain to confirm.');
+}
 }
 
 //gets the listing ID of an order, specified by the order ID

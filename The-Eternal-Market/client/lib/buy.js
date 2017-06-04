@@ -2,7 +2,7 @@
 buyTableSettings= { 
 fields: [ 
 	{ key : 'timeListed', label : 'Listed'},
-	{ key : 'price', label : 'Price'},
+	{ key : 'price', label : 'Ether'},
 	{ key : 'title', label : 'Title', tmpl: Template.ListingLink},
 	{ key : 'salesSuccessful', label : 'Successful Sales'},
 	{ key : 'successRate', label : 'Success Rate'},

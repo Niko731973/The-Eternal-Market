@@ -7,6 +7,8 @@ Listing Created: {{ timeListed}}<br>
 Seller Public Key<br><textarea rows="4" cols="50" readonly>{{  publicKey}} </textarea><br><br>
         
 	<div id = "place"></div>
-	<div id="bottom_button"></div>
+	<button type="button" onclick="newOrder({{listingID}})">Place Order</button>
+	<button type="button" onclick="removeListing({{listingID}})">Remove Listing</button>
+
 	<div id="button_result"></div>
 </template>
