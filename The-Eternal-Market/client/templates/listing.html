@@ -1,8 +1,11 @@
 <template name="listing"> 
-	<div id="coinbase"></div>
-	<h1><div id = "_title"></div></h1>
-	<div id = "_description"></div>
-	<div id="listing_info"></div>
+	<h2>{{ title}}</h2><br>
+	{{ listingDescription }}<br>
+	Price: {{ price}}<br><br>
+Successful Sales: {{salesSuccessful}}, Success Rate: {{ successRate}}, Last Successful Sale: {{ lastsuccessfulSale}}<br>
+Listing Created: {{ timeListed}}<br>
+Seller Public Key<br><textarea rows="4" cols="50" readonly>{{  publicKey}} </textarea><br><br>
+        
 	<div id = "place"></div>
 	<div id="bottom_button"></div>
 	<div id="button_result"></div>

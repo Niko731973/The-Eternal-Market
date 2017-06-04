@@ -62,6 +62,17 @@ Router.route('/faq', function () {
 });
 
 Router.route('/createListing', function () {
+  
   this.render('createListing');
 
 });
+
+
+Router.route('/listing', {
+
+    template: 'listing',
+data : function () {
+  var id = this.params.query.id;
+  return ListingsDB.findOne({listingID : Number(id)});
+
+}});

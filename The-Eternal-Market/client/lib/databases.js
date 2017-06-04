@@ -3,9 +3,8 @@ loadDatabases = function(){
 
 OrdersDB = new Mongo.Collection("OrdersDB");
 ListingsDB = new Mongo.Collection("ListingsDB"); 
-
-
-        var num_listings = Number(EV.nextListingID());
+thisListing = {};
+var num_listings = Number(EV.nextListingID());
 
 //seller,title,listingDescription,publicKey,price,timeListed,salesSuccessful,salesDisputed,lastsuccessfulSale,enabled
     
@@ -31,5 +30,5 @@ ListingsDB = new Mongo.Collection("ListingsDB");
 			var temp = {buyer : r[0] ,seller : r[1] ,shippingAddress : r[2] ,contractAddress : r[3] ,listingID : Number(r[4]) ,orderStatus : Number(r[5]) ,timeListed : timeListed};
 			OrdersDB._collection.insert(temp);
 }
-	
+	LISTING_ID = 0;
 }
