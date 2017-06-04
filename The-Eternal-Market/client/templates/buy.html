@@ -1,0 +1,8 @@
+<template name="buy">
+{{> reactiveTable collection=listings_table showRowCount=true settings = buyTableSettings}}
+</template>
+
+
+<template name="ListingLink">
+<a href="listing.html?id={{ listingID }}">{{title}}</a>
+</template>

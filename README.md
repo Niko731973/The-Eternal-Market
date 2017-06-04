@@ -6,20 +6,20 @@ Decentralized, anonymous online marketplace
 
 ## About
 
-The Eternal Market (TEM) is a distributed application that allows anyone with blockchain access to buy or sell goods and services anonymously. It requires no login, only a valid Ethereum address. Being a distributed application, TEM is not stored on any server, cannot be shut down or hacked. Funds for each order are locked in contracts between the buyer and seller, there is no central wallet to manage orders which is susceptible to attack.
+The Eternal Market (TEM) is a distributed application (DAPP) that allows anyone with blockchain access to buy or sell goods and services anonymously. It requires no login, only a valid Ethereum address. Being a distributed application, TEM is not stored on any server, cannot be shut down or hacked. Funds for each order are locked in contracts between the buyer and seller, there is no central wallet to manage orders which is susceptible to attack.
 
 Once a listing is posted, there are only two ways it can be removed:
 * If the ratio of failed/successful sales is too high
 * If owner of the listing voluntarily removes it
 
-TEM is an upgradable set of smart contracts consisting of:
+TEM contains an upgradable set of smart contracts:
 
 * A base contract - an unchanging contract which points to the current deployed market contract on the blockchain
-* A market contract - an upgradeable contract that contains the logic of the market
-* A database contract - stores the listings and orders
+* A market contract - an upgradeable contract that contains the logic of the market, can be updated freely
+* A database contract - stores the listings and orders, to be infrequently updated on major revisions
 * Many purchase contracts - contain the funds for each order between buyers and sellers on TEM
 
-TEM has no owner with control over the listings or orders. Right now the owner has *extremely* limited control as an arbitrator over disputed contracts, and a few other housekeeping functions. Eventually this will be phased out and replaced with a share-based community voting mechanism.
+TEM has no owner with control over the listings or orders. Right now the instantiator of TEM has *extremely* limited control as an arbitrator over disputed contracts, and a few other housekeeping functions. Eventually this will be phased out and replaced with a share-based community voting mechanism.
 
 ### Example Order:
 Alice wants to purchase a widget from Bob, who has listed widgets on TEM. Alice connects her Etereum address to TEM and navigates to the listing page for Bob's widgets. Using Bob's public key on the page, Alice encrypts her shipping address and submits an order to Bob. The ether for the purchase is stored in a separate secure contract. Bob will not receive his ether until Alice has confirmed that she has received the wiget.
@@ -49,26 +49,16 @@ TBD
 ### The future of TEM:
 
 * Secure messaging between users
-* Distributed image storage
+* Distributed image storage via IPFS
 * Fixed USD prices
 * Improved front-end
 * ios/android apps
 
 ## Installing
 
-The Eternal Market is in alpha right now. TEM requires Mistbrowser or the chrome Shapeshift plugin to interact (via web3) with the blockchain.
+The Eternal Market is in alpha right now. Meteor is required. To install TEM:
 
-Installation Instructions
-1) Download and unzip the repository for The Eternal Market ()
-2) Use your favorite local webserver to host the files*
-3) Navigate to home.html in your ethereum-connected browser and start buying/selling
-
-*Fenix is simple and easy to use
-1) Download and install from http://fenixwebserver.com/
-2) Select "New Server" and point the server at your unzipped repository folder
-3) Navigate to the address shown in the Fenix window (Usually http://127.0.0.1:80)
-
-The setup process will be streamlined shortly.
+tbd
 
 ## Buying
 Browse the current listings on the market. You can see the items for sale, read descriptions, and view some stats on each listing which serve to authenticate the seller.
@@ -101,7 +91,6 @@ will be introduced to discourage spam and prevent scammers from listing.
 
 You may remove any listing of yours at any time. 
 ___________________________________________________________________________
-
 
 
 
