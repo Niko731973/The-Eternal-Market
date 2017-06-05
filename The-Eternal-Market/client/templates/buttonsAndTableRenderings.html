@@ -1,0 +1,8 @@
+<template name="purchases">
+<h2>My Purchases</h2>
+{{> reactiveTable collection=orders_table settings = purchasesTableSettings}}
+</template>
+
+<template name="ListingLink">
+<a href="listing?id={{ listingID }}">{{title}}</a>
+</template>

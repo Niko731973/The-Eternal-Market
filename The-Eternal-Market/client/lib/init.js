@@ -23,8 +23,12 @@ EV = eternalmarketContract.at(em_cv);
 var db = EV.databaseAddress();
 DB = database_contract.at(db);
 
-//loads the databases from our smart contract
-loadDatabases();
+//create blank databases to be filled as needed;
+
+OrdersDB = new Mongo.Collection("OrdersDB");
+ListingsDB = new Mongo.Collection("ListingsDB");
+loadActiveListings();
+
 
 
       

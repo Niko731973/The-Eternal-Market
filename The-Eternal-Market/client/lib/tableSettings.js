@@ -13,8 +13,8 @@ fields: [
 sellOrderSettings= { 
 fields: [ 
 	{ key : 'timeListed' , label: 'Date Created' },
-    { label: 'Ether' },
-    { label: 'Title'},
+    { key : 'price' , label: 'Ether' },
+    { key: 'title', label: 'Title', tmpl: Template.ListingLink},
     { key : 'shippingAddress' , label: 'Delivery Info' },
     { key : 'orderStatus' , label: 'Status' }
 	]}
@@ -36,8 +36,8 @@ fields: [
 purchasesTableSettings= { 
 fields: [ 
 	{ key : 'timeListed' , label: 'Date Created' },
-    { label: 'Ether' },
-    { label: 'Title'},
+    { key : 'price', label: 'Ether' ,tmpl: Template.purchase_price},
+    { label: 'Title' , tmpl: Template.purchase_title},
     { key : 'shippingAddress' , label: 'Delivery Info' },
     { key : 'orderStatus' , label: 'Status' }
 	]}

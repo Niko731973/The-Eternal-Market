@@ -4,7 +4,7 @@ Router.configure({
 
 Template.buy.helpers({
     listings_table: function () {
-        return ListingsDB.find({enabled : true}).fetch();
+        return ListingsDB.find().fetch();
     },
     buyTableSettings: function () {
         return buyTableSettings;
@@ -13,11 +13,11 @@ Template.buy.helpers({
 
 Template.sell.helpers({
     listings_table: function () {
-        return ListingsDB.find({seller: accounts[0]}).fetch();
+        return ListingsDB.find().fetch();
     },
     
     orders_table: function (){
-    	return OrdersDB.find({seller:accounts[0]}).fetch();
+    	return OrdersDB.find().fetch();
     },
     sellListingSettings: function () {
         return sellListingSettings;
@@ -29,10 +29,10 @@ Template.sell.helpers({
 
 Template.purchases.helpers({
 	orders_table: function (){
-		return OrdersDB.find({buyer:accounts[0]}).fetch();
+		return OrdersDB.find().fetch();
 		},
-    purchaseTableSettings: function () {
-        return purchaseTableSettings;
+    purchasesTableSettings: function () {
+        return purchasesTableSettings;
 }
 });
 
@@ -55,19 +55,34 @@ Router.route('/home', function () {
 	
 });
 
-Router.route('/buy', function () {
-  this.render('buy');
-	
+Router.route('/buy',{ 
+
+loadingTemplage: 'loading',
+
+waitOn: function () {loadActiveListings();},
+
+  action: function(){ this.render('buy'); },
+  data : function () {return ListingsDB.find().fetch();}
 });
 
-Router.route('/sell', function () {
-  this.render('sell');
+Router.route('/sell', { 
 
+loadingTemplage: 'loading',
+
+waitOn: function () {loadSellerOrders();},
+
+  action: function(){ this.render('sell'); },
+  data : function () {return OrdersDB.find().fetch();}
 });
 
-Router.route('/purchases', function () {
-  this.render('purchases');
+Router.route('/purchases', { 
 
+loadingTemplage: 'loading',
+
+waitOn: function () {loadBuyerOrders();},
+
+  action: function(){ this.render('purchases'); },
+  data : function () {return OrdersDB.find().fetch();}
 });
 
 Router.route('/faq', function () {

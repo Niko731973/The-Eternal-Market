@@ -8,9 +8,9 @@ newOrder = function newOrder(listing_id,delivery_address)
 var conf = confirm("Please confirm that you have encrypted your delivery address!"); 
 	if(conf==true){ 
 	//Once your transaction is confirmed, it will take a few minutes to propagate through the blockchain!<br>Once your transaction has been confirmed by the blockchain, you can check the status of your order under the "My Orders" menu.
-	web3.eth.defaultAccount = accounts[0];
-	var result = EV.addOrder(listing_id, delivery_address, {value: price});
-	showConfirmationOrError(result);
+	web3.eth.defaultAccount = web3.eth.accounts[0];
+	EV.addOrder(listing_id, delivery_address, {value: price});
+	showConfirmationOrError();
 }
 }
 
@@ -22,10 +22,9 @@ function is_bad_seller(listing_id){
 function confirmShipment(order_id){
 	var conf = confirm("Have you shipped this order?");
 	if(conf==true){ 
-		web3.eth.defaultAccount = accounts[0];
-		EV.confirmShipment(order_id);
-		alert("Please allow a few minutes for your confirmation to propagate.");
-		
+		web3.eth.defaultAccount = web3.eth.accounts[0];
+		var result = EV.confirmShipment(order_id);
+		showConfirmationOrError();
 	}
 }
 
@@ -33,7 +32,7 @@ function confirmShipment(order_id){
 function confirmDelivery(order_id){
     var conf = confirm("Have you received your order?");
 	if(conf==true){ 
-		web3.eth.defaultAccount = accounts[0];
+		web3.eth.defaultAccount = web3.eth.accounts[0];
 		EV.confirmDelivery(order_id);
 		alert("Please allow a few minutes for your confirmation to propagate.");
 	}
@@ -43,7 +42,7 @@ function confirmDelivery(order_id){
 function disputeOrder(order_id){
     var conf = confirm("Disputing this order will prevent the seller from recieving their payment. Would you like to dispute this transaction?"); 
 	if(conf==true){ 
-		web3.eth.defaultAccount = accounts[0];
+		web3.eth.defaultAccount = web3.eth.accounts[0];
 		EV.disputeOrder(order_id);
 		alert("Please allow a few minutes for your dispute to propagate.");
 	}
@@ -52,7 +51,7 @@ function disputeOrder(order_id){
 function abortOrder(order_id){
 	var conf = confirm("Would you like to cancel this order?");
 	if(conf==true){ 
-		web3.eth.defaultAccount = accounts[0];
+		web3.eth.defaultAccount = web3.eth.accounts[0];
 		EV.abortOrder(order_id);
 		alert("Please allow a few minutes for your cancelation to propagate.");
 	}
@@ -70,7 +69,7 @@ removeListing = function removeListing(id){
 var conf = confirm("Are you sure you would like to remove this listing?");
 if(conf==true){
                 
-web3.eth.defaultAccount = accounts[0];
+web3.eth.defaultAccount = web3.eth.accounts[0];
 var result = EV.removeListing(id);
 //alert('Listing Successfully Removed! Please wait a few minutes for the blockchain to confirm.');
 }
@@ -81,9 +80,6 @@ function listingIDofOrder(id){
 
 }
 
-function showConfirmationOrError(result){
-if(result==true){
-		confirm("Transaction submitted, please allow a few minutes for the blockchain to confirm");
-		}
-		else{confirm ("Transaction failed! Please try again");}
+function showConfirmationOrError(){
+	confirm("please allow a few minutes for your transaction to be confirmed by the blockchain");
 }

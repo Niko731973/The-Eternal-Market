@@ -21,6 +21,8 @@ contract Community{
 		string reason;
 		uint data1;
 		uint data2;
+		bool executed;
+		mapping (address => bool) voted;
 		
 	}
 	modifier onlyShareholders {
@@ -124,32 +126,40 @@ function propose(uint action, string reason, uint data1, uint data2) onlyShareho
     if(action<1||action>5){throw;}
 	
 	proposals.length++;
-	proposals[proposals.length-1]= Proposal(shares[msg.sender],now,action,reason,data1, data2);
+	proposals[proposals.length-1]= Proposal(shares[msg.sender],now,action,reason,data1, data2, false);
 }
 
-function voteYes(uint id) onlyShareholders{
-	
+function voteYes(uint propID) onlyShareholders{
+	Proposal p = proposals[propID];
+	if(p.dateCreated>(3 days) || p.executed){throw;}
+	if(p.voted[msg.sender]){throw;}
+	p.voted[msg.sender] = true;
+	p.yesVotes+=shares[msg.sender];
 }
 
 	function changeMarket(address new_add,uint proposalID) onlyValidProposals(proposalID) {
 		if(proposals[proposalID].action!=1){throw;}
+		proposals[proposalID].executed = true;
 		Base b = Base(eternalAddress);
 		b.changeMarketAddress(new_add);
 	}
 	function changeDatabase(address new_add,uint proposalID) onlyValidProposals(proposalID){
 	if(proposals[proposalID].action!=2){throw;}
+		proposals[proposalID].executed = true;
 		Base b = Base(eternalAddress);
 		b.changeDatabaseAddress(new_add);
 	
 	}
 	function changeCommunity(address new_add,uint proposalID) onlyValidProposals(proposalID){
 	if(proposals[proposalID].action!=3){throw;}
+		proposals[proposalID].executed = true;
 		Base b = Base(eternalAddress);
 		b.changeCommunityAddress(new_add);
 	
 	}
 	function removeListing(uint listingID,uint proposalID) onlyValidProposals(proposalID){
 	if(proposals[proposalID].action!=4){throw;}
+		proposals[proposalID].executed = true;
 		Base b = Base(eternalAddress);
 		address market_address = b.getMarket();
 		Market m = Market(market_address);
@@ -158,6 +168,7 @@ function voteYes(uint id) onlyShareholders{
 	}
 	function updateRates(uint order, uint listing,uint proposalID) onlyValidProposals(proposalID){
 	if(proposals[proposalID].action!=5){throw;}
+		proposals[proposalID].executed = true;
 		payDividends();
 		Base b = Base(eternalAddress);
 		address market_address = b.getMarket();
