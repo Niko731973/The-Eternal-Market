@@ -1,12 +1,39 @@
 <template name="createListing">
 <h2>Create a Listing</h2>
     <div id="listing_info"></div><br>
-    Once your listing is created it can only be removed if either:<br>
-    A) Your dispute/success ratio is too high<br>
-    B) You choose to remove it voluntarily.<br>
+	Fill out the information below to create your listing.<br><br>
     
-    <br>
+    Listing Title: <input type="text" id="listingTitle" value=""><br>
+    Price (Ether): <input type="text" id="price" value=""><br>
+    Listing Description:<br>
+    <textarea rows="6" cols="80" id="listingDescription" value="Your listing description goes here"></textarea><br>
+    Public Key:<br><textarea rows="4" cols="50" id="sellerPublicKey" value="Paste your public key here"></textarea><br>
+    Fee: <input type="text" readonly id="fee" value="">
+        
     
-     <div id="bottom_button"></div>
-     <div id="button_result"></div>
+    <button type="button" onclick="newListing(title,description,public_key,price,fee)">Create Listing</button>
+ 
 </template>
+
+
+/*
+		var price_box = document.getElementById('price');
+		var fee_box = document.getElementById('fee');
+		var fee;
+		
+
+		price_box.onchange = function() {
+   			fee = (listing_rate*Number(price_box.value))/100;
+   			fee_box.value = fee;
+   			
+		}
+		
+		
+		
+		
+            var title = document.getElementById('listingTitle').value;
+            var description = document.getElementById('listingDescription').value;
+            var public_key = document.getElementById('sellerPublicKey').value;
+            var price = document.getElementById('price').value; 
+			web3.eth.defaultAccount = accounts[0];
+/*

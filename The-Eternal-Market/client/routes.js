@@ -36,16 +36,6 @@ Template.purchases.helpers({
 }
 });
 
-Template.listing.helpers({
-	removeListing: function (id){
-		return removeListing(id);
-		},
-	newOrder: function (id,delivery){
-		return newOrder(id,$('textarea').get(1).value);  
-		
-		},
-});
-
 Router.route('/', function () {
   this.render('home');
 });
@@ -99,6 +89,24 @@ Router.route('/createListing', function () {
 Router.route('/listing', {
 
     template: 'listing',
+    showOrderButton : function () {
+  		var id = this.params.query.id;
+    	var N = ListingsDB.findOne({listingID : Number(id)}).fetch();
+    	return (web3.eth.accounts[0]!= N.seller) ;
+    	
+    },
+    showRemoveListingButton : function () {
+  		var id = this.params.query.id;
+    	var N = ListingsDB.findOne({listingID : Number(id)}).fetch();
+    	return (web3.eth.accounts[0]== N.seller) || ( is_bad_seller(id) );
+    
+    },
+    showFlagListingButton : function () {
+ 		var id = this.params.query.id;
+    	var N = ListingsDB.findOne({listingID : Number(id)}).fetch();
+    	return (web3.eth.accounts[0]!= N.seller);
+    
+    },
 data : function () {
   var id = this.params.query.id;
   return ListingsDB.findOne({listingID : Number(id)});

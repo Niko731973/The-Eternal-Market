@@ -14,6 +14,15 @@ var conf = confirm("Please confirm that you have encrypted your delivery address
 }
 }
 
+//create new listing
+newListing = function newListing(title,description,public_key,price,fee){
+            var conf = confirm("Please confirm the information for your listing is correct! You cannot modify the listing once it has been submitted!");
+			if(conf){
+            EV.addListing(title,description,public_key,price, {value:fee});
+
+}
+}
+
 //if the listings ratio of disputed transactions is too high, anyone may remove the listing
 function is_bad_seller(listing_id){
     return EV.isBadListing(EV.database.getListing(listing_id));
