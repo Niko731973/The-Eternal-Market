@@ -6,7 +6,9 @@ Decentralized, anonymous online marketplace
 
 ## About
 
-The Eternal Market (TEM) is a distributed application (DAPP) that allows anyone with blockchain access to buy or sell goods and services anonymously. It requires no login, only a valid Ethereum address. Being a distributed application, TEM is not stored on any server, cannot be shut down or hacked. Funds for each order are locked in contracts between the buyer and seller, there is no central wallet to manage orders which is susceptible to attack.
+The Eternal Market (TEM) is a distributed application (DAPP) that allows anyone with blockchain access to buy or sell goods and services anonymously. It requires no login, only a valid Ethereum address. Being a distributed application, TEM is not stored on any server, cannot be shut down or hacked. Funds for each order are locked in contracts between the buyer and seller, there is no central wallet to manage orders which is susceptible to attack. 
+
+TEM has no owner with control over market operations. During the initial coin offering (ICO) shares of TEM will be sold off at a fixed price. After TEM is fully operational, shareholders will have total control over TEM through a fixed voting system. Shares are freely transferable and are redeemable at any time for ether at the market rate through the community contract. Shareholders are entitled to all the profits of market operations.
 
 Once a listing is posted, there are only three ways it can be removed:
 * If the ratio of failed/successful sales is too high (determined by the community)
@@ -22,7 +24,6 @@ TEM contains an upgradable set of smart contracts:
 * A community contract - manages shareholders stake's in the community. can be upgraded with extreme difficulty 
 * Many purchase contracts - each contains the funds for an individual order between a buyer/seller
 
-TEM has no owner with control over the listings or orders. During the initial coin offering (ICO) shares of TEM will be sold off at a fixed price. After TEM is fully operational, shareholders will have total control over TEM through a fixed voting system. Shares are freely transferable and are redeemable at any time for ether at the market rate through the community contract.
 
 ### Example Order:
 Alice wants to purchase a widget from Bob, who has listed widgets on TEM. Alice connects her Etereum address to TEM and navigates to the listing page for Bob's widgets. Using Bob's public key on the page, Alice encrypts her shipping address and submits an order to Bob. The ether for the purchase is stored in a secure contract only Alice/Bob have access to. Bob will not receive his ether until Alice has confirmed that she has received the wiget.
@@ -52,9 +53,11 @@ TBD
 ### The future of TEM:
 
 * Secure messaging between users
-* Distributed image storage via IPFS
-* Improved front-end
+* Image storage for listings via IPFS
+* Improved front-end GUI
 * ios/android apps
+* fixed USD prices for listings
+* built-in encryption for shipping information
 
 ## Installing
 
@@ -94,8 +97,6 @@ information is used to show the reliability of the seller.
 6) Number of Successful Deliveries 
 6) Number of Disputed Sales
 8) The Time and Date of the Last Successful Sale
-
-A small percentage is taken out of the cost of each order placed to pay for development of TEM.
 
 A small listing fee is charged for every new listing created to discourage spam/scammers. 
 
