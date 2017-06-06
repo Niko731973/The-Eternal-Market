@@ -7,8 +7,7 @@ OrdersDB._collection.remove({});
         for(i=1;i<num_orders; i++) {
 			var r = DB.getOrder(i);
         if(r[0]==web3.eth.accounts[0]){
-			var timeListed = new Date(r[6]*1000).toISOString().slice(0,10);
-			var temp = {buyer : r[0] ,seller : r[1] ,shippingAddress : r[2] ,contractAddress : r[3] ,listingID : Number(r[4]) ,orderStatus : Number(r[5]) ,timeListed : timeListed, title : ListingsDB.findOne({listingID : Number(r[4])}).title, price : Number(web3.fromWei(web3.eth.getBalance(r[3]), "ether")) };
+			var temp = {buyer : r[0] ,seller : r[1] ,shippingAddress : r[2] ,contractAddress : r[3] ,listingID : Number(r[4]) ,orderStatus : Number(r[5]) ,timeListed : r[6]*1000, title : ListingsDB.findOne({listingID : Number(r[4])}).title, price : Number(web3.fromWei(web3.eth.getBalance(r[3]), "ether")), orderID : i };
 			OrdersDB._collection.insert(temp);
 }}
 }
@@ -44,8 +43,7 @@ OrdersDB._collection.remove({});
         for(i=1;i<num_orders; i++) {
 			var r = DB.getOrder(i);
 			if( r[0] == web3.eth.accounts[0]){
-			var timeListed = new Date(r[6]*1000).toISOString().slice(0,10);
-			var temp = {buyer : r[0] ,seller : r[1] ,shippingAddress : r[2] ,contractAddress : r[3] ,listingID : Number(r[4]) ,orderStatus : Number(r[5]) ,timeListed : timeListed, title : ListingsDB.findOne({listingID : Number(r[4])}).title, price : Number(web3.fromWei(web3.eth.getBalance(r[3]), "ether")) };
+			var temp = {buyer : r[0] ,seller : r[1] ,shippingAddress : r[2] ,contractAddress : r[3] ,listingID : Number(r[4]) ,orderStatus : Number(r[5]) ,timeListed : r[6]*1000, title : ListingsDB.findOne({listingID : Number(r[4])}).title, price : Number(web3.fromWei(web3.eth.getBalance(r[3]), "ether")), orderID : i  };
 			OrdersDB._collection.insert(temp);
 }
 }

@@ -1,22 +1,31 @@
 pragma solidity ^0.4.2;
+import "Base.sol";
 
 contract Purchase {
 
     address public seller;
     address public buyer;
     uint creationTime;
-    address public market;
+    address eternalAddress;
     
     enum State { Created, Locked, Inactive, Disputed }
     State public state;
 
-    function Purchase(address _buyer, address _seller) payable {
+    function Purchase(address _buyer, address _seller,address _eternalAddress) payable {
         
         buyer = _buyer;
         seller = _seller;
+        eternalAddress = _eternalAddress;
         creationTime = now;
         state = State.Created;
-        market = msg.sender;
+    }
+    
+    function getMarket(){
+    
+    	Base b = Base(eternalAddress);
+		return b.getMarket();
+		
+    
     }
 
     modifier condition(bool _condition) {
@@ -25,12 +34,12 @@ contract Purchase {
     }
 
     modifier onlyBuyer() {
-        require((msg.sender == buyer) || (tx.origin == buyer) || (msg.sender == market));
+        require((msg.sender == buyer) || (tx.origin == buyer) || (msg.sender == getMarket()));
         _;
     }
 
     modifier onlySeller() {
-        require((msg.sender == seller)|| (tx.origin == seller)|| (msg.sender == market));
+        require((msg.sender == seller)|| (tx.origin == seller)|| (msg.sender == getMarket()));
         _;
     }
 
@@ -50,8 +59,7 @@ contract Purchase {
     function abort()
         inState(State.Created)
     {
-    
-        if(msg.sender==seller || tx.origin == seller || (msg.sender==buyer && now> (creationTime + 3 days)) || (tx.origin==buyer && now> (creationTime + 3 days))){
+        if(msg.sender==seller || tx.origin == seller || (msg.sender==buyer && now> (creationTime + 3 days)) || (tx.origin==buyer && now> (creationTime + 3 days))) || (msg.sender==getMarket() && now> (creationTime + 3 days)))){
         Aborted();
         state = State.Inactive;
         buyer.transfer(this.balance);
@@ -109,7 +117,7 @@ contract Purchase {
         if(now>(creationTime+ (3 weeks)) && (msg.sender == buyer || tx.origin == buyer)){
             state = State.Disputed;
             Disputed();
-            market.transfer(this.balance);
+            getMarket().transfer(this.balance);
             
         }
     }

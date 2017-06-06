@@ -1,34 +1,30 @@
 //creates a new order transaction on the blockchain
-newOrder = function newOrder(listing_id,delivery_address)
-			
-{  				var temp = ListingsDB.findOne({listingID : Number(listing_id)});
-                                             
-		var price = web3.toWei(temp.price, "ether");
-
-var conf = confirm("Please confirm that you have encrypted your delivery address!"); 
+newOrder = function newOrder(listing_id,delivery_address){  				
+	var temp = ListingsDB.findOne({listingID : Number(listing_id)});
+    var price = web3.toWei(temp.price, "ether");
+	var conf = confirm("Please confirm that you have encrypted your delivery address!"); 
 	if(conf==true){ 
-	//Once your transaction is confirmed, it will take a few minutes to propagate through the blockchain!<br>Once your transaction has been confirmed by the blockchain, you can check the status of your order under the "My Orders" menu.
-	web3.eth.defaultAccount = web3.eth.accounts[0];
-	EV.addOrder(listing_id, delivery_address, {value: price});
-	showConfirmationOrError();
-}
+		//Once your transaction is confirmed, it will take a few minutes to propagate through the blockchain!<br>Once your transaction has been confirmed by the blockchain, you can check the status of your order under the "My Orders" menu.
+		web3.eth.defaultAccount = web3.eth.accounts[0];
+		EV.addOrder(listing_id, delivery_address, {value: price});
+		showConfirmationOrError();
+	}
 }
 
 //create new listing
 newListing = function newListing(title,description,public_key,price,fee){
-            var conf = confirm("Please confirm the information for your listing is correct! You cannot modify the listing once it has been submitted!");
-			if(conf){
-            EV.addListing(title,description,public_key,price, {value:fee});
-
-}
+    var conf = confirm("Please confirm the information for your listing is correct! You cannot modify the listing once it has been submitted!");
+	if(conf){
+    	EV.addListing(title,description,public_key,price, {value:fee});
+	}
 }
 
 //if the listings ratio of disputed transactions is too high, anyone may remove the listing
-function is_bad_seller(listing_id){
+is_bad_seller = function is_bad_seller(listing_id){
     return EV.isBadListing(EV.database.getListing(listing_id));
 }
 
-function confirmShipment(order_id){
+confirmShipment = function confirmShipment(order_id){
 	var conf = confirm("Have you shipped this order?");
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
@@ -38,17 +34,16 @@ function confirmShipment(order_id){
 }
 
 
-function confirmDelivery(order_id){
+confirmDelivery = function confirmDelivery(order_id){
     var conf = confirm("Have you received your order?");
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		EV.confirmDelivery(order_id);
-		alert("Please allow a few minutes for your confirmation to propagate.");
+		var result = EV.confirmDelivery(order_id);
+		//alert("Please allow a few minutes for your confirmation to propagate.");
 	}
-    
 }
 
-function disputeOrder(order_id){
+disputeOrder = function disputeOrder(order_id){
     var conf = confirm("Disputing this order will prevent the seller from recieving their payment. Would you like to dispute this transaction?"); 
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
@@ -57,7 +52,7 @@ function disputeOrder(order_id){
 	}
 }
 
-function abortOrder(order_id){
+abortOrder = function abortOrder(order_id){
 	var conf = confirm("Would you like to cancel this order?");
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
@@ -66,29 +61,20 @@ function abortOrder(order_id){
 	}
 }
 
-function computeListingFee(original_price){
+computeListingFee = function computeListingFee(original_price){
     return EV.getListingFee(original_price);
 }
 
-
-//designate a listing as "inactive", cannot be reversed. called from the listing page by either
-//the seller of the listing, or any user if the listing has too many disputed sales
 removeListing = function removeListing(id){
-
-var conf = confirm("Are you sure you would like to remove this listing?");
-if(conf==true){
-                
-web3.eth.defaultAccount = web3.eth.accounts[0];
-var result = EV.removeListing(id);
-//alert('Listing Successfully Removed! Please wait a few minutes for the blockchain to confirm.');
-}
+	var conf = confirm("Are you sure you would like to remove this listing?");
+	if(conf==true){
+		web3.eth.defaultAccount = web3.eth.accounts[0];
+		var result = EV.removeListing(id);
+		//alert('Listing Successfully Removed! Please wait a few minutes for the blockchain to confirm.');
+	}
 }
 
-//gets the listing ID of an order, specified by the order ID
-function listingIDofOrder(id){
-
-}
 
 function showConfirmationOrError(){
-	confirm("please allow a few minutes for your transaction to be confirmed by the blockchain");
+	//confirm("please allow a few minutes for your transaction to be confirmed by the blockchain");
 }

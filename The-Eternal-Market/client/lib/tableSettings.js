@@ -12,18 +12,18 @@ fields: [
 
 sellOrderSettings= { 
 fields: [ 
-	{ key : 'timeListed' , label: 'Date Created' },
+	{ key : 'timeListed' , label: 'Date Created', tmpl : Template.date },
     { key : 'price' , label: 'Ether' },
-    { key: 'title', label: 'Title', tmpl: Template.ListingLink},
+    { key : 'title', label: 'Title', tmpl: Template.ListingLink},
     { key : 'shippingAddress' , label: 'Delivery Info' },
-    { key : 'orderStatus' , label: 'Status' }
+    { key : 'orderStatus' , label: 'Status', tmpl : Template.orderStatusButtons }
 	]}
 
 /* Buy react table settings */
 
 buyTableSettings= { 
 fields: [ 
-	{ key : 'timeListed', label : 'Listed'},
+	{ key : 'timeListed', label : 'Listed', tmpl: Template.date},
 	{ key : 'price', label : 'Ether'},
 	{ key : 'title', label : 'Title', tmpl: Template.ListingLink},
 	{ key : 'salesSuccessful', label : 'Successful Sales'},
@@ -35,9 +35,9 @@ fields: [
 
 purchasesTableSettings= { 
 fields: [ 
-	{ key : 'timeListed' , label: 'Date Created' },
-    { key : 'price', label: 'Ether' ,tmpl: Template.purchase_price},
-    { label: 'Title' , tmpl: Template.purchase_title},
+	{ key : 'timeListed' , label: 'Date Created', tmpl: Template.date },
+    { key : 'price', label: 'Ether'},
+    { key : Template.ListingLink, label: 'Title' , tmpl: Template.ListingLink},
     { key : 'shippingAddress' , label: 'Delivery Info' },
-    { key : 'orderStatus' , label: 'Status' }
+    { key : 'orderStatus' , label: 'Status' , tmpl : Template.orderStatusButtons}
 	]}
