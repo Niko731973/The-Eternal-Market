@@ -9,7 +9,7 @@ Seller Public Key<br><textarea rows="4" cols="50" readonly>{{  publicKey}} </tex
         
 	{{#if showOrderButton}}
 		Paste your encrypted shipping address below:<br>
-		<textarea rows="4" cols="50" id="delivery_address"></textarea>
+		<textarea rows="4" cols="50" id="delivery_address"></textarea><br>
 		<button type="button" onclick="newOrder({{listingID}},delivery_address.value)">Place Order</button>
 	{{/if}}<br><br>
 	{{#if showRemoveListingButton}}

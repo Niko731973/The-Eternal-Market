@@ -25,7 +25,7 @@ newListing = function newListing(title,description,public_key,price,fee){
 
 //if the listings ratio of disputed transactions is too high, anyone may remove the listing
 is_bad_seller = function is_bad_seller(listing_id){
-    return EV.isBadListing(EV.database.getListing(listing_id));
+    return EV.isBadListing(DB.getListing(listing_id));
 }
 
 confirmShipment = function confirmShipment(order_id){
@@ -84,6 +84,10 @@ removeListing = function removeListing(id){
 		var result = EV.removeListing(id);
 		//alert('Listing Successfully Removed! Please wait a few minutes for the blockchain to confirm.');
 	}
+}
+
+flagListing = function flagListing(id){
+	confirm("blerg");
 }
 
 

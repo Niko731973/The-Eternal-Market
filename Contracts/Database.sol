@@ -42,13 +42,13 @@ contract Database{
         uint timeListed;
     }
     
-    function Database(address _eternalAddress){
-    	eternalAddress = _eternalAddress;
+    function Database(){
+    	eternalAddress = '0xc00F735869DD637C5AA92e89E124d6A6368Bf702';
     }
     
     function getMarket() constant returns (address){
     	Base b = Base(eternalAddress);
-    	return b.getMarket();
+    	return b.market();
     }
     
     function getNextFreeListingID() constant returns (uint){
@@ -89,6 +89,12 @@ contract Database{
         nextFreeListingID++;
     }
     
+    function changePrice(uint index, uint newPrice){
+    	if(msg.sender!=getMarket()){throw;}
+    	if(!isValidListing(index){throw;}
+    	listings[index].price = newPrice;
+    }
+    
     function removeListing(uint id)  {
         if (!isValidListing(id)){ throw;}
         if (msg.sender!=getMarket()) {throw;}
@@ -117,6 +123,7 @@ contract Database{
         if (msg.sender!=getMarket()) {throw;}
         orders[id].orderStatus = 2;
         listings[orders[id].listingID].salesSuccessful++;
+        listings[orders[id].listingID].lastsuccessfulSale = now;
     }
     
     function disputeOrder(uint id)   {

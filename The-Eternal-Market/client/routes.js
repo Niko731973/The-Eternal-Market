@@ -37,9 +37,9 @@ Template.date.helpers({
 
 Template.sell.helpers({
     listings_table: function () {
-        return ListingsDB.find().fetch(); },
+        return ListingsDB.find({seller : web3.eth.accounts[0]}).fetch(); },
     orders_table: function (){
-    	return OrdersDB.find().fetch(); },
+    	return OrdersDB.find({seller : web3.eth.accounts[0]}).fetch(); },
     sellListingSettings: function () {
         return sellListingSettings; },
     sellOrderSettings: function () {
@@ -50,7 +50,7 @@ Template.sell.helpers({
 
 Template.purchases.helpers({
 	orders_table: function (){
-		return OrdersDB.find().fetch();},
+		return OrdersDB.find({buyer : web3.eth.accounts[0]}).fetch();},
     purchasesTableSettings: function () {
         return purchasesTableSettings;}
 });
@@ -78,7 +78,7 @@ Router.route('/buy',{
 
 Router.route('/sell', { 
 	loadingTemplage: 'loading',
-	waitOn: function () {loadSellerOrders();},
+	waitOn: function () {loadActiveListings(); loadSellerOrders();},
     action: function(){ this.render('sell'); },
     data : function () {return OrdersDB.find().fetch();}
 });

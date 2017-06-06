@@ -8,11 +8,11 @@ contract Market {
     
     /*Contract Variables and Events*/
        
-    uint public listing_rate = 0;          //Listing rate is a fee charged for each new listing as a percent (ie 12% charge would be 12)
+    uint public listing_rate = 5;          			//Listing rate is a fee charged for each new listing as a percent (ie 12% charge would be 12)
     
-    uint order_rate = 2;                    //Order rate is a fee charged on each order submitted as a percent( ie 2% charge would be 2)
+    uint public order_rate = 2;                    //Order rate is a fee charged on each order submitted as a percent( ie 2% charge would be 2)
     
-    uint bad_seller_threshold = 15;         //If a listing has more than this amount (as a percentage) of disputed sales, any user can remove this listing.
+    uint public bad_seller_threshold = 15;         //If a listing has more than this amount (as a percentage) of disputed sales, any user can remove this listing.
     address public eternalAddress;
 	
     
@@ -37,24 +37,24 @@ contract Market {
         string shippingAddress;             //buyers shipping address encrypted with the sellers public key
         address contractAddress;            //address of the purchase contract
         uint listingID;
-        uint orderStatus;                   //0 created, 1 shipped, 2 successful, 3 disputed
+        uint orderStatus;                   //0 created, 1 shipped, 2 successful, 3 disputed, 4 aborted
         uint timeListed;
     }
     
-    function Market(address _eternalAddress){
-    eternalAddress = _eternalAddress;
+    function Market(){
+    eternalAddress = '0xc00F735869DD637C5AA92e89E124d6A6368Bf702';
         
     }
     
     
     function getDatabase() constant returns (address){
     	Base b = Base(eternalAddress);
-    	return b.getDatabase();
+    	return b.database();
     }
     
     function getCommunity() constant returns (address){
     	Base b = Base(eternalAddress);
-    	return b.getCommunity();
+    	return b.community();
     }
     
     
@@ -70,7 +70,7 @@ contract Market {
         _;
     }
     
-    modifier onlyProposal() {
+    modifier onlyCommunity() {
     	if (msg.sender!=getCommunity()){ throw;}
 		_;
     }
@@ -138,7 +138,7 @@ contract Market {
     
     
     //a seller can create a new listing using this function
-    function addListing (string _title, string _description, string _publicKey, uint _price) payable onlyCurrentShareholder returns(bool){
+    function addListing (string _title, string _description, string _publicKey, uint _price) payable returns(bool){
         
         //check to see that the ether provided is enough to create the listing.
         //This payment for new listings is required to prevent scammers and spam
@@ -163,11 +163,20 @@ contract Market {
        //2) The listing has a high percent of disputed transactions 
        //3) The shareholders vote for the listing to be removed
        //This allows any user to purge a listing created by a bad actor
-       if ((msg.sender != seller) && !isBadListing(index) && (msg.sender!=getCommunity())) {throw;}
+       if (!((msg.sender == seller) || isBadListing(index) || (msg.sender==getCommunity()))) {throw;}
        
        Database(getDatabase()).removeListing(index);
        
        return true;
+     }
+     
+     function changePrice(uint index, uint newPrice) payable onlyValidListings(index) returns (bool){
+             var (seller,,,,price,,,,,listing_enabled) = Database(getDatabase()).getListing(index);
+     	if(msg.sender!=seller){throw;}
+     	if(!listing_enabled){throw;}
+     	if(newPrice>price && msg.value<( getListingFee(newPrice-price))){throw;}
+     	Database(getDatabase()).changePrice(index,newPrice);
+     	
      }
      
     
@@ -231,7 +240,7 @@ contract Market {
     	//the seller can abort any order which has not been shipped
     	//the buyer can abort any order which has not shipped within three days
     	var (buyer,seller,,contract_address,,orderStatus,time_listed) = Database(getDatabase()).getOrder(index);
-    	if(msg.sender!=seller || !(msg.sender==buyer && now>(time_listed+(3 days)))){throw;}
+    	if(!(msg.sender==seller || (msg.sender==buyer && now>(time_listed+(3 days))))){throw;}
     	if(orderStatus!=0){throw;}
     	
     	Purchase p = Purchase(contract_address);
@@ -245,17 +254,18 @@ contract Market {
     /* Shareholder Functions */
     
     //changes the threshold upon which a listing can be removed by the community
-    function change_bad_seller_threshold(uint new_num) onlyProposal returns(bool){
+    function change_bad_seller_threshold(uint new_num) onlyCommunity returns(bool){
+        
     bad_seller_threshold = new_num;
     }
     
-    function updateRates(uint _order, uint _listing) onlyProposal returns(bool){
+    function updateRates(uint _order, uint _listing) onlyCommunity returns(bool){
     	order_rate = _order;
     	listing_rate = _listing;
     }
     
     //any funds in the market are transferred as profits to the shareholders
-    function getProfits() onlyProposal {
+    function getProfits() onlyCommunity {
         getCommunity().transfer(this.balance);
     }
  

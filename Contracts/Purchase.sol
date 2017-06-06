@@ -11,19 +11,19 @@ contract Purchase {
     enum State { Created, Locked, Inactive, Disputed }
     State public state;
 
-    function Purchase(address _buyer, address _seller,address _eternalAddress) payable {
+    function Purchase(address _buyer, address _seller) payable {
         
         buyer = _buyer;
         seller = _seller;
-        eternalAddress = _eternalAddress;
+        eternalAddress = '0xc00F735869DD637C5AA92e89E124d6A6368Bf702';
         creationTime = now;
         state = State.Created;
     }
     
-    function getMarket(){
+    function getMarket() returns (address){
     
     	Base b = Base(eternalAddress);
-		return b.getMarket();
+		return b.market();
 		
     
     }
@@ -34,12 +34,12 @@ contract Purchase {
     }
 
     modifier onlyBuyer() {
-        require((msg.sender == buyer) || (tx.origin == buyer) || (msg.sender == getMarket()));
+        require((msg.sender == buyer) || (msg.sender == getMarket()));
         _;
     }
 
     modifier onlySeller() {
-        require((msg.sender == seller)|| (tx.origin == seller)|| (msg.sender == getMarket()));
+        require((msg.sender == seller)|| (msg.sender == getMarket()));
         _;
     }
 
@@ -59,7 +59,7 @@ contract Purchase {
     function abort()
         inState(State.Created)
     {
-        if(msg.sender==seller || tx.origin == seller || (msg.sender==buyer && now> (creationTime + 3 days)) || (tx.origin==buyer && now> (creationTime + 3 days))) || (msg.sender==getMarket() && now> (creationTime + 3 days)))){
+        if(msg.sender==seller || (msg.sender==buyer && now> (creationTime + 3 days)) || (msg.sender==getMarket() && now> (creationTime + 3 days))){
         Aborted();
         state = State.Inactive;
         buyer.transfer(this.balance);
@@ -114,7 +114,7 @@ contract Purchase {
     function dispute()
         inState(State.Locked)
     {
-        if(now>(creationTime+ (3 weeks)) && (msg.sender == buyer || tx.origin == buyer)){
+        if(now>(creationTime+ (3 weeks)) && (msg.sender == buyer )){
             state = State.Disputed;
             Disputed();
             getMarket().transfer(this.balance);
