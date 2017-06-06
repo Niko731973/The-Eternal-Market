@@ -19,7 +19,7 @@
 <template name="sell">
 	{{#if seller}}
 		{{#if shareholder}}
-			<button type="button" onclick="newListing({{orderID}})">Create New Listing</button>
+			<button type="button" onclick="location.href='/createListing';">Create New Listing</button>
 		{{/if}}
 		<h2>Pending Orders</h2>
 		{{> reactiveTable class="table table-hover table-bordered" collection=orders_table showFilter=false settings=sellOrderSettings}}

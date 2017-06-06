@@ -13,8 +13,12 @@ newOrder = function newOrder(listing_id,delivery_address){
 
 //create new listing
 newListing = function newListing(title,description,public_key,price,fee){
+	console.log(title,description,public_key,price,fee);
+	fee = web3.toWei(fee, "ether");
     var conf = confirm("Please confirm the information for your listing is correct! You cannot modify the listing once it has been submitted!");
 	if(conf){
+		web3.eth.defaultAccount = web3.eth.accounts[0];
+		
     	EV.addListing(title,description,public_key,price, {value:fee});
 	}
 }
@@ -64,6 +68,14 @@ abortOrder = function abortOrder(order_id){
 computeListingFee = function computeListingFee(original_price){
     return EV.getListingFee(original_price);
 }
+
+//used to set the fee dynamically on the new listing page
+setListingFeeDynamic = function(n) {
+			var price_box = document.getElementById('price');
+			var fee_box = document.getElementById('fee');
+   			var fee = computeListingFee(Number(price_box.value));
+   			fee_box.value = fee;
+}			
 
 removeListing = function removeListing(id){
 	var conf = confirm("Are you sure you would like to remove this listing?");
