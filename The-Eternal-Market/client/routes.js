@@ -17,8 +17,9 @@ Template.orderStatusButtons.helpers({
 	notShippedInTime : function() { return Date.now()>(this.timeCreated+(1000 * 60 * 60 * 24 * 3)); },
 	shipped 		 : function() { return this.orderStatus==1; },
 	notArrivedInTime : function() { return Date.now()>(this.timeCreated+(1000 * 60 * 60 * 24 * 7 * 12));  },
-	delivered		 : function() { return this.orderStatus==2; },
-	disputed 		 : function() { return this.orderStatus==3;}
+	delivered		 : function() { return this.orderStatus == 2; },
+	disputed 		 : function() { return this.orderStatus == 3;},
+	aborted 		 : function() { return this.orderStatus == 4;}
 });
 
 Template.listing.helpers({

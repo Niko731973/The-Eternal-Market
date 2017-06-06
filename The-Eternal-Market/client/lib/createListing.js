@@ -3,7 +3,7 @@ createListing = function createListing(){
 	if(accounts.length>0){
 	    //user has an account loaded
 	    
-	    var listing_rate = EV.listing_rate();
+	    var listing_rate = EM.listing_rate();
 		document.getElementById("listing_info").innerHTML='Listing Title: <input type="text" id="listingTitle" value=""><br>Price (Ether): <input type="text" id="price" value=""><br>Listing Description:<br><textarea rows="6" cols="80" id="listingDescription" value="Your listing description goes here"></textarea><br>Public Key:<br><textarea rows="4" cols="50" id="sellerPublicKey" value="Paste your public key here"></textarea><br>Fee: <input type="text" readonly id="fee" value="">';
 		var price_box = document.getElementById('price');
 		var fee_box = document.getElementById('fee');
@@ -29,7 +29,7 @@ createListing = function createListing(){
             var public_key = document.getElementById('sellerPublicKey').value;
             var price = document.getElementById('price').value; 
 			web3.eth.defaultAccount = accounts[0];
-            EV.addListing(title,description,public_key,price, {value:fee});
+            EM.addListing(title,description,public_key,price, {value:fee});
         }};
 	
 	}

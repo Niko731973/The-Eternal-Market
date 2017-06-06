@@ -11,6 +11,7 @@
 	<a href="listing?id={{ listingID }}">{{title}}</a>
 </template>
 
+
 <template name="buy">
 	{{> reactiveTable class="table table-hover table-bordered" collection=listings_table showRowCount=true settings = buyTableSettings}}
 </template>
@@ -58,5 +59,8 @@
 	{{/if}}
 	{{#if disputed }}
 		Disputed
+	{{/if}}
+	{{#if aborted }}
+		Aborted
 	{{/if}}
 </template>

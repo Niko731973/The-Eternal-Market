@@ -91,7 +91,7 @@ contract Database{
     
     function changePrice(uint index, uint newPrice){
     	if(msg.sender!=getMarket()){throw;}
-    	if(!isValidListing(index){throw;}
+    	if(!isValidListing(index)){throw;}
     	listings[index].price = newPrice;
     }
     

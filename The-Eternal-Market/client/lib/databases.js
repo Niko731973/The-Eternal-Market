@@ -2,7 +2,7 @@
 loadSellerOrders = function(){
 OrdersDB._collection.remove({});
 
-	var num_orders = EV.nextOrderID();
+	var num_orders = EM.nextOrderID();
       
         for(i=1;i<num_orders; i++) {
 			var r = DB.getOrder(i);
@@ -15,15 +15,13 @@ OrdersDB._collection.remove({});
 loadActiveListings = function(){
 ListingsDB._collection.remove({});
 
-var num_listings = Number(EV.nextListingID());
+var num_listings = Number(EM.nextListingID());
 
 //seller,title,listingDescription,publicKey,price,timeListed,salesSuccessful,salesDisputed,lastsuccessfulSale,enabled
     
     	for(i=1;i<num_listings; i++) {
     	     var r = DB.getListing(i);
     	     if(r[9]==true){
-    	     console.log(r[6]);
-    	     console.log(r[7]);
 	     	 var successRate = Math.round(Number(r[6])*100/(Number(r[6])+Number(r[7])))+'%';
 	     	 var date_last_sucess;
     	     if(r[6]==0){ date_last_sucess = 'NaN';} else { date_last_sucess = new Date(r[8]*1000).toISOString().slice(0, 10);}
@@ -40,7 +38,7 @@ var num_listings = Number(EV.nextListingID());
 loadBuyerOrders = function(){
 OrdersDB._collection.remove({});
 
-	var num_orders = EV.nextOrderID();
+	var num_orders = EM.nextOrderID();
       
         for(i=1;i<num_orders; i++) {
 			var r = DB.getOrder(i);

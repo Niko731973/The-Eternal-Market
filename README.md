@@ -13,8 +13,7 @@ TEM has no owner with control over market operations. During the initial coin of
 Once a listing is posted, there are only three ways it can be removed:
 * If the ratio of failed/successful sales is too high (determined by the community)
 * If owner of the listing voluntarily removes it
-* If over 50% of the community votes to remove it (to remove scam/spam or egregious sales like nuclear weapons, etc)
-
+* If over 50% of the community votes to remove it (to remove scam/spam or morally objectionable listings)
 
 TEM contains an upgradable set of smart contracts:
 

@@ -6,7 +6,7 @@ newOrder = function newOrder(listing_id,delivery_address){
 	if(conf==true){ 
 		//Once your transaction is confirmed, it will take a few minutes to propagate through the blockchain!<br>Once your transaction has been confirmed by the blockchain, you can check the status of your order under the "My Orders" menu.
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		EV.addOrder(listing_id, delivery_address, {value: price});
+		EM.addOrder(listing_id, delivery_address, {value: price});
 		showConfirmationOrError();
 	}
 }
@@ -15,24 +15,24 @@ newOrder = function newOrder(listing_id,delivery_address){
 newListing = function newListing(title,description,public_key,price,fee){
 	console.log(title,description,public_key,price,fee);
 	fee = web3.toWei(fee, "ether");
-    var conf = confirm("Please confirm the information for your listing is correct! You cannot modify the listing once it has been submitted!");
+    var conf = confirm("Please confirm the information for your listing is correct! Then select OK");
 	if(conf){
 		web3.eth.defaultAccount = web3.eth.accounts[0];
 		
-    	EV.addListing(title,description,public_key,price, {value:fee});
+    	EM.addListing(title,description,public_key,price, {value:fee});
 	}
 }
 
 //if the listings ratio of disputed transactions is too high, anyone may remove the listing
 is_bad_seller = function is_bad_seller(listing_id){
-    return EV.isBadListing(DB.getListing(listing_id));
+    return EM.isBadListing(DB.getListing(listing_id));
 }
 
 confirmShipment = function confirmShipment(order_id){
 	var conf = confirm("Have you shipped this order?");
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		var result = EV.confirmShipment(order_id);
+		var result = EM.confirmShipment(order_id);
 		showConfirmationOrError();
 	}
 }
@@ -42,7 +42,7 @@ confirmDelivery = function confirmDelivery(order_id){
     var conf = confirm("Have you received your order?");
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		var result = EV.confirmDelivery(order_id);
+		var result = EM.confirmDelivery(order_id);
 		//alert("Please allow a few minutes for your confirmation to propagate.");
 	}
 }
@@ -51,8 +51,8 @@ disputeOrder = function disputeOrder(order_id){
     var conf = confirm("Disputing this order will prevent the seller from recieving their payment. Would you like to dispute this transaction?"); 
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		EV.disputeOrder(order_id);
-		alert("Please allow a few minutes for your dispute to propagate.");
+		EM.disputeOrder(order_id);
+		//alert("Please allow a few minutes for your dispute to propagate.");
 	}
 }
 
@@ -60,13 +60,16 @@ abortOrder = function abortOrder(order_id){
 	var conf = confirm("Would you like to cancel this order?");
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		EV.abortOrder(order_id);
-		alert("Please allow a few minutes for your cancelation to propagate.");
+		EM.abortOrder(order_id);
+		//alert("Please allow a few minutes for your cancelation to propagate.");
 	}
 }
 
-computeListingFee = function computeListingFee(original_price){
-    return EV.getListingFee(original_price);
+//given a price in ether, returns the fee in ether
+computeListingFee = function computeListingFee(ether_price){
+	var wei_price = web3.toWei(ether_price, "ether");
+	var wei_fee = EM.getListingFee(wei_price);
+    return web3.fromWei(wei_fee, "ether");
 }
 
 //used to set the fee dynamically on the new listing page
@@ -81,7 +84,7 @@ removeListing = function removeListing(id){
 	var conf = confirm("Are you sure you would like to remove this listing?");
 	if(conf==true){
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		var result = EV.removeListing(id);
+		var result = EM.removeListing(id);
 		//alert('Listing Successfully Removed! Please wait a few minutes for the blockchain to confirm.');
 	}
 }

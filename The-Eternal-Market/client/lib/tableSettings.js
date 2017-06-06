@@ -37,7 +37,7 @@ purchasesTableSettings= {
 fields: [ 
 	{ key : 'timeListed' , label: 'Date Created', tmpl: Template.date },
     { key : 'price', label: 'Ether'},
-    { key : Template.ListingLink, label: 'Title' , tmpl: Template.ListingLink},
+    { key : 'title', label: 'Title' },
     { key : 'shippingAddress' , label: 'Delivery Info' },
     { key : 'orderStatus' , label: 'Status' , tmpl : Template.orderStatusButtons}
 	]}
