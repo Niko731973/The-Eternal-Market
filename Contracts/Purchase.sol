@@ -24,8 +24,6 @@ contract Purchase {
     
     	Base b = Base(eternalAddress);
 		return b.market();
-		
-    
     }
 
     modifier condition(bool _condition) {
@@ -42,29 +40,28 @@ contract Purchase {
         require((msg.sender == seller)|| (msg.sender == getMarket()));
         _;
     }
+    
+    modifier abortionRequirements(){
+    require(msg.sender==seller || (msg.sender==buyer && now> (creationTime + 3 days)) || (msg.sender==getMarket()));
+    	_;
+    }
 
     modifier inState(State _state) {
         require(state == _state);
         _;
     }
 
-    event Aborted();
-    event PurchaseConfirmed();
-    event Disputed();
-    event ItemReceived();
-
     /// The purchase can be aborted by the seller before they confirm shipment. 
     /// The purchase can also be aborted by the buyer if the seller has not responded within three days.
     
     function abort()
+    	abortionRequirements
         inState(State.Created)
     {
-        if(msg.sender==seller || (msg.sender==buyer && now> (creationTime + 3 days)) || (msg.sender==getMarket() && now> (creationTime + 3 days))){
-        Aborted();
         state = State.Inactive;
         buyer.transfer(this.balance);
         
-        }
+        
     }
 
     /// Seller confirms shipment of the order.
@@ -74,7 +71,7 @@ contract Purchase {
         onlySeller
         inState(State.Created)
     {
-        PurchaseConfirmed();
+        
         state = State.Locked;
     }
         
@@ -84,10 +81,7 @@ contract Purchase {
         onlyBuyer
         inState(State.Locked)
     {
-        ItemReceived(); 
         state = State.Inactive;
-
-        
         seller.transfer(this.balance);
     }
     
@@ -100,18 +94,16 @@ contract Purchase {
         if(now<(creationTime+(12 weeks))){throw;}
         state = State.Inactive;
         seller.transfer(this.balance);
-        
-        
     }
     
     //only the buyer can dispute an order, they must wait at least three weeks before doing so.
     //funds are transfered to the market
     function dispute()
+    	onlyBuyer
         inState(State.Locked)
     {
-        if(!(now>(creationTime+ (3 weeks)) && (msg.sender == buyer ))){throw;}
+        if(now<(creationTime+ (3 weeks))){throw;}
             state = State.Disputed;
-            Disputed();
             getMarket().transfer(this.balance);
             
         

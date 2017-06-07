@@ -1,10 +1,6 @@
 <template name="purchases">
-	<h2>My Purchases</h2>
+	<h2>Pending Purchases</h2>
 	{{> reactiveTable class="table table-hover table-bordered" collection=orders_table settings = purchasesTableSettings}}
-</template>
-
-<template name="proposals">
-	{{> reactiveTable class="table table-hover table-bordered" collection=proposals_table settings = proposalTableSettings}}
 </template>
 
 <template name="date">
@@ -15,6 +11,9 @@
 	<a href="listing?id={{ listingID }}">{{title}}</a>
 </template>
 
+<template name="weiToEther">
+	{{convert}}
+</template>
 
 <template name="buy">
 	{{> reactiveTable class="table table-hover table-bordered" collection=listings_table showRowCount=true settings = buyTableSettings}}

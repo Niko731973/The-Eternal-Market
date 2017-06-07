@@ -1,15 +1,33 @@
 <template name="community">
 <h2>Community</h2>
-    Share Price: <br>
-    Your Shares: <br>
-    Value: <br><br>
+	Share Price: {{sharePrice}}<br>
+{{#if isShareholder}}
+    Your Shares: {{shares}} <br>
+    {{/if}}
+    Shares Outstanding: <br>
+    Market Value: <br><br>
     
-    Proposals:<br>
-    {{proposals}}
+    {{#unless isShareholder}}
+    To vote on a proposal you must be a shareholder. 
+    {{/unless}}
+    <h2>Proposals:</h2><br>
     
-    Create Proposal:
+    	{{> reactiveTable class="table table-hover table-bordered" collection=proposals_table settings = proposalTableSettings}}
+
     
-    Buy/Sell Shares:
+    <h2>Buy Shares:</h2>
+    <input type="text" value="{{sharePrice}}" readonly> Buy Price (Ether)<br>
+    <input type="text" id="sharesToBuy" value=""> Shares to Buy<br>
+    <input type="text" id="costToBuyShares" readonly value=""> Total Cost<br>
+    <button type="button" onclick="" >Buy Shares</button>
+    
+    
+    <h2>Sell Shares:</h2>
+    <input type="text" value="{{sharePrice}}" readonly> Sell Price (Ether)<br>
+    <input type="text" readonly value={{shares}}>Shares Owned<br>
+    <input type="text" value="" id="sharesToSell">Shares to Sell:<br>
+    <input type="text" value="" id="profitFromShareSales">Value of Sale<br>
+    <button type="button" onclick="" >Sell Shares</button>
     
     
 </template>

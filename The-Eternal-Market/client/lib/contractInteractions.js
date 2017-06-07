@@ -1,7 +1,7 @@
 //creates a new order transaction on the blockchain
 newOrder = function newOrder(listing_id,delivery_address){  				
-	var temp = ListingsDB.findOne({listingID : Number(listing_id)});
-    var price = web3.toWei(temp.price, "ether");
+	var price = ListingsDB.findOne({listingID : Number(listing_id)}).price;
+    
 	var conf = confirm("Please confirm that you have encrypted your delivery address!"); 
 	if(conf==true){ 
 		//Once your transaction is confirmed, it will take a few minutes to propagate through the blockchain!<br>Once your transaction has been confirmed by the blockchain, you can check the status of your order under the "My Orders" menu.
@@ -90,19 +90,38 @@ removeListing = function removeListing(id){
 }
 
 flagListing = function flagListing(id){
-	confirm("blerg");
+	var conf = confirm("Would you like to submit a proposal to have this listing removed?");
+	if(conf==true){
+		web3.eth.defaultAccount = web3.eth.accounts[0];
+		var title = ListingsDB.findOne({listingID : Number(id)}).title;
+		CM.propose(4, title, '0x0000000000000000000000000000000000000000' , Number(id));
+		
+	}
 }
 
-changeListingPrice = function(id,newPrice){
+flagListingButtonNotAShareHolder = function (){
+	confirm("You must be a shareholder to propose that a listing is removed!");
+}
+
+changeListingPrice = function(id,newPrice,oldPrice){
 	var cost = 0;
-	var oldPrice = ListingsDB.find({listinglistingID : id}).fetch().price;
+	oldPrice = web3.fromWei(oldPrice,"ether");
+	var conf = false;
 	if(newPrice>oldPrice){
-	 cost = computeListingFee(Number(newPrice) - oldPrice);
+	 cost = computeListingFee(newPrice - oldPrice);
+	 	conf = confirm("There is a cost of "+cost+" ether to change the price of this listing. Do you wish to proceed?");
+	 
 	}
-	var conf = confirm("There is a cost of "+cost+" ether to change the price of this listing. Do you wish to proceed?");
+	else{
+		 conf = confirm("Are you sure you wish to change the price of this listing?");
+	}
 	if(conf==true){
 	web3.eth.defaultAccount = web3.eth.accounts[0];
-		EM.changePrice(id,web3.toWei(cost,"ether"));
+	console.log(cost);
+	console.log(web3.toWei(cost,"ether"));
+	var weiFee = Number(web3.toWei(cost,"ether"));
+	var weiNewPrice = Number(web3.toWei(newPrice,"ether"));
+		EM.changePrice(id,weiNewPrice,{value: weiFee});
 	}
 
 

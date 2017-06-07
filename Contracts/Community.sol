@@ -3,14 +3,16 @@ import "Market.sol";
 
 contract Community{
 
+	/* Contract variables */
+
     mapping (address => uint256) public shares;				// array representing the shares an address owns
     uint public sharesOutstanding;							// number of outstanding shares
 	address eternalAddress;									// the eternal base address of TEM
 	Proposal[] public proposals;							// list of proposals
 	uint timeCreated;										// time and date this contract was created
-	uint offeringPrice;										// initial offering price for a share
+	uint public offeringPrice;										// initial offering price for a share
 	address  ICOManager;									// manager of the Initial Coin Offering
-	bool ICO_enabled;										// Is the initial coin offering active?
+	bool public ICO_enabled;										// Is the initial coin offering active?
 	uint public proposalWaitTime = 1 days;					// How long does a proposal have to be executed?
 	
 	
@@ -24,10 +26,6 @@ contract Community{
 		bool executed; 			// has the thing been executed
 		address[] votes;
 		mapping (address => bool) voted;
-	}
-	
-	function getProposalsLength() constant returns (uint){
-		return proposals.length;
 	}
 	
 	
@@ -56,11 +54,17 @@ function Community() {
     ICO_enabled = true;
 }
 
-
+function getProposalsLength() constant returns (uint){
+		return proposals.length;
+	}
 
 	function isShareholder(address _address) constant returns (bool){
 		if(shares[_address]>0){ return true; }
 		return false;
+	}
+	
+	function sharesOwned(address _address) constant returns (uint){
+		return shares[_address];
 	}
 
     /* Send coins */
@@ -107,7 +111,7 @@ function sell(uint amount) returns (uint revenue){
 	if (shares[msg.sender] < amount ){ throw;}       // checks if the sender has enough to sell
     shares[msg.sender] -= amount;                    // subtracts the amount from seller's balance
     sharesOutstanding -= amount;                     // removes the shares from circulation
-    revenue = amount * sharePrice();
+    revenue = (amount * this.balance)/(sharesOutstanding+amount);
     if (!msg.sender.send(revenue)) {                 // sends ether to the seller: it's important
         throw;                                       // to do this last to prevent recursion attacks
     } else {

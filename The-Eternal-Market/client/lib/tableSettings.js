@@ -2,7 +2,7 @@
 sellListingSettings= { 
 fields: [ 
 	{ key : 'timeListed', label : 'Listed'},
-	{ key : 'price', label : 'Ether'},
+	{ key : 'price', label : 'Ether', tmpl: Template.weiToEther},
 	{ key : 'title', label : 'Title', tmpl: Template.ListingLink},
 	{ key : 'salesSuccessful', label : 'Successful Sales'},
 	{ key : 'salesDisputed', label : 'Disputed Sales'},
@@ -13,7 +13,7 @@ fields: [
 sellOrderSettings= { 
 fields: [ 
 	{ key : 'timeListed' , label: 'Date Created', tmpl : Template.date },
-    { key : 'price' , label: 'Ether' },
+    { key : 'price' , label: 'Ether'},
     { key : 'title', label: 'Title', tmpl: Template.ListingLink},
     { key : 'shippingAddress' , label: 'Delivery Info' },
     { key : 'orderStatus' , label: 'Status', tmpl : Template.orderStatusButtons }
@@ -24,7 +24,7 @@ fields: [
 buyTableSettings= { 
 fields: [ 
 	{ key : 'timeListed', label : 'Listed', tmpl: Template.date},
-	{ key : 'price', label : 'Ether'},
+	{ key : 'price', label : 'Ether', tmpl: Template.weiToEther},
 	{ key : 'title', label : 'Title', tmpl: Template.ListingLink},
 	{ key : 'salesSuccessful', label : 'Successful Sales'},
 	{ key : 'successRate', label : 'Success Rate'},

@@ -10,13 +10,19 @@ Template.buy.helpers({
         return buyTableSettings;
 }});
 
-Template.proposals.helpers({
-	proposals_table: function () {
-		return ProposalsDB.find().fetch();
-	},
-	proposalTableSettings: function (){
-		return proposalTableSettings;
-}});
+Template.community.helpers({
+	proposals_table: function () { return ProposalsDB.find().fetch(); },
+	proposalTableSettings: function (){ return proposalTableSettings; },
+	isShareholder : function() { return CM.isShareholder(web3.eth.accounts[0]); },
+	shares : function() {console.log(CM.shares[web3.eth.accounts[0]]); return CM.shares[web3.eth.accounts[0]]; },
+	inICO : function() { return CM.ICO_enabled();},
+	sharePrice : function(){ 
+	if(CM.ICO_enabled()){ console.log(CM.offeringPrice()); return CM.offeringPrice();}
+	else { return CM.sharePrice();  }}
+	
+	
+
+});
 
 
 Template.orderStatusButtons.helpers({
@@ -35,11 +41,17 @@ Template.listing.helpers({
 	userIsSeller : function () {
     	return (web3.eth.accounts[0]== this.seller); },
     showRemoveListingButton : function () {
-    	return (web3.eth.accounts[0]== this.seller) || ( is_bad_seller(this.listingID) ); }
+    	return (web3.eth.accounts[0]== this.seller) || ( is_bad_seller(this.listingID) ); },
+    convertPrice : function() { return web3.fromWei(this.price,"ether");  },
+    userIsShareholder : function() {return CM.isShareholder(web3.eth.accounts[0]);}
 });
 
 Template.date.helpers({
 	convert : function() {return new Date(this.timeListed).toISOString().slice(0,10);}
+});
+
+Template.weiToEther.helpers({
+	convert : function() {return web3.fromWei(this.price,"ether");}
 });
 
 Template.sell.helpers({
@@ -51,8 +63,7 @@ Template.sell.helpers({
         return sellListingSettings; },
     sellOrderSettings: function () {
         return sellOrderSettings;},
-    seller : function () { return web3.eth.accounts.length>0; },
-    shareholder : function () { return true;   } 
+    seller : function () { return web3.eth.accounts.length>0; }
 });
 
 Template.purchases.helpers({

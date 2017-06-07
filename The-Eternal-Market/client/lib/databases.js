@@ -6,7 +6,8 @@ OrdersDB._collection.remove({});
       
         for(i=1;i<num_orders; i++) {
 			var r = DB.getOrder(i);
-        if(r[1]==web3.eth.accounts[0]){
+			//only load orders sold by the seller. only load orders which are not completed, disputed, or aborted
+        if(r[1]==web3.eth.accounts[0] && Number(r[5])<=1){
 			var temp = {buyer : r[0] ,seller : r[1] ,shippingAddress : r[2] ,contractAddress : r[3] ,listingID : Number(r[4]) ,orderStatus : Number(r[5]) ,timeListed : r[6]*1000, title : ListingsDB.findOne({listingID : Number(r[4])}).title, price : Number(web3.fromWei(web3.eth.getBalance(r[3]), "ether")), orderID : i };
 			OrdersDB._collection.insert(temp);
 }}
@@ -42,7 +43,8 @@ OrdersDB._collection.remove({});
       
         for(i=1;i<num_orders; i++) {
 			var r = DB.getOrder(i);
-			if( r[0] == web3.eth.accounts[0]){
+			//only load pending orders the buyer was involved in
+			if( r[0] == web3.eth.accounts[0] && Number(r[5])<=1){
 			var temp = {buyer : r[0] ,seller : r[1] ,shippingAddress : r[2] ,contractAddress : r[3] ,listingID : Number(r[4]) ,orderStatus : Number(r[5]) ,timeListed : r[6]*1000, title : ListingsDB.findOne({listingID : Number(r[4])}).title, price : Number(web3.fromWei(web3.eth.getBalance(r[3]), "ether")), orderID : i  };
 			OrdersDB._collection.insert(temp);
 }
@@ -52,13 +54,12 @@ OrdersDB._collection.remove({});
 loadProposals = function(){
 ProposalsDB._collection.remove({});
 
-	var num_proposals = Number(CM.nextProposalNumber());
-	console.log(num_proposals);
-	for(i=1;i<num_proposals;i++){
+	var num_proposals = Number(CM.getProposalsLength());
+	for(i=0;i<num_proposals;i++){
 		var r = CM.getProposal(i);
 		console.log(r);
 		//only pull proposals which are not executed, and not expired
-		if((r[1]*1000+CM.proposalWaitTime)>Date().now && !r[5]){
+		if(true){
 		var temp = {action : r[0] , timeCreated : r[1] , reason : r[2] , newAdd : r[3] , listing_id : r[4] , executed : r[5]};
 		ProposalsDB._collection.insert(temp);
 		}
