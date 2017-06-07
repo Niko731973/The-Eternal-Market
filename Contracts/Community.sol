@@ -11,7 +11,7 @@ contract Community{
 	Proposal[] public proposals;							// list of proposals
 	uint timeCreated;										// time and date this contract was created
 	uint public offeringPrice;										// initial offering price for a share
-	address  ICOManager;									// manager of the Initial Coin Offering
+	address  wizard;										// instantiator of the community
 	bool public ICO_enabled;										// Is the initial coin offering active?
 	uint public proposalWaitTime = 1 days;					// How long does a proposal have to be executed?
 	
@@ -47,7 +47,7 @@ contract Community{
 /* Initializes contract with initial supply tokens to the creator of the contract */
 function Community() {
     shares[msg.sender] = 2500;          
-    ICOManager = msg.sender;
+    wizard = msg.sender;
     sharesOutstanding = 2500;
     eternalAddress = '0xc00F735869DD637C5AA92e89E124d6A6368Bf702';
     offeringPrice = (1 ether)/5;
@@ -82,7 +82,7 @@ function getProposalsLength() constant returns (uint){
     }
     
     function endICO() {
-    	if(msg.sender!=ICOManager){throw;}
+    	if(msg.sender!=wizard){throw;}
     	if(now<(timeCreated+(8 weeks))){throw;}
     	ICO_enabled = false;
     }
@@ -108,6 +108,7 @@ function buy() payable returns (uint){
 }
 
 function sell(uint amount) returns (uint revenue){
+	if(ICO_enabled){throw;}
 	if (shares[msg.sender] < amount ){ throw;}       // checks if the sender has enough to sell
     shares[msg.sender] -= amount;                    // subtracts the amount from seller's balance
     sharesOutstanding -= amount;                     // removes the shares from circulation
@@ -130,6 +131,7 @@ function collectProfits(address contract_address) onlyShareholders{
 
 function propose(uint action, string reason, address newAdd, uint listing) onlyShareholders{
     if(action<1||action>4){throw;}
+    if(action!=4 && msg.sender!=wizard){throw;}
 	uint id = proposals.length++;
 	Proposal p = proposals[id];
 	p.action=action;
