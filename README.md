@@ -13,14 +13,14 @@ TEM has no owner with control over market operations. During the initial coin of
 Once a listing is posted, there are only three ways it can be removed:
 * If the ratio of failed/successful sales is too high (determined by the community)
 * If owner of the listing voluntarily removes it
-* If over 50% of the community votes to remove it (to remove scam/spam or morally objectionable listings)
+* If over 50% of the community votes to remove it (to remove scams/spam or objectionable listings)
 
 TEM contains an upgradable set of smart contracts:
 
 * A base contract - an unchanging contract which points to the current deployed market contract on the blockchain
-* A market contract - an upgradeable contract that contains the logic of the market, can be updated freely
-* A database contract - stores the listings and orders, to be infrequently updated on major revisions
-* A community contract - manages shareholders stake's in the community. can be upgraded with extreme difficulty 
+* A market contract - an upgradeable contract that contains the logic of the market
+* A database contract - an upgradeable contract that stores the listings and order
+* A community contract - an upgradeable contract that manages shareholders stake's in the community 
 * Many purchase contracts - each contains the funds for an individual order between a buyer/seller
 
 
@@ -43,7 +43,7 @@ In the event that either Buyer becomes incapacitated and cannot release the fund
 ### Keeping the Market Running Smoothly:
 The number of successful and disputed sales for each listing on TEM is tracked in the database. Listings which have a bad ratio of disputed/successful sales can be removed by any Ethereum user. Since the community self-curates the listings on TEM, any malicious sellers will quickly be weeded out.
 
-Sellers have incentive to ship their products or deliver their services quickly. Because TEM cannot be shut down, Sellers have the potential to reap large profits from listings with a long track history of successful deliveries. The community will decide themselves what kinds of services and products will be allowed on the market by voting to remove individual items which are found morally objectionable.
+Sellers have incentive to ship their products or deliver their services quickly. Because TEM cannot be shut down, Sellers have the potential to reap large profits from listings with a long track history of successful deliveries. The community will decide themselves what kinds of services and products will be allowed on the market by voting to remove individual items which are found objectionable.
 
 ### Staying Anonymous on TEM:
 
@@ -68,7 +68,6 @@ During the ICO (initial coin offering), shares in TEM are being sold at a fixed 
 Shareholders earn the right to vote on proposals, and introduce new proposals. Each shareholder is entitled to their portion of the profits from transactions on TEM. Shares can be bought/sold/transferred at any time. Shareholders are responsible for voting on the following types of proposals:
 
 * When to upgrade a smart contract to add new features
-* Setting the listing and order fees on the market
 * Removing listings to clear spam/scammers/objectionable listings
 
 

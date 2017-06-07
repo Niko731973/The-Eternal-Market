@@ -49,3 +49,20 @@ OrdersDB._collection.remove({});
 }
 }
 
+loadProposals = function(){
+ProposalsDB._collection.remove({});
+
+	var num_proposals = Number(CM.nextProposalNumber());
+	console.log(num_proposals);
+	for(i=1;i<num_proposals;i++){
+		var r = CM.getProposal(i);
+		console.log(r);
+		//only pull proposals which are not executed, and not expired
+		if((r[1]*1000+CM.proposalWaitTime)>Date().now && !r[5]){
+		var temp = {action : r[0] , timeCreated : r[1] , reason : r[2] , newAdd : r[3] , listing_id : r[4] , executed : r[5]};
+		ProposalsDB._collection.insert(temp);
+		}
+	}
+
+}
+

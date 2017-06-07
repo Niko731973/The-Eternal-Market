@@ -32,6 +32,7 @@ CM = community_contract.at(community_address);
 
 OrdersDB = new Mongo.Collection("OrdersDB");
 ListingsDB = new Mongo.Collection("ListingsDB");
+ProposalsDB = new Mongo.Collection("ProposalsDB");
 loadActiveListings();
 
 

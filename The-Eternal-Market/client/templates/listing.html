@@ -6,16 +6,18 @@ Successful Sales: {{salesSuccessful}}, Success Rate: {{ successRate}}, Last Succ
 Listing Created: {{ timeListed}}<br>
 Seller Public Key<br><textarea rows="4" cols="50" readonly>{{  publicKey}} </textarea><br><br>
         
-	{{#if showOrderButton}}
+	{{#if userIsSeller}}
+		<input type="text" id="newPrice" value="New Price"><button type="button" onclick="changeListingPrice({{listingID}},newPrice.value)">Change Price</button><br>
+	{{else}}
 		Paste your encrypted shipping address below:<br>
 		<textarea rows="4" cols="50" id="delivery_address"></textarea><br>
-		<button type="button" onclick="newOrder({{listingID}},delivery_address.value)">Place Order</button>
-	{{/if}}<br><br>
+		<button type="button" onclick="newOrder({{listingID}},delivery_address.value)">Place Order</button><br>
+		<button type="button" onclick="flagListing({{listingID}})">Flag as Inappropriate</button>
+	{{/if}}<br>
 	{{#if showRemoveListingButton}}
 		<button type="button" onclick="removeListing({{listingID}})">Remove Listing</button>
 	{{/if}}
 	{{#if showFlagListingButton}}
-		<button type="button" onclick="flagListing({{listingID}})">Flag as Inappropriate</button>
 	{{/if}}
 	<div id="button_result"></div>
 </template>

@@ -41,3 +41,11 @@ fields: [
     { key : 'shippingAddress' , label: 'Delivery Info' },
     { key : 'orderStatus' , label: 'Status' , tmpl : Template.orderStatusButtons}
 	]}
+
+/* Proposal react table settings */
+proposalTableSettings= {
+fields:[
+	{ key : 'yesVotes' , label: 'yesVotes'},
+	{ key : 'dateCreated' , label: 'dateCreated'},
+	{ key : 'action' , label: 'action'}
+]}	

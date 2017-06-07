@@ -85,13 +85,8 @@ contract Purchase {
         inState(State.Locked)
     {
         ItemReceived(); 
-        // It is important to change the state first because
-        // otherwise, the contracts called using `send` below
-        // can call in again here.
         state = State.Inactive;
 
-        // NOTE: This actually allows both the buyer and the seller to
-        // block the refund - the withdraw pattern should be used.
         
         seller.transfer(this.balance);
     }
@@ -102,11 +97,11 @@ contract Purchase {
     function recoverFunds()
         inState(State.Locked)
     {
-        if(now>(creationTime+(12 weeks))){
+        if(now<(creationTime+(12 weeks))){throw;}
         state = State.Inactive;
         seller.transfer(this.balance);
         
-        }
+        
     }
     
     //only the buyer can dispute an order, they must wait at least three weeks before doing so.
@@ -114,12 +109,12 @@ contract Purchase {
     function dispute()
         inState(State.Locked)
     {
-        if(now>(creationTime+ (3 weeks)) && (msg.sender == buyer )){
+        if(!(now>(creationTime+ (3 weeks)) && (msg.sender == buyer ))){throw;}
             state = State.Disputed;
             Disputed();
             getMarket().transfer(this.balance);
             
-        }
+        
     }
     
     function() payable { }

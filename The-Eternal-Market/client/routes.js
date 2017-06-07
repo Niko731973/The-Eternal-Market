@@ -10,6 +10,14 @@ Template.buy.helpers({
         return buyTableSettings;
 }});
 
+Template.proposals.helpers({
+	proposals_table: function () {
+		return ProposalsDB.find().fetch();
+	},
+	proposalTableSettings: function (){
+		return proposalTableSettings;
+}});
+
 
 Template.orderStatusButtons.helpers({
 	unconfirmed 	 : function() { return this.orderStatus==0; },
@@ -24,12 +32,10 @@ Template.orderStatusButtons.helpers({
 
 Template.listing.helpers({
 
-	showOrderButton : function () {
-    	return (web3.eth.accounts[0]!= this.seller); },
+	userIsSeller : function () {
+    	return (web3.eth.accounts[0]== this.seller); },
     showRemoveListingButton : function () {
-    	return (web3.eth.accounts[0]== this.seller) || ( is_bad_seller(this.listingID) ); },
-    showFlagListingButton : function () {
-    	return (web3.eth.accounts[0]!= this.seller);}
+    	return (web3.eth.accounts[0]== this.seller) || ( is_bad_seller(this.listingID) ); }
 });
 
 Template.date.helpers({
@@ -64,8 +70,11 @@ Router.route('/home', function () {
   this.render('home');
 });
 
-Router.route('/community', function () {
-  this.render('community');
+Router.route('/community',{	
+	loadingTemplage: 'loading',
+	waitOn: function () {loadProposals();},
+	action: function(){ this.render('community'); },
+	data : function () {return ProposalsDB.find().fetch();}
 });
 
 Router.route('/buy',{ 

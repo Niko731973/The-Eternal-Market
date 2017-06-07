@@ -13,7 +13,7 @@ newOrder = function newOrder(listing_id,delivery_address){
 
 //create new listing
 newListing = function newListing(title,description,public_key,price,fee){
-	console.log(title,description,public_key,price,fee);
+	price = web3.toWei(price,"ether");
 	fee = web3.toWei(fee, "ether");
     var conf = confirm("Please confirm the information for your listing is correct! Then select OK");
 	if(conf){
@@ -93,6 +93,20 @@ flagListing = function flagListing(id){
 	confirm("blerg");
 }
 
+changeListingPrice = function(id,newPrice){
+	var cost = 0;
+	var oldPrice = ListingsDB.find({listinglistingID : id}).fetch().price;
+	if(newPrice>oldPrice){
+	 cost = computeListingFee(Number(newPrice) - oldPrice);
+	}
+	var conf = confirm("There is a cost of "+cost+" ether to change the price of this listing. Do you wish to proceed?");
+	if(conf==true){
+	web3.eth.defaultAccount = web3.eth.accounts[0];
+		EM.changePrice(id,web3.toWei(cost,"ether"));
+	}
+
+
+}
 
 function showConfirmationOrError(){
 	//confirm("please allow a few minutes for your transaction to be confirmed by the blockchain");
