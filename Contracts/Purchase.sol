@@ -15,7 +15,7 @@ contract Purchase {
         
         buyer = _buyer;
         seller = _seller;
-        eternalAddress = '0xc00F735869DD637C5AA92e89E124d6A6368Bf702';
+        eternalAddress = '0x06eCea90E03cA3474c5626837918253eEc96F5d0';
         creationTime = now;
         state = State.Created;
     }

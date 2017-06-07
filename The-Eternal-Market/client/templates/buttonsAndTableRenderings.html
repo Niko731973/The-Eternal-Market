@@ -7,6 +7,24 @@
 	{{convert}}
 </template>
 
+<template name="proposalApprovalProgress">
+{{percentage}}
+</template>
+
+
+<template name="proposalButtons">
+
+{{#if canBeExecuted}}
+<button type="button" onclick="executeProposal({{id}})">Execute Proposal</button>
+{{else}}
+{{#if canVote}}
+<button type="button" onclick="voteYes({{id}})">Approve Proposal</button>
+{{/if}}
+{{/if}}
+
+
+</template>
+
 <template name="ListingLink">
 	<a href="listing?id={{ listingID }}">{{title}}</a>
 </template>
@@ -21,17 +39,12 @@
 
 
 <template name="sell">
-	{{#if seller}}
-		{{#if shareholder}}
 			<button type="button" onclick="location.href='/createListing';">Create New Listing</button>
-		{{/if}}
 		<h2>Pending Orders</h2>
 		{{> reactiveTable class="table table-hover table-bordered" collection=orders_table showFilter=false settings=sellOrderSettings}}
 		<h2>Current Listings</h2>
 		{{> reactiveTable class="table table-hover table-bordered" collection=listings_table settings = sellListingSettings}}
-	{{else}}
-		You must connect an address to access the seller menu!
-	{{/if}}
+	
 </template>
 
 <template name="orderStatusButtons">

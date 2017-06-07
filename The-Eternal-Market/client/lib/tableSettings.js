@@ -45,7 +45,10 @@ fields: [
 /* Proposal react table settings */
 proposalTableSettings= {
 fields:[
-	{ key : 'yesVotes' , label: 'yesVotes'},
-	{ key : 'dateCreated' , label: 'dateCreated'},
-	{ key : 'action' , label: 'action'}
+	{ key : 'timeListed', label: 'Date Created', tmpl: Template.date},
+	{ key : 'reason', label : 'Info' },
+	{ label: 'Progress', tmpl : Template.proposalApprovalProgress},
+	{ label : 'Action(s)', tmpl : Template.proposalButtons}
+	
+		
 ]}	

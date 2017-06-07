@@ -10,13 +10,13 @@ contract Community{
 	address eternalAddress;									// the eternal base address of TEM
 	Proposal[] public proposals;							// list of proposals
 	uint timeCreated;										// time and date this contract was created
-	uint public offeringPrice;										// initial offering price for a share
+	uint public offeringPrice;								// initial offering price for a share
 	address  wizard;										// instantiator of the community
-	bool public ICO_enabled;										// Is the initial coin offering active?
+	bool public ICO_enabled;								// Is the initial coin offering active?
 	uint public proposalWaitTime = 1 days;					// How long does a proposal have to be executed?
 	
 	
-	/* A proposal can be introduced by any shareholder*/
+	/* A proposal can be voted on by any shareholder*/
 	struct Proposal {
 		uint action;     		// Possible codes are: 1 change market, 2 change database, 3 change community, 4 remove listing 
 		uint timeCreated;		// time of creation
@@ -49,7 +49,7 @@ function Community() {
     shares[msg.sender] = 2500;          
     wizard = msg.sender;
     sharesOutstanding = 2500;
-    eternalAddress = '0xc00F735869DD637C5AA92e89E124d6A6368Bf702';
+    eternalAddress = '0x06eCea90E03cA3474c5626837918253eEc96F5d0';
     offeringPrice = (1 ether)/5;
     ICO_enabled = true;
 }
@@ -83,7 +83,7 @@ function getProposalsLength() constant returns (uint){
     
     function endICO() {
     	if(msg.sender!=wizard){throw;}
-    	if(now<(timeCreated+(8 weeks))){throw;}
+    	//if(now<(timeCreated+(8 weeks))){throw;} //remove this line during production
     	ICO_enabled = false;
     }
     
@@ -128,7 +128,7 @@ function collectProfits(address contract_address) onlyShareholders{
     	Market m = Market(contract_address);
     	m.getProfits();
     }
-
+/* any member can propose to remove a listing. Only the instantiator can propose a shift in addresses */
 function propose(uint action, string reason, address newAdd, uint listing) onlyShareholders{
     if(action<1||action>4){throw;}
     if(action!=4 && msg.sender!=wizard){throw;}
@@ -170,7 +170,7 @@ function currentVotingResults(uint propID) constant onlyValidProposals(propID) r
 		yesVotes+=shares[p.votes[i]];
 	}
 	
-	return (yesVotes,this.balance);
+	return (yesVotes,sharesOutstanding);
 	
 }
 
@@ -184,7 +184,7 @@ function executeProposal(uint propID) onlyValidProposals(propID) returns (bool){
 		yesVotes+=shares[p.votes[i]];
 	}
 	
-	if (yesVotes>=(this.balance/2)){
+	if (yesVotes>=(sharesOutstanding/2)){
 		
 		Base b = Base(eternalAddress);
 	
@@ -199,6 +199,11 @@ function executeProposal(uint propID) onlyValidProposals(propID) returns (bool){
 	return true;
 	}
 	return false;
+}
+
+function transferFounder(address _new){
+if(msg.sender!=wizard){throw;}
+wizard = _new;
 }
 
 function() payable{}

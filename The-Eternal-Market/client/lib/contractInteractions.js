@@ -5,9 +5,13 @@ newOrder = function newOrder(listing_id,delivery_address){
 	var conf = confirm("Please confirm that you have encrypted your delivery address!"); 
 	if(conf==true){ 
 		//Once your transaction is confirmed, it will take a few minutes to propagate through the blockchain!<br>Once your transaction has been confirmed by the blockchain, you can check the status of your order under the "My Orders" menu.
+		if(web3.eth.accounts.length==0){
+			confirm("You must have an ethereum address connected to create a listing!");
+		}
+		else{
 		web3.eth.defaultAccount = web3.eth.accounts[0];
 		EM.addOrder(listing_id, delivery_address, {value: price});
-		showConfirmationOrError();
+		}
 	}
 }
 
@@ -94,7 +98,7 @@ flagListing = function flagListing(id){
 	if(conf==true){
 		web3.eth.defaultAccount = web3.eth.accounts[0];
 		var title = ListingsDB.findOne({listingID : Number(id)}).title;
-		CM.propose(4, title, '0x0000000000000000000000000000000000000000' , Number(id));
+		CM.propose(4, "remove listing: "+title, '0x0000000000000000000000000000000000000000' , Number(id));
 		
 	}
 }
@@ -117,14 +121,57 @@ changeListingPrice = function(id,newPrice,oldPrice){
 	}
 	if(conf==true){
 	web3.eth.defaultAccount = web3.eth.accounts[0];
-	console.log(cost);
-	console.log(web3.toWei(cost,"ether"));
 	var weiFee = Number(web3.toWei(cost,"ether"));
 	var weiNewPrice = Number(web3.toWei(newPrice,"ether"));
 		EM.changePrice(id,weiNewPrice,{value: weiFee});
 	}
 
 
+}
+
+buyShares = function(value){
+	var conf = confirm("You are purchasing "+value+" ether worth of shares");
+	if(conf){
+		web3.eth.defaultAccount = web3.eth.accounts[0];
+		if(CM.ICO_enabled()){
+			CM.ICO({value: Number(web3.toWei(value,"ether"))});
+		}else{
+	CM.buy({value:Number( web3.toWei(value,"ether"))});
+	}}
+
+}
+
+sellShares = function(shares){
+var conf = confirm("You are selling "+shares+" shares");
+	if(conf){
+		web3.eth.defaultAccount = web3.eth.accounts[0];
+		if(CM.ICO_enabled()){
+			confirm("You may sell shares as soon as the ICO period has ended");
+		}else{
+	CM.sell(shares);
+	}}
+
+}
+
+setCostToBuyDynamic = function (shares, price){
+var fee = shares*price;
+var fee_box = document.getElementById('costToBuyShares');
+fee_box.value = fee;
+}
+
+setSellBoxDynamic = function (shares,price){
+var fee = shares*price;
+var fee_box = document.getElementById('profitFromShareSales');
+fee_box.value = fee;
+
+}
+
+voteYes = function(id){
+	var conf = confirm("Do you wish to approve this proposal?");
+	if(conf){
+			web3.eth.defaultAccount = web3.eth.accounts[0];
+	CM.voteYes(id);
+	}
 }
 
 function showConfirmationOrError(){

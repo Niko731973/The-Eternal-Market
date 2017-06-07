@@ -1,0 +1,5 @@
+compile and deploy all contracts
+test proposal features
+test abortion/dispute feature
+test buyselling feature
+

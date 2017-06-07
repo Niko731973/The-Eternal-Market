@@ -45,7 +45,7 @@ contract Market {
     
     /* Constructor, sets the base address of TEM */
     function Market(){
-    eternalAddress = '0xc00F735869DD637C5AA92e89E124d6A6368Bf702';
+    eternalAddress = '0x06eCea90E03cA3474c5626837918253eEc96F5d0';
         
     }
     

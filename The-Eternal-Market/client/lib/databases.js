@@ -57,10 +57,9 @@ ProposalsDB._collection.remove({});
 	var num_proposals = Number(CM.getProposalsLength());
 	for(i=0;i<num_proposals;i++){
 		var r = CM.getProposal(i);
-		console.log(r);
 		//only pull proposals which are not executed, and not expired
-		if(true){
-		var temp = {action : r[0] , timeCreated : r[1] , reason : r[2] , newAdd : r[3] , listing_id : r[4] , executed : r[5]};
+		if(!r[5]&& (true)){
+		var temp = {action : r[0] , timeListed : r[1]*1000 , reason : r[2] , newAdd : r[3] , listing_id : r[4] , executed : r[5], id: i};
 		ProposalsDB._collection.insert(temp);
 		}
 	}
