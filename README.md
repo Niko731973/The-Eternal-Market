@@ -6,7 +6,7 @@ community controlled, decentralized, anonymous online marketplace
 
 ## About
 
-The Eternal Market (TEM) is a distributed application (DAPP) that allows anyone with blockchain access to buy or sell goods and services anonymously. It requires no login, only a valid Ethereum address. Being a distributed application, TEM is not stored on any server, cannot be shut down or hacked. Funds for each order are locked in contracts between the buyer and seller, there is no central wallet to manage orders which is susceptible to attack. 
+The Eternal Market (TEM) is a distributed application (DAPP) that allows anyone with ethereum blockchain access to buy or sell goods and services anonymously. It requires no login, only a valid Ethereum address. Being a distributed application, TEM is not stored on any server, cannot be shut down or hacked. Funds for each order are locked in contracts between the buyer and seller, there is no central wallet to manage orders which is susceptible to attack. 
 
 TEM has no owner with control over market operations. During the initial coin offering (ICO) shares of TEM will be sold off at a fixed price. After TEM is fully operational, shareholders will have total control over TEM through voting on proposals. Shares are freely transferable and are redeemable for ether at the market rate through the community contract. Shareholders are entitled to all the profits of market operations.
 
@@ -103,9 +103,9 @@ You may change the price of a listing at any time. There is no charge to lower t
 ___________________________________________________________________________
 
 
-##Investing
+## Investing
 
-A share in TEM reprents proportional control over the market. Shareholders are entitled to the profits earned by TEM. Shareholders have the right to remove listings from the market, and vote on upgrades and changes in the way the market is run.  During the initial coin offering (ICO), coins will be sold at a fixed price. After the ICO has ended (8 weeks after launch), shares can be bought or sold at market price.
+A share in TEM represents proportional control over TEM. Shareholders are entitled to the profits earned by TEM. Shareholders have the right to remove listings from the market, and vote on upgrades and changes in the way the market is run.  During the initial coin offering (ICO), coins will be sold at a fixed price. After the ICO has ended (8 weeks after launch), shares can be bought or sold at market price.
 
 The price of one share shall be equal to the to number of ether under community control divided by the number of shares outstanding. Shares may be sold at market price. Share can be bought (after the ICO) at market price plus a 1% fee to compensate existing shareholders for share dilution. 
 
