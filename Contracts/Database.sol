@@ -4,12 +4,14 @@ import "Base.sol";
 contract Database{
 
     
+	/* The Eternal Address of the Market */
+    address public eternalAddress = '0x06eCea90E03cA3474c5626837918253eEc96F5d0';
+    
 
     /* This database contains all of the listings and orders in the eternal market */
     
     uint public nextFreeListingID = 1;          //the next free listing ID availible
     uint public nextFreeOrderID = 1;            //the next free order ID availible
-    address public eternalAddress;
     
     mapping (uint => Listing) public listings;
     mapping (uint => Order) public orders;

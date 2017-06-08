@@ -1,14 +1,14 @@
 # The Eternal Market
-Decentralized, anonymous online marketplace
+community controlled, decentralized, anonymous online marketplace
 
-[About](#about) - [Installation](#installing) - [Community](#community) - [Buying](#buying) - [Selling](#selling)
+[About](#about) - [Installation](#installing) - [Community](#community) - [Buying](#buying) - [Selling](#selling) - [Investing](#investing) - [Disclaimers](#disclaimers)
 
 
 ## About
 
 The Eternal Market (TEM) is a distributed application (DAPP) that allows anyone with blockchain access to buy or sell goods and services anonymously. It requires no login, only a valid Ethereum address. Being a distributed application, TEM is not stored on any server, cannot be shut down or hacked. Funds for each order are locked in contracts between the buyer and seller, there is no central wallet to manage orders which is susceptible to attack. 
 
-TEM has no owner with control over market operations. During the initial coin offering (ICO) shares of TEM will be sold off at a fixed price. After TEM is fully operational, shareholders will have total control over TEM through a fixed voting system. Shares are freely transferable and are redeemable at any time for ether at the market rate through the community contract. Shareholders are entitled to all the profits of market operations.
+TEM has no owner with control over market operations. During the initial coin offering (ICO) shares of TEM will be sold off at a fixed price. After TEM is fully operational, shareholders will have total control over TEM through voting on proposals. Shares are freely transferable and are redeemable for ether at the market rate through the community contract. Shareholders are entitled to all the profits of market operations.
 
 Once a listing is posted, there are only three ways it can be removed:
 * If the ratio of failed/successful sales is too high (determined by the community)
@@ -57,6 +57,7 @@ TBD
 * ios/android apps
 * fixed USD prices for listings
 * built-in encryption for shipping information
+* ether mixing service
 
 ## Installing
 
@@ -65,12 +66,10 @@ The Eternal Market is going through the final phase of testing and will be launc
 ## Community
 During the ICO (initial coin offering), shares in TEM are being sold at a fixed rate. View the community page to purchase shares. 
 
-Shareholders earn the right to vote on proposals, and introduce new proposals. Each shareholder is entitled to their portion of the profits from transactions on TEM. Shares can be bought/sold/transferred at any time. Shareholders are responsible for voting on the following types of proposals:
+Shareholders earn the right to vote on proposals, and introduce proposals. Each shareholder is entitled to their portion of the profits from transactions on TEM. Shares can be bought/sold/transferred at any time after the ICO has ended. Shareholders are responsible for voting on the following types of proposals:
 
 * When to upgrade a smart contract to add new features
 * Removing listings to clear spam/scammers/objectionable listings
-
-
 
 ## Buying
 Browse the current listings on the market. You can see the items for sale, read descriptions, and view some stats on each listing which serve to authenticate the seller.
@@ -104,5 +103,26 @@ You may change the price of a listing at any time. There is no charge to lower t
 ___________________________________________________________________________
 
 
+##Investing
 
+A share in TEM reprents proportional control over the market. Shareholders are entitled to the profits earned by TEM. Shareholders have the right to remove listings from the market, and vote on upgrades and changes in the way the market is run.  During the initial coin offering (ICO), coins will be sold at a fixed price. After the ICO has ended (8 weeks after launch), shares can be bought or sold at market price.
 
+The price of one share shall be equal to the to number of ether under community control divided by the number of shares outstanding. Shares may be sold at market price. Share can be bought (after the ICO) at market price plus a 1% fee to compensate existing shareholders for share dilution. 
+
+Shares may be transferred freely between users at any time. 
+
+## Disclaimers
+
+BY USING THIS CODE YOU ALSO AGREE:
+
+a. Your use of the Software does not create a legally binding contract in any jurisdiction.
+
+b. The providers of this software neither warrant nor guarantee the performance of this software.
+
+c. The providers of this software are not responsible for the content of the market. The purchase or sale of some materials listed on the market may be a civil or criminal offense in certain jurisdictions. Seek appropriate legal advice before buying or selling on the market.
+
+## Ethereum
+
+Ethereum is a  decentralized platform that runs smart contracts: applications that run exactly as programmed without any possibility of downtime, censorship, fraud or third party interference.
+
+These apps run on a custom built blockchain, an enormously powerful shared global infrastructure that can move value around and represent the ownership of property. This enables developers to create markets, store registries of debts or promises, move funds in accordance with instructions given long in the past (like a will or a futures contract) and many other things that have not been invented yet, all without a middle man or counterparty risk.

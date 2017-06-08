@@ -5,16 +5,17 @@ import "Community.sol";
 import "Base.sol";
 
 contract Market {
+
+	/* The Eternal Address of the Market */
+    address public eternalAddress = '0x06eCea90E03cA3474c5626837918253eEc96F5d0';
+
     
     /*Contract Variables and Events*/
        
     uint public listing_rate = 5;          			// Listing rate is a fee charged for each new listing as a percent (ie 12% charge would be 12)
-    
     uint public order_rate = 2;                     // Order rate is a fee charged on each order submitted as a percent( ie 2% charge would be 2)
-    
     uint public bad_seller_threshold = 15;          //If a listing has more than this amount (as a percentage) of disputed sales, any user can remove this listing.
     
-    address public eternalAddress;					// Location of the base contract
 	
     
     /* Structures representing a listing and an order */
@@ -45,7 +46,6 @@ contract Market {
     
     /* Constructor, sets the base address of TEM */
     function Market(){
-    eternalAddress = '0x06eCea90E03cA3474c5626837918253eEc96F5d0';
         
     }
     

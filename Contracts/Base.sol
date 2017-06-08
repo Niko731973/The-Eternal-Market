@@ -2,10 +2,12 @@ pragma solidity ^0.4.2;
 
 contract Base{
 
-		
-    address public market;    //points to the most recent version of the marketplace contract
+	/* Addresses of the smart contracts which make up the market */	
+    address public market;    
 	address public community;
 	address public database;
+	
+	/* The entity in charge of instantiating the first contracts for TEM */
 	address wizard;
 	bool firstTimeSetup;
 	

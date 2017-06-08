@@ -1,16 +1,15 @@
-//creates a new order transaction on the blockchain
+//creates a new order 
 newOrder = function newOrder(listing_id,delivery_address){  				
 	var price = ListingsDB.findOne({listingID : Number(listing_id)}).price;
     
 	var conf = confirm("Please confirm that you have encrypted your delivery address!"); 
 	if(conf==true){ 
-		//Once your transaction is confirmed, it will take a few minutes to propagate through the blockchain!<br>Once your transaction has been confirmed by the blockchain, you can check the status of your order under the "My Orders" menu.
 		if(web3.eth.accounts.length==0){
 			confirm("You must have an ethereum address connected to create a listing!");
 		}
 		else{
-		web3.eth.defaultAccount = web3.eth.accounts[0];
-		EM.addOrder(listing_id, delivery_address, {value: price});
+			web3.eth.defaultAccount = web3.eth.accounts[0];
+			EM.addOrder(listing_id, delivery_address, {value: price});
 		}
 	}
 }
@@ -22,22 +21,21 @@ newListing = function newListing(title,description,public_key,price,fee){
     var conf = confirm("Please confirm the information for your listing is correct! Then select OK");
 	if(conf){
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		
     	EM.addListing(title,description,public_key,price, {value:fee});
 	}
 }
 
 //if the listings ratio of disputed transactions is too high, anyone may remove the listing
 is_bad_seller = function is_bad_seller(listing_id){
-    return EM.isBadListing(DB.getListing(listing_id));
+	return EM.isBadListing(DB.getListing(listing_id));
 }
 
+//sell confirms shipment of an order
 confirmShipment = function confirmShipment(order_id){
 	var conf = confirm("Have you shipped this order?");
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		var result = EM.confirmShipment(order_id);
-		showConfirmationOrError();
+		EM.confirmShipment(order_id);
 	}
 }
 
@@ -46,8 +44,7 @@ confirmDelivery = function confirmDelivery(order_id){
     var conf = confirm("Have you received your order?");
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		var result = EM.confirmDelivery(order_id);
-		//alert("Please allow a few minutes for your confirmation to propagate.");
+		EM.confirmDelivery(order_id);
 	}
 }
 
@@ -56,8 +53,7 @@ disputeOrder = function disputeOrder(order_id){
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
 		EM.disputeOrder(order_id);
-		//alert("Please allow a few minutes for your dispute to propagate.");
-	}
+		}
 }
 
 abortOrder = function abortOrder(order_id){
@@ -65,8 +61,7 @@ abortOrder = function abortOrder(order_id){
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
 		EM.abortOrder(order_id);
-		//alert("Please allow a few minutes for your cancelation to propagate.");
-	}
+		}
 }
 
 //given a price in ether, returns the fee in ether
@@ -93,6 +88,7 @@ removeListing = function removeListing(id){
 	}
 }
 
+//creates a proposal to remove a listing from the market
 flagListing = function flagListing(id){
 	var conf = confirm("Would you like to submit a proposal to have this listing removed?");
 	if(conf==true){
@@ -103,10 +99,12 @@ flagListing = function flagListing(id){
 	}
 }
 
+//shows an error if a proposal by a non-shareholder is made to remove a listing
 flagListingButtonNotAShareHolder = function (){
 	confirm("You must be a shareholder to propose that a listing is removed!");
 }
 
+//seller can change the price of a listing
 changeListingPrice = function(id,newPrice,oldPrice){
 	var cost = 0;
 	oldPrice = web3.fromWei(oldPrice,"ether");
@@ -114,7 +112,6 @@ changeListingPrice = function(id,newPrice,oldPrice){
 	if(newPrice>oldPrice){
 	 cost = computeListingFee(newPrice - oldPrice);
 	 	conf = confirm("There is a cost of "+cost+" ether to change the price of this listing. Do you wish to proceed?");
-	 
 	}
 	else{
 		 conf = confirm("Are you sure you wish to change the price of this listing?");
@@ -123,24 +120,24 @@ changeListingPrice = function(id,newPrice,oldPrice){
 	web3.eth.defaultAccount = web3.eth.accounts[0];
 	var weiFee = Number(web3.toWei(cost,"ether"));
 	var weiNewPrice = Number(web3.toWei(newPrice,"ether"));
-		EM.changePrice(id,weiNewPrice,{value: weiFee});
+	EM.changePrice(id,weiNewPrice,{value: weiFee});
 	}
-
-
 }
 
+//anyone on the blockchain can purchase shares
 buyShares = function(value){
 	var conf = confirm("You are purchasing "+value+" ether worth of shares");
 	if(conf){
 		web3.eth.defaultAccount = web3.eth.accounts[0];
 		if(CM.ICO_enabled()){
 			CM.ICO({value: Number(web3.toWei(value,"ether"))});
-		}else{
-	CM.buy({value:Number( web3.toWei(value,"ether"))});
+		}
+		else{
+			CM.buy({value:Number( web3.toWei(value,"ether"))});
 	}}
-
 }
 
+//shares can be sold after the ICO is finished
 sellShares = function(shares){
 var conf = confirm("You are selling "+shares+" shares");
 	if(conf){
@@ -150,22 +147,23 @@ var conf = confirm("You are selling "+shares+" shares");
 		}else{
 	CM.sell(shares);
 	}}
-
 }
 
+//sets the cost to buy shares dynamically on the community page
 setCostToBuyDynamic = function (shares, price){
-var fee = shares*price;
-var fee_box = document.getElementById('costToBuyShares');
-fee_box.value = fee;
+	var fee = shares*price;
+	var fee_box = document.getElementById('costToBuyShares');
+	fee_box.value = fee;
 }
 
+//sets the sell price dynamically on the community page
 setSellBoxDynamic = function (shares,price){
-var fee = shares*price;
-var fee_box = document.getElementById('profitFromShareSales');
-fee_box.value = fee;
-
+	var fee = shares*price;
+	var fee_box = document.getElementById('profitFromShareSales');
+	fee_box.value = fee;
 }
 
+//vote yes on a proposal 
 voteYes = function(id){
 	var conf = confirm("Do you wish to approve this proposal?");
 	if(conf){
@@ -174,6 +172,7 @@ voteYes = function(id){
 	}
 }
 
+//remove this
 function showConfirmationOrError(){
 	//confirm("please allow a few minutes for your transaction to be confirmed by the blockchain");
 }

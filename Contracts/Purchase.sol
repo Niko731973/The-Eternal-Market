@@ -3,10 +3,12 @@ import "Base.sol";
 
 contract Purchase {
 
+	/* The Eternal Address of the Market */
+    address public eternalAddress = '0x06eCea90E03cA3474c5626837918253eEc96F5d0';
+
     address public seller;
     address public buyer;
     uint creationTime;
-    address eternalAddress;
     
     enum State { Created, Locked, Inactive, Disputed }
     State public state;
@@ -15,7 +17,6 @@ contract Purchase {
         
         buyer = _buyer;
         seller = _seller;
-        eternalAddress = '0x06eCea90E03cA3474c5626837918253eEc96F5d0';
         creationTime = now;
         state = State.Created;
     }
@@ -42,7 +43,7 @@ contract Purchase {
     }
     
     modifier abortionRequirements(){
-    require(msg.sender==seller || (msg.sender==buyer && now> (creationTime + 3 days)) || (msg.sender==getMarket()));
+    require(msg.sender==seller || (msg.sender==buyer && now> (creationTime + 3 days)) || (msg.sender==getMarket() && now >(creationTime + 3 days)));
     	_;
     }
 
