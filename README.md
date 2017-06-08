@@ -38,7 +38,7 @@ Sellers have three days to confirm shipment of their items. If they have not shi
 In the event that a Seller fails to provide their good or service after confirming shipment, the buyer can (after 3 weeks) choose to dispute the order. If an order is disputed, the seller will not recieve any funds from the purchase. Right now ether for disputed orders is recycled into the market. Later, an arbitration system could be added to partition the funds in other ways.
 
 ### Incapacitated Parties:
-In the event that either Buyer becomes incapacitated and cannot release the funds, the contract which contains the order's fund has a "deadman's switch" to recover the funds. This can only be triggered after the contract has been stagnant for 12 weeks. Disputed orders cannot use the deadman's switch.
+In the event that the Buyer of a listing becomes incapacitated and cannot release the funds, the contract which contains the order's fund has a "deadman's switch" to recover the funds. This can only be triggered after the contract has been stagnant for 12 weeks. Disputed orders cannot use the deadman's switch.
 
 ### Keeping the Market Running Smoothly:
 The number of successful and disputed sales for each listing on TEM is tracked in the database. Listings which have a bad ratio of disputed/successful sales can be removed by any Ethereum user. Since the community self-curates the listings on TEM, any malicious sellers will quickly be weeded out.
