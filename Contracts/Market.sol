@@ -99,14 +99,6 @@ contract Market {
         return listing_bad_rate>=bad_seller_threshold;
     }
     
-    function getListing(uint _id) constant returns(address, string, string, string, uint, uint, bool){
-    Listing n = listings[_id];
-    return(n.seller,n.title,n.listingDescription,n.publicKey,n.price,n.timeListed,n.enabled);
-    }
-    
-    function getOrder(uint _id) constant returns(address){
-    	return orders[_id];
-    }
     /* Order and Listing functions*/
     
     //buyers place orders for a listing using this function

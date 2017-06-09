@@ -37,7 +37,7 @@ contract Order {
     function abort() {
     	require(state == 0);
     	require( (msg.sender==seller) || (msg.sender==buyer && now> (timeTracker + (3 days))) );
-        state = 2;
+        state = 4;
         buyer.transfer(this.balance);
     }
 
@@ -68,7 +68,7 @@ contract Order {
     /// the buyer and seller.
     function recoverFunds()     {	
         require(now>(timeTracker+(12 weeks))); //DISABLE
-    	require(state == 1 || state==2);
+    	require(state == 1 );
         seller.transfer(this.balance);
     }
     

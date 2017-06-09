@@ -6,12 +6,12 @@ OrdersDB._collection.remove({});
    
       
         for(i=1;i<num_orders; i++) {
-			var orderAddress = EM.getOrder(i);
+			var orderAddress = EM.orders(i);
 			var order = order_contract.at(orderAddress)
 				//only load orders sold by the seller. only load orders which are not completed, disputed, or aborted
         console.log(order);
         if(order.seller()==web3.eth.accounts[0] && Number(order.state())<2){
-			var temp = {buyer : order.buyer() ,seller : order.seller() ,shippingAddress : order.shippingAddress() ,contractAddress : orderAddress ,listingID : Number(order.listingID()) ,orderStatus : Number(order.state()) ,timeListed : order.creationTime()*1000, title : ListingsDB.findOne({listingID : Number(order.listingID())}).title, price : Number(web3.fromWei(web3.eth.getBalance(orderAddress), "ether")), orderID : i };
+			var temp = {buyer : order.buyer() ,seller : order.seller() ,shippingAddress : order.shippingAddress() ,contractAddress : orderAddress ,listingID : Number(order.listingID()) ,orderStatus : Number(order.state()) ,timeListed : order.timeTracker()*1000, title : ListingsDB.findOne({listingID : Number(order.listingID())}).title, price : Number(web3.fromWei(web3.eth.getBalance(orderAddress), "ether")), orderID : i };
 			OrdersDB._collection.insert(temp);
 }}
 }
@@ -21,7 +21,7 @@ ListingsDB._collection.remove({});
 
 var num_listings = Number(EM.nextFreeListingID());
     	for(i=1;i<num_listings; i++) {
-    	     var r = EM.getListing(i);
+    	     var r = EM.listings(i);
     	     if(r[6]==true){
     	     var stats = EM.getStats(i); //(successes, disputes, abortions)
 	     	 var successRate = Math.round(Number(stats[0])*100/(Number(stats[0])+Number(stats[1])))+'%';
@@ -42,12 +42,12 @@ OrdersDB._collection.remove({});
    
       
         for(i=1;i<num_orders; i++) {
-			var orderAddress = EM.getOrder(i);
+			var orderAddress = EM.orders(i);
 			var order = order_contract.at(orderAddress)
 				//only load orders purchased by the current addresss. only load orders which are not completed, disputed, or aborted
         
         if(order.buyer()==web3.eth.accounts[0] && Number(order.state())<2){
-			var temp = {buyer : order.buyer() ,seller : order.seller() ,shippingAddress : order.shippingAddress() ,contractAddress : orderAddress ,listingID : Number(order.listingID()) ,orderStatus : Number(order.state()) ,timeListed : order.creationTime()*1000, title : ListingsDB.findOne({listingID : Number(order.listingID())}).title, price : Number(web3.fromWei(web3.eth.getBalance(orderAddress), "ether")), orderID : i };
+			var temp = {buyer : order.buyer() ,seller : order.seller() ,shippingAddress : order.shippingAddress() ,contractAddress : orderAddress ,listingID : Number(order.listingID()) ,orderStatus : Number(order.state()) ,timeListed : order.timeTracker()*1000, title : ListingsDB.findOne({listingID : Number(order.listingID())}).title, price : Number(web3.fromWei(web3.eth.getBalance(orderAddress), "ether")), orderID : i };
 			OrdersDB._collection.insert(temp);
 }}
 }
@@ -57,7 +57,7 @@ ProposalsDB._collection.remove({});
 
 	var num_proposals = Number(CM.getProposalsLength());
 	for(i=0;i<num_proposals;i++){
-		var r = CM.getProposal(i);
+		var r = CM.proposals(i);
 		//only pull proposals which are not executed, and not expired
 		if(!r[5]&& (true)){
 		var temp = {action : r[0] , timeListed : r[1]*1000 , reason : r[2] , newAdd : r[3] , listing_id : r[4] , executed : r[5], id: i};

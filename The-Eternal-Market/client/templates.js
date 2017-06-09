@@ -8,10 +8,9 @@ Template.buy.helpers({
 }});
 
 Template.proposalApprovalProgress.helpers({
-percentage : function(){ var results = CM.currentVotingResults(this.id);
-console.log(Number(results[0]));
-console.log(Number(results[1]));
-return Math.round((Number(results[0])/Number(results[1]))*10000)/100 +"%";}
+percentage : function(){var results = getVotingResults(this.id);
+
+return Math.round(results*10000)/100+"%";}
 
 });
 
@@ -20,8 +19,8 @@ canVote : function(){
 return !CM.hasVotedOn(web3.eth.accounts[0]);
 },
 canBeExecuted : function(){
-var results = CM.currentVotingResults(this.id);
-return (results[0]>=(results[1]/2));}
+var results = getVotingResults(this.id);
+return results>=.5;}
 
 });
 

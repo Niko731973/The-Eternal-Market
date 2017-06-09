@@ -35,7 +35,7 @@ confirmShipment = function confirmShipment(order_id){
 	var conf = confirm("Have you shipped this order?");
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		var order_address = EM.getOrder(order_id);
+		var order_address = EM.orders(order_id);
 		var order = order_contract.at(order_address);
 		order.confirmShippment();
 	}
@@ -43,29 +43,33 @@ confirmShipment = function confirmShipment(order_id){
 
 
 confirmDelivery = function confirmDelivery(order_id){
-    var conf = confirm("Have you received your order?");
-	if(conf==true){ 
+    var feedback = feedbackPrompt();
+		if(feedback!="")
+		{
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		var order_address = EM.getOrder(order_id);
+		var order_address = EM.orders(order_id);
 		var order = order_contract.at(order_address);
-		order.confirmDelivery();
-	}
+		order.confirmDelivery(feedback);
+		}
+	
 }
 
 disputeOrder = function disputeOrder(order_id){
-    var conf = confirm("Disputing this order will prevent the seller from recieving their payment. Would you like to dispute this transaction?"); 
-	if(conf==true){ 
+    	var feedback = feedbackPrompt();
+		if(feedback!="")
+		{
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		var order_address = EM.getOrder(order_id);
+		var order_address = EM.orders(order_id);
 		var order = order_contract.at(order_address);
-		order.dispute();		}
+		order.dispute(feedback);
+				}
 }
 
 abortOrder = function abortOrder(order_id){
 	var conf = confirm("Would you like to cancel this order?");
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-				var order_address = EM.getOrder(order_id);
+				var order_address = EM.orders(order_id);
 		var order = order_contract.at(order_address);
 		order.abort(order_id);
 		}
@@ -95,17 +99,31 @@ removeListing = function removeListing(id){
 	}
 }
 
+//gets the percentage as a decimal of voting results
+getVotingResults = function(id){
+var results = CM.currentVotingResults(id);
+var yes = Number(results[0]);
+var oustanding = Number(results[1]);
+if(yes==0){ return 0;}
+return yes/outstanding;
+}
+
 //creates a proposal to remove a listing from the market
 flagListing = function flagListing(id){
 	var conf = confirm("Would you like to submit a proposal to have this listing removed?");
 	if(conf==true){
 		web3.eth.defaultAccount = web3.eth.accounts[0];
 		var title = ListingsDB.findOne({listingID : Number(id)}).title;
-		CM.propose(4, "remove listing: "+title, '0x0000000000000000000000000000000000000000' , Number(id));
+		CM.propose(1, "remove listing: "+title, '0x0000000000000000000000000000000000000000' , Number(id));
 		
 	}
 }
 
+//executes a proposal
+executeProposal = function(id){
+web3.eth.defaultAccount= web3.eth.accounts[0];
+CM.executeProposal(id);
+}
 //shows an error if a proposal by a non-shareholder is made to remove a listing
 flagListingButtonNotAShareHolder = function (){
 	confirm("You must be a shareholder to propose that a listing is removed!");
@@ -174,6 +192,17 @@ voteYes = function(id){
 			web3.eth.defaultAccount = web3.eth.accounts[0];
 	CM.voteYes(id);
 	}
+}
+
+function feedbackPrompt(){
+var feedback = prompt("Please enter feedback for your order", "Great seller, great product! -or- Never arrived!");
+
+if (feedback == null || feedback == "") {
+    return "";
+} else {
+    return feedback;
+}
+
 }
 
 //remove this

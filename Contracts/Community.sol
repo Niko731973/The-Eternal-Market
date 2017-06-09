@@ -48,18 +48,17 @@ contract Community{
 	event Transfer(address from, address to, uint256 value);
 	event Action(string action);
 	
-	function Community(address _eternal){
-	    eternalAddress = _eternal;
-	
-	}
 	
 /* Initializes contract with initial supply tokens to the instantiator of the contract */
-function Community() {  
+function Community(address _eternal) {  
     wizard = msg.sender;
     shares[wizard] = 2500;        
     sharesOutstanding = 2500;
     offeringPrice = (1 ether)/5;
     ICO_enabled = true;
+	eternalAddress = _eternal;
+	
+	
 }
 
 /* Constant Functions */
@@ -155,7 +154,7 @@ function sell(uint amount) returns (uint revenue){
 /* Any member can propose to remove a listing. Only the instantiator can propose a shift in addresses */
 function propose(uint action, string reason, address newAdd, uint listing) onlyShareholders{
     if(action<1||action>3){throw;}					//Only valid proposal actions are allowed
-    if(action == 1 && msg.sender!=wizard ){throw;}		//Only the instantiator can propose to change the addresses of the market
+    if(action > 1 && msg.sender!=wizard ){throw;}		//Only the instantiator can propose to change the addresses of the market
 	uint id = proposals.length++;
 	Proposal p = proposals[id];
 	p.action=Propose(action);
