@@ -1,4 +1,10 @@
 compile and deploy all contracts
+fix proposal interactions 
+fix tables
+add feedback to listings
+allow 
+
+test getter of public maps?
 test proposal features
 test abortion/dispute feature
 test buyselling feature

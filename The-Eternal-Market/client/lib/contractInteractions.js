@@ -35,7 +35,9 @@ confirmShipment = function confirmShipment(order_id){
 	var conf = confirm("Have you shipped this order?");
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		EM.confirmShipment(order_id);
+		var order_address = EM.getOrder(order_id);
+		var order = order_contract.at(order_address);
+		order.confirmShippment();
 	}
 }
 
@@ -44,7 +46,9 @@ confirmDelivery = function confirmDelivery(order_id){
     var conf = confirm("Have you received your order?");
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		EM.confirmDelivery(order_id);
+		var order_address = EM.getOrder(order_id);
+		var order = order_contract.at(order_address);
+		order.confirmDelivery();
 	}
 }
 
@@ -52,15 +56,18 @@ disputeOrder = function disputeOrder(order_id){
     var conf = confirm("Disputing this order will prevent the seller from recieving their payment. Would you like to dispute this transaction?"); 
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		EM.disputeOrder(order_id);
-		}
+		var order_address = EM.getOrder(order_id);
+		var order = order_contract.at(order_address);
+		order.dispute();		}
 }
 
 abortOrder = function abortOrder(order_id){
 	var conf = confirm("Would you like to cancel this order?");
 	if(conf==true){ 
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		EM.abortOrder(order_id);
+				var order_address = EM.getOrder(order_id);
+		var order = order_contract.at(order_address);
+		order.abort(order_id);
 		}
 }
 
@@ -129,12 +136,9 @@ buyShares = function(value){
 	var conf = confirm("You are purchasing "+value+" ether worth of shares");
 	if(conf){
 		web3.eth.defaultAccount = web3.eth.accounts[0];
-		if(CM.ICO_enabled()){
-			CM.ICO({value: Number(web3.toWei(value,"ether"))});
-		}
-		else{
+		
 			CM.buy({value:Number( web3.toWei(value,"ether"))});
-	}}
+	}
 }
 
 //shares can be sold after the ICO is finished

@@ -19,9 +19,8 @@ TEM contains an upgradable set of smart contracts:
 
 * A base contract - an unchanging contract which points to the current deployed market contract on the blockchain
 * A market contract - an upgradeable contract that contains the logic of the market
-* A database contract - an upgradeable contract that stores the listings and order
 * A community contract - an upgradeable contract that manages shareholders stake's in the community 
-* Many purchase contracts - each contains the funds for an individual order between a buyer/seller
+* Many purchase contracts - each contains the funds for an individual order between a buyer/seller and data about the sale
 
 
 ### Example Order:
@@ -72,7 +71,7 @@ Shareholders earn the right to vote on proposals, and introduce proposals. Each 
 * Removing listings to clear spam/scammers/objectionable listings
 
 ## Buying
-Browse the current listings on the market. You can see the items for sale, read descriptions, and view some stats on each listing which serve to authenticate the seller.
+Browse the current listings on the market. You can see the items for sale, read descriptions, see buyer feedback, and view some stats on each listing which serve to authenticate the seller.
 
 When you are ready to create a purchase, you send payment to the listing and your ENCRYPTED mailing address. It is VERY IMPORTANT that you encrypt your mailing address with the sellers public key before you submit your transaction or else your address will be public and broadcast to the whole world!
 

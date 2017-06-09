@@ -4,23 +4,24 @@ import "Market.sol";
 contract Community{
 
 	/* The Eternal Address of the Market */
-    address public eternalAddress = '0x06eCea90E03cA3474c5626837918253eEc96F5d0';
+    address eternalAddress;
 
 	/* Contract variables */
 
     mapping (address => uint256) public shares;				// array representing the shares an address owns
+    enum Propose { none, removeListing, changeMarket, changeCommunity }
     uint public sharesOutstanding;							// number of outstanding shares
 	Proposal[] public proposals;							// list of proposals
 	uint timeCreated;										// time and date this contract was created
 	uint public offeringPrice;								// initial offering price for a share
-	address  wizard;										// instantiator of the community
+	address wizard;										    // instantiator of the community
 	bool public ICO_enabled;								// Is the initial coin offering active?
 	uint public proposalWaitTime = 1 days;					// How long does a proposal have to be executed?
 	
 	
 	/* A proposal can be voted on by any shareholder*/
 	struct Proposal {
-		uint action;     		// Possible codes are: 1 change market, 2 change database, 3 change community, 4 remove listing 
+		Propose action;     	// Proposed action 
 		uint timeCreated;		// time of creation
 		string reason;			// reason for the proposal
 		address newAdd;			// used to set a new address for the database, market, or community
@@ -39,13 +40,18 @@ contract Community{
 	// Makes sure we do not go out of bounds when checking a proposal ID
 	modifier onlyValidProposals(uint proposalID) {
 	
-		if(proposalID<0 || proposalID>=proposals.length){ throw; }
+		if(proposalID<1 || proposalID>=proposals.length){ throw; }
 		_;
 	}
 	
 	
 	event Transfer(address from, address to, uint256 value);
 	event Action(string action);
+	
+	function Community(address _eternal){
+	    eternalAddress = _eternal;
+	
+	}
 	
 /* Initializes contract with initial supply tokens to the instantiator of the contract */
 function Community() {  
@@ -75,20 +81,14 @@ function getProposalsLength() constant returns (uint){
     function sharePrice() constant returns (uint){
     	return (this.balance/sharesOutstanding);
     }
-    
-    
-function getProposal(uint id) constant returns(uint, uint, string, address, uint, bool){
-		Proposal p = proposals[id];
-		return(p.action,p.timeCreated,p.reason,p.newAdd,p.listing_id,p.executed);
+  
+	function hasVotedOn(uint id) constant onlyValidProposals(id) returns (bool){
+		return	proposals[id].voted[msg.sender];
 	}
 
-	function hasVotedOn(uint propID) constant onlyValidProposals(propID) returns (bool){
-		return	proposals[propID].voted[msg.sender];
-	}
-
-function currentVotingResults(uint propID) constant onlyValidProposals(propID) returns (uint,uint){
+function currentVotingResults(uint id) constant onlyValidProposals(id) returns (uint,uint){
 	uint yesVotes = 0;
-	Proposal p = proposals[propID];	
+	Proposal p = proposals[id];	
 	
 	uint voteLen = p.votes.length;
 	for(uint i = 0;i<voteLen;i++){
@@ -99,21 +99,10 @@ function currentVotingResults(uint propID) constant onlyValidProposals(propID) r
 	
 }
 
-/* Buying and Selling Shares 
-	Anyone may purchase shares in the market. During the ICO share pricecs are fixed,
-	after the ICO period has ended share prices are free-floating. */
+/* Buying and Selling Shares */
 
 
-	/* Initial Coin Offering allows purchase of shares at a fixed price */
-    function ICO() payable returns (uint){
-    if(!ICO_enabled){throw;}
-    uint amount = msg.value / offeringPrice;          // calculates the amount
-    sharesOutstanding += amount;                      // adds the number of shares created
-    shares[msg.sender] += amount;                     // adds the amount to buyer's balance
-    Transfer(this, msg.sender, amount);               // execute an event reflecting the change
-    return amount;                                    // ends function and returns
-}
-    
+	
  
     /* Transfer your shares to another address */
     function transferShares(address _to, uint256 _value) {
@@ -126,11 +115,18 @@ function currentVotingResults(uint propID) constant onlyValidProposals(propID) r
        
        /* Shares may be purchased at the market price after ICO has ended.
           A 1% fee on purchases is levied against buyers as compensation for
-          share dilution. */
+          share dilution. Shares purchased during the ICO are issued at a fixed
+          price and not subjected to any purchase fee*/
 function buy() payable returns (uint){
-    if(ICO_enabled){throw;}
-    uint amount = msg.value / sharePrice();           // Number of shares to be purchased
-    amount = (amount*99)/100;					      // 1% purchase fee (as a reduction of shares transferred)
+    uint amount;
+    if(ICO_enabled){
+        amount = msg.value/offeringPrice;             //ICO price is fixed
+    }
+    else{
+        amount = msg.value / sharePrice();           // Normal purchase is floating market rate
+        amount = (amount*99)/100;					 // 1% purchase fee (as a reduction of shares transferred)
+    }
+    
     sharesOutstanding += amount;                      // increments the number of shares outstanding
     shares[msg.sender] += amount;                     // assigns the shares to the buyer
     Transfer(this, msg.sender, amount);               // execute an event reflecting the change
@@ -140,12 +136,12 @@ function buy() payable returns (uint){
 /* Shares may be sold at the market price after ICO has ended. No fees are charged,
 	the seller will always recieve market value for their shares */
 function sell(uint amount) returns (uint revenue){
-	if(ICO_enabled){throw;}
-	if (shares[msg.sender] < amount ){ throw;}       // checks if the sender has enough to sell
-    shares[msg.sender] -= amount;                    // subtracts the amount from seller's balance
-    sharesOutstanding -= amount;                     // removes the shares from circulation
-    revenue = (amount * this.balance)/(sharesOutstanding+amount); //Exact market value of their shares prior to decrement
-    if (!msg.sender.send(revenue)) {                 // then ether to the seller: Last functions prevent recursion attacks
+	if(ICO_enabled){throw;}                                         // No selling during ICO period allowed
+	if (shares[msg.sender] < amount ){ throw;}                      // checks if the sender has enough to sell
+    shares[msg.sender] -= amount;                                   // subtracts the amount from seller's balance
+    sharesOutstanding -= amount;                                    // removes the shares from circulation
+    revenue = (amount * this.balance)/(sharesOutstanding+amount);   //Exact market value of their shares prior to decrement
+    if (!msg.sender.send(revenue)) {                                // then ether to the seller: Last functions prevent recursion attacks
         throw;                                       
     } else {
         Transfer(msg.sender, this, amount);          
@@ -155,20 +151,14 @@ function sell(uint amount) returns (uint revenue){
 
 /* Shareholder Functions */
 
-/* Collects profits from the market @contract_address and which transfers them to the community,
-	increasing the value of each share */
-function collectProfits(address contract_address) onlyShareholders{
-    	Market m = Market(contract_address);
-    	m.getProfits();
-    }
     
 /* Any member can propose to remove a listing. Only the instantiator can propose a shift in addresses */
 function propose(uint action, string reason, address newAdd, uint listing) onlyShareholders{
-    if(action<1||action>4){throw;}					//Only valid proposal actions are allowed
-    if(action!=4 && msg.sender!=wizard){throw;}		//Only the instantiator can propose to change the contract addresses
+    if(action<1||action>3){throw;}					//Only valid proposal actions are allowed
+    if(action == 1 && msg.sender!=wizard ){throw;}		//Only the instantiator can propose to change the addresses of the market
 	uint id = proposals.length++;
 	Proposal p = proposals[id];
-	p.action=action;
+	p.action=Propose(action);
 	p.timeCreated=now;
 	p.reason = reason;
 	p.newAdd= newAdd;
@@ -200,14 +190,17 @@ function executeProposal(uint propID) onlyValidProposals(propID) returns (bool){
 	if (yesVotes>=(sharesOutstanding/2)){					//executes proposal if 50%> outstanding shares voted yes
 		
 		Base b = Base(eternalAddress);
-	
-		if      (p.action==1){ b.changeMarketAddress(p.newAdd); }
-		else if (p.action==2){ b.changeDatabaseAddress(p.newAdd);}
-		else if (p.action==3){ b.changeCommunityAddress(p.newAdd);}
-		else if (p.action==4){
-		address market_address = b.market();
-		Market m = Market(market_address);
-		m.removeListing(p.listing_id);
+		
+		if (p.action == Propose.removeListing){
+		    
+    		address market_address = b.market();
+		    Market m = Market(market_address);
+		    m.removeListing(p.listing_id);}
+		
+		else if(p.action==Propose.changeMarket){ 
+		    b.changeMarketAddress(p.newAdd); }
+		else if (p.action==Propose.changeCommunity){ 
+		    b.changeCommunityAddress(p.newAdd);
 		}
 	return true;
 	}

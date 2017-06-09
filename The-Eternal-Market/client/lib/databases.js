@@ -2,13 +2,16 @@
 loadSellerOrders = function(){
 OrdersDB._collection.remove({});
 
-	var num_orders = EM.nextOrderID();
+	var num_orders = EM.nextFreeOrderID();
+   
       
         for(i=1;i<num_orders; i++) {
-			var r = DB.getOrder(i);
-			//only load orders sold by the seller. only load orders which are not completed, disputed, or aborted
-        if(r[1]==web3.eth.accounts[0] && Number(r[5])<=1){
-			var temp = {buyer : r[0] ,seller : r[1] ,shippingAddress : r[2] ,contractAddress : r[3] ,listingID : Number(r[4]) ,orderStatus : Number(r[5]) ,timeListed : r[6]*1000, title : ListingsDB.findOne({listingID : Number(r[4])}).title, price : Number(web3.fromWei(web3.eth.getBalance(r[3]), "ether")), orderID : i };
+			var orderAddress = EM.getOrder(i);
+			var order = order_contract.at(orderAddress)
+				//only load orders sold by the seller. only load orders which are not completed, disputed, or aborted
+        console.log(order);
+        if(order.seller()==web3.eth.accounts[0] && Number(order.state())<2){
+			var temp = {buyer : order.buyer() ,seller : order.seller() ,shippingAddress : order.shippingAddress() ,contractAddress : orderAddress ,listingID : Number(order.listingID()) ,orderStatus : Number(order.state()) ,timeListed : order.creationTime()*1000, title : ListingsDB.findOne({listingID : Number(order.listingID())}).title, price : Number(web3.fromWei(web3.eth.getBalance(orderAddress), "ether")), orderID : i };
 			OrdersDB._collection.insert(temp);
 }}
 }
@@ -16,18 +19,14 @@ OrdersDB._collection.remove({});
 loadActiveListings = function(){
 ListingsDB._collection.remove({});
 
-var num_listings = Number(EM.nextListingID());
-
-//seller,title,listingDescription,publicKey,price,timeListed,salesSuccessful,salesDisputed,lastsuccessfulSale,enabled
-    
+var num_listings = Number(EM.nextFreeListingID());
     	for(i=1;i<num_listings; i++) {
-    	     var r = DB.getListing(i);
-    	     if(r[9]==true){
-	     	 var successRate = Math.round(Number(r[6])*100/(Number(r[6])+Number(r[7])))+'%';
-	     	 var date_last_sucess;
-    	     if(r[6]==0){ date_last_sucess = 'NaN';} else { date_last_sucess = new Date(r[8]*1000).toISOString().slice(0, 10);}
-    	     var time_created= new Date(r[5]*1000).toISOString().slice(0,10);
-             var temp = {seller : r[0] , title : r[1] , listingDescription : r[2] , publicKey : r[3],price : Number(r[4]), timeListed : time_created,salesSuccessful : Number(r[6]),salesDisputed : Number(r[7]),lastsuccessfulSale : date_last_sucess,enabled : r[9],successRate : successRate, listingID : i};
+    	     var r = EM.getListing(i);
+    	     if(r[6]==true){
+    	     var stats = EM.getStats(i); //(successes, disputes, abortions)
+	     	 var successRate = Math.round(Number(stats[0])*100/(Number(stats[0])+Number(stats[1])))+'%';
+	     	 var time_created= new Date(r[5]*1000).toISOString().slice(0,10);
+             var temp = {seller : r[0] , title : r[1] , listingDescription : r[2] , publicKey : r[3],price : Number(r[4]), timeListed : time_created, enabled : r[6], salesSuccessful : Number(stats[0]),salesDisputed : Number(stats[1]),abortedOrders : Number(stats[2]), enabled : r[9],successRate : successRate, listingID : i};
 
     	     ListingsDB._collection.insert(temp);
     	   }
@@ -39,16 +38,18 @@ var num_listings = Number(EM.nextListingID());
 loadBuyerOrders = function(){
 OrdersDB._collection.remove({});
 
-	var num_orders = EM.nextOrderID();
+	var num_orders = EM.nextFreeOrderID();
+   
       
         for(i=1;i<num_orders; i++) {
-			var r = DB.getOrder(i);
-			//only load pending orders the buyer was involved in
-			if( r[0] == web3.eth.accounts[0] && Number(r[5])<=1){
-			var temp = {buyer : r[0] ,seller : r[1] ,shippingAddress : r[2] ,contractAddress : r[3] ,listingID : Number(r[4]) ,orderStatus : Number(r[5]) ,timeListed : r[6]*1000, title : ListingsDB.findOne({listingID : Number(r[4])}).title, price : Number(web3.fromWei(web3.eth.getBalance(r[3]), "ether")), orderID : i  };
+			var orderAddress = EM.getOrder(i);
+			var order = order_contract.at(orderAddress)
+				//only load orders purchased by the current addresss. only load orders which are not completed, disputed, or aborted
+        
+        if(order.buyer()==web3.eth.accounts[0] && Number(order.state())<2){
+			var temp = {buyer : order.buyer() ,seller : order.seller() ,shippingAddress : order.shippingAddress() ,contractAddress : orderAddress ,listingID : Number(order.listingID()) ,orderStatus : Number(order.state()) ,timeListed : order.creationTime()*1000, title : ListingsDB.findOne({listingID : Number(order.listingID())}).title, price : Number(web3.fromWei(web3.eth.getBalance(orderAddress), "ether")), orderID : i };
 			OrdersDB._collection.insert(temp);
-}
-}
+}}
 }
 
 loadProposals = function(){
