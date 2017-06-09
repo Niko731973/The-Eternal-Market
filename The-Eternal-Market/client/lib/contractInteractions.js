@@ -103,7 +103,7 @@ removeListing = function removeListing(id){
 getVotingResults = function(id){
 var results = CM.currentVotingResults(id);
 var yes = Number(results[0]);
-var oustanding = Number(results[1]);
+var outstanding = Number(results[1]);
 if(yes==0){ return 0;}
 return yes/outstanding;
 }

@@ -19,16 +19,16 @@ Router.route('/community',{
 
 Router.route('/buy',{ 
 	loadingTemplage: 'loading',
-	waitOn: function () {loadActiveListings();},
+	waitOn: function () {loadAllListings();},
 	action: function(){ this.render('buy'); },
-	data : function () {return ListingsDB.find().fetch();}
+	data : function () {return ListingsDB.find({enabled : true}).fetch();}
 });
 
 
 
 Router.route('/sell', { 
 	loadingTemplage: 'loading',
-	waitOn: function () {loadActiveListings(); loadSellerOrders();},
+	waitOn: function () {loadAllListings(); loadSellerOrders();},
     action: function(){ this.render('sell'); },
     data : function () {return OrdersDB.find().fetch();}
 });
@@ -49,8 +49,10 @@ Router.route('/createListing', function () {
 });
 
 Router.route('/listing', {
-    template: 'listing',
-	data : function () {
+loadingTemplate :'loading',
+waitOn: function() {feedbackScraper(Number(this.params.query.id));},
+action: function() { this.render('listing');},
+data : function () {
   		var id = this.params.query.id;
   		return ListingsDB.findOne({listingID : Number(id)});}
 });

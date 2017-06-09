@@ -4,14 +4,15 @@ import "Market.sol";
 contract Community{
 
 	/* The Eternal Address of the Market */
-    address eternalAddress;
+    address eternalAddress = '0xc44De66FD9A8232B00009051dbc37e22045E683e';
 
 	/* Contract variables */
 
     mapping (address => uint256) public shares;				// array representing the shares an address owns
     enum Propose { none, removeListing, changeMarket, changeCommunity }
     uint public sharesOutstanding;							// number of outstanding shares
-	Proposal[] public proposals;							// list of proposals
+	mapping( uint => Proposal) public proposals;			// list of proposal
+	uint public nextFreeProposalID = 1;						// 
 	uint timeCreated;										// time and date this contract was created
 	uint public offeringPrice;								// initial offering price for a share
 	address wizard;										    // instantiator of the community
@@ -40,7 +41,7 @@ contract Community{
 	// Makes sure we do not go out of bounds when checking a proposal ID
 	modifier onlyValidProposals(uint proposalID) {
 	
-		if(proposalID<1 || proposalID>=proposals.length){ throw; }
+		if(proposalID<1 || proposalID>=nextFreeProposalID){ throw; }
 		_;
 	}
 	
@@ -50,22 +51,18 @@ contract Community{
 	
 	
 /* Initializes contract with initial supply tokens to the instantiator of the contract */
-function Community(address _eternal) {  
+function Community() {  
     wizard = msg.sender;
     shares[wizard] = 2500;        
     sharesOutstanding = 2500;
     offeringPrice = (1 ether)/5;
     ICO_enabled = true;
-	eternalAddress = _eternal;
 	
 	
 }
 
 /* Constant Functions */
 
-function getProposalsLength() constant returns (uint){
-		return proposals.length;
-	}
 
 	function isShareholder(address _address) constant returns (bool){
 		if(shares[_address]>0){ return true; }
@@ -140,12 +137,9 @@ function sell(uint amount) returns (uint revenue){
     shares[msg.sender] -= amount;                                   // subtracts the amount from seller's balance
     sharesOutstanding -= amount;                                    // removes the shares from circulation
     revenue = (amount * this.balance)/(sharesOutstanding+amount);   //Exact market value of their shares prior to decrement
-    if (!msg.sender.send(revenue)) {                                // then ether to the seller: Last functions prevent recursion attacks
-        throw;                                       
-    } else {
-        Transfer(msg.sender, this, amount);          
+    msg.sender.transfer(revenue);          
         return revenue;                              
-    }
+    
 }
 
 /* Shareholder Functions */
@@ -155,24 +149,25 @@ function sell(uint amount) returns (uint revenue){
 function propose(uint action, string reason, address newAdd, uint listing) onlyShareholders{
     if(action<1||action>3){throw;}					//Only valid proposal actions are allowed
     if(action > 1 && msg.sender!=wizard ){throw;}		//Only the instantiator can propose to change the addresses of the market
-	uint id = proposals.length++;
+	uint id = nextFreeProposalID++;
 	Proposal p = proposals[id];
 	p.action=Propose(action);
 	p.timeCreated=now;
 	p.reason = reason;
 	p.newAdd= newAdd;
 	p.listing_id = listing;
+	p.voted[msg.sender] = true;
+	p.votes.push(msg.sender);
 	
 }
 
 /* Votes Yes for the proposal @propID */
-function voteYes(uint propID) onlyShareholders{
+function voteYes(uint propID) onlyValidProposals( propID) onlyShareholders{
 	Proposal p = proposals[propID];
 	if(now> (p.timeCreated+( proposalWaitTime)) || p.executed){throw;}	//Can only vote on proposals within the allowed period which are not already executed
 	if(p.voted[msg.sender]){throw;}										//Can not vote more than once
 	p.voted[msg.sender] = true;
-	p.votes.length++;
-	p.votes[p.votes.length-1]=msg.sender;								//Add this addresses to the voted array
+	p.votes.push(msg.sender);								//Add this addresses to the voted array
 }
 
 /* Tallies the votes for a propsal and executes it if at least 50% of outstanding shares voted yes */

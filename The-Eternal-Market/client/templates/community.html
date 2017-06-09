@@ -4,10 +4,7 @@
     {{#unless isShareholder}}
     To vote on a proposal you must be a shareholder. 
     {{/unless}}
-    <h3>Proposals:</h3><br>
     
-    	{{> reactiveTable class="table table-hover table-bordered" collection=proposals_table settings = proposalTableSettings}}
-	<br>
     <h3>Your Holdings</h3>
     {{#if isShareholder}}
     {{shares}} shares @ {{shareSellPrice}} ether/share <br>
@@ -40,5 +37,8 @@
     </td>
     </tr>
     </table>
+<h3>Proposals:</h3><br>
     
+    	{{> reactiveTable class="table table-hover table-bordered" collection=proposals_table settings = proposalTableSettings}}
+	<br>    
 </template>

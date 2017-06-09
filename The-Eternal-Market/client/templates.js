@@ -9,7 +9,7 @@ Template.buy.helpers({
 
 Template.proposalApprovalProgress.helpers({
 percentage : function(){var results = getVotingResults(this.id);
-
+if(results>=.5){ return "100%"};
 return Math.round(results*10000)/100+"%";}
 
 });
@@ -59,7 +59,8 @@ Template.listing.helpers({
     showRemoveListingButton : function () {
     	return (web3.eth.accounts[0]== this.seller) || ( is_bad_seller(this.listingID) ); },
     convertPrice : function() { return web3.fromWei(this.price,"ether");  },
-    userIsShareholder : function() {return CM.isShareholder(web3.eth.accounts[0]);}
+    userIsShareholder : function() {return CM.isShareholder(web3.eth.accounts[0]);},
+    feedback : function () { return FeedbackDB.find().fetch();}
 });
 
 Template.date.helpers({

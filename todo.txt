@@ -1,7 +1,10 @@
 compile and deploy all contracts
-fix proposals voting percentage contract/app functions 
-fix tables for proposals and buying/selling to update stats
-add feedback to listings (box in table)
+getstats not working (state equvilancy check? reading order correctly?)
+execute proposal not working (market throw check ?. changes to base addresses working fine)
+confirm delivery/dispute not working. mist does not support pop-up input windows
+
+fix table layout for proposals and buying/selling table headers to get stats showing
+finalize feedback table in listing page using each (successful/disputed,feedback, time)
 add callbacks for confirmation of transactions
 test abortion/dispute feature
 
