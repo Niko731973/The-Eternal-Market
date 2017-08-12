@@ -2,34 +2,29 @@ pragma solidity ^0.4.2;
 
 contract Base{
 
-    address public market;          // Current location of the market contract
-	address public community;       // Current location of the community contract
-	address wizard;                 // Instantiator of TEM
-	bool firstTimeSetup;            // Used to setup TEM
+    address public market;          	// Current location of the market contract
+    address public owner;           	// Instantiator of TEM
+    string public message;		// displays a message
 	
 	function Base(){
-	    firstTimeSetup = true;
-	    wizard = msg.sender;
+	    owner = msg.sender;
 	}
 	
     function changeMarketAddress(address _market) {
-    if(msg.sender!=community){throw;}
-    market = _market;
+        require(msg.sender==owner);
+        market = _market;
     }
     
-    function changeCommunityAddress(address _community) {
-    if(msg.sender!=community){throw;}
-    	community = _community;
+    function changeMessage(string _message){
+        require(msg.sender==owner);
+        message = _message;
     }
     
-    function setUp(address _m, address _c){
-    	if(!firstTimeSetup){throw;}
-    	if(msg.sender!=wizard){throw;}
-    	firstTimeSetup = false;
-    	
-    	market = _m;
-    	community = _c;
+    function changeOwner(address _owner){
+        require(msg.sender==owner);
+        owner=_owner;
     }
+    
     
     
 }
