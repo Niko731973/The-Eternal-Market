@@ -6,7 +6,7 @@ decentralized & anonymous online marketplace
 
 ## About
 
-The Eternal Market (TEM) is a distributed application (DAPP) that allows anyone with ethereum blockchain access to buy or sell anonymously. It requires no login, only a valid Ethereum address. Being a distributed application, TEM is not stored on any server and cannot be shut down. Funds for each order are locked in contracts between the buyer and seller, there is no central wallet to manage orders which is susceptible to attack. TEM allows users located in oppressive regiems to trade banned goods and services freely. A teacher in an Afghani girl's school could use TEM to purchase books to through a mail-order service, or a company in the UK could sell VPN software to citizens of China to circumvent their censorship. 
+The Eternal Market (TEM) is a distributed application (DAPP) that allows anyone with ethereum blockchain access to buy or sell anonymously. It requires no login, only a valid Ethereum address. Being a distributed application, TEM is not stored on any server and cannot be shut down. Funds for each order are locked in contracts between the buyer and seller, there is no central wallet to manage orders which is susceptible to attack. TEM allows users located in oppressive regimes to trade banned goods and services freely. A teacher in an Afghani girl's school could use TEM to purchase books to through a mail-order service, or a company in the UK could sell VPN software to citizens of China to circumvent their censorship. 
 
 Once a listing is posted, there are only two ways it can be removed:
 * If the ratio of failed/successful sales is too high
@@ -20,7 +20,7 @@ TEM contains an upgradable set of smart contracts:
 
 
 ### Example Order:
-Alice wants to purchase a widget from Bob, who has listed widgets on TEM. Alice connects her Etereum address to TEM and navigates to the listing page for Bob's widgets. Using Bob's public key on the page, Alice encrypts her shipping address and submits an order to Bob. The ether for the purchase is stored in a secure contract only Alice/Bob have access to. Bob will not receive his ether until Alice has confirmed that she has received the wiget.
+Alice wants to purchase a widget from Bob, who has listed widgets on TEM. Alice connects her Etereum address to TEM and navigates to the listing page for Bob's widgets. Using Bob's public key on the page, Alice encrypts her shipping address and submits an order to Bob. The ether for the purchase is stored in a secure contract only Alice/Bob have access to. Bob will not receive his ether until Alice has confirmed that she has received the widget.
 
 When Bob receives the order he decrypts Alices address using his private key, and ships the widget to Alice. When Alice receives the widget, she confirms delivery and the funds are sent to Bob.
 
@@ -33,13 +33,13 @@ If Bob runs out of widgets to sell, he can remove his listing from TEM. If he ru
 Sellers have three days to confirm shipment of their items. If they have not shipped by the third day, the Buyer can cancel their order and receive a full refund.
 
 ### Disputing an Order:
-In the event that a Seller fails to provide their good or service after confirming shipment, the buyer can (after 3 weeks) choose to dispute the order. If an order is disputed, the seller will not recieve any funds from the purchase. Right now ether for disputed orders is recycled into the market. Later, an arbitration system may be added to partition the funds in other ways.
+In the event that a Seller fails to provide their good or service after confirming shipment, the buyer can (after 3 weeks) choose to dispute the order. If an order is disputed, the seller will not receive any funds from the purchase. Right now ether for disputed orders is recycled into the market. Later, an arbitration system may be added to partition the funds in other ways.
 
-Buyers should never confirm recipt of an order unless you have actually recieved it! Do not release funds early under any circumstances! Doing so undermines the rating and feedback system built into TEM.
+Buyers should never confirm receipt of an order unless you have actually received it! Do not release funds early under any circumstances! Doing so undermines the rating and feedback system built into TEM.
 
 
 ### Incapacitated Parties:
-In the event that the Buyer of a listing becomes incapacitated and cannot release the funds of a confirmed order, the contract which contains the order's fund has a "deadman's switch" to recover the funds and pay the Seller. This can only be triggered after the contract has been stagnant for 12 weeks. Disputed orders cannot use the deadman's switch. If a buyer has not recieved their order by the 11th week, the buyer should dispute the order and prevent the seller from fradulently obtaining funds.
+In the event that the Buyer of a listing becomes incapacitated and cannot release the funds of a confirmed order, the contract which contains the order's fund has a "deadman's switch" to recover the funds and pay the Seller. This can only be triggered after the contract has been stagnant for 12 weeks. Disputed orders cannot use the deadman's switch. If a buyer has not received their order by the 11th week, the buyer should dispute the order and prevent the seller from fraudulently obtaining funds.
 
 ### Keeping the Market Running Smoothly:
 The number of successful and disputed sales for each listing on TEM is tracked in the database. Listings which have a bad ratio of disputed/successful sales can be removed by any Ethereum user. Since the community self-curates the listings on TEM, any malicious sellers will quickly be weeded out.
@@ -57,7 +57,7 @@ Coming Soon...
 * Improved front-end GUI
 * ios/android apps
 * fixed USD prices for listings
-* ether mixing service
+* ether mixing service 
 
 ## Installing
 
