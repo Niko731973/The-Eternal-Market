@@ -8,3 +8,6 @@ finalize feedback table in listing page using each (successful/disputed,feedback
 add callbacks for confirmation of transactions
 test abortion/dispute feature
 
+https://codepen.io/pshrmn/pen/YZXZqM
+
+http://truffleframework.com/tutorials/pet-shop
