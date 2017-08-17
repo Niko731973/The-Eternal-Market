@@ -1,0 +1,10 @@
+dependenc:
+npm install -g truffle // Version 3.0.5+ required.
+npm install -g ethereumjs-testrpc
+ 
+
+
+cd to truffle
+truffle compile
+truffle migrate
+npm run start

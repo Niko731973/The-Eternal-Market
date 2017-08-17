@@ -108,9 +108,6 @@ contract Market {
         //buyer can only order if they sent enough funds
         require(msg.value >= listings[_id].price);	
 		
-        //create a purchase contract for the order. keep the fee, transfer the rest of the payment to the contract
-        address orderAddress = (new Purchase).value(msg.value-fee)(this);
-        
         //add the order to the orders database
         nextFreeOrderID++;
         uint i = nextFreeOrderID-1;
@@ -120,6 +117,11 @@ contract Market {
         orders[i].listingID = _id;
         orders[i].shippingDetails = shippingAddress;
         orders[i].timeTracker = now;
+        
+        
+        //create a purchase contract for the order. keep the fee, transfer the rest of the payment to the contract
+        address orderAddress = (new Purchase).value(msg.value-fee)(this);
+        
         
         return true;
         
@@ -234,11 +236,13 @@ contract Market {
     }
     
     //internal method, used to send money to the buyer or seller from each order's contract
-    function sendOrderFunds(uint id, address dest) private {
+    function sendOrderFunds(uint id, address dest) private returns(bool){
     	//calls the sendFunds method of the Order contract for order *id, and sends the
     	//contracts funds to *dest
     	
-    	
+    	        Purchase orderContract = Purchase(orders[id].contractAddress);
+    	        orderContract.sendFunds(dest);
+    	        return true;
     	
     }
  

@@ -1,0 +1,14 @@
+create listing
+non owner try to delete listing
+owner try to delte listing
+create listing
+order price too low
+order price ok
+abort
+order
+confirm
+delivered
+order-ship-dispute
+update price
+non owner try to delete
+create listing
