@@ -5,6 +5,7 @@ npm install -g ethereumjs-testrpc
 
 
 cd to truffle
-truffle compile
-truffle migrate
-npm run start
+cd to contracts / truffle compile
+new cmd - testrpc
+cd to migrations / truffle migrate
+cd to root / npm run start
