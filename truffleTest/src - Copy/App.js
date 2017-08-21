@@ -7,8 +7,6 @@ import LoginButtonContainer from './user/ui/loginbutton/LoginButtonContainer'
 import LogoutButtonContainer from './user/ui/logoutbutton/LogoutButtonContainer'
 
 // Styles
-import './css/oswald.css'
-import './css/open-sans.css'
 import './css/pure-min.css'
 import './App.css'
 

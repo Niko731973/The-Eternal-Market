@@ -12,15 +12,17 @@ contract Market {
     uint public nextFreeOrderID = 1;       			//the next free order ID availible
     mapping (uint => Listing) public listings;		// mapping of listings
     mapping (uint => Order) public orders;			// mapping of orders
+    mapping (address=> string) public publicKeys;	// mapping of users public keys
+    mapping (address=> string) public userDescription; // mapping of users descriptions
     address public owner;							// the owner address of the market
+
 
     /* Listing Structure */
     struct Listing {
     
         address seller;						// ether address of the seller 
         string title;						// listing title
-        string listingDescription;			// sellers description of the listing. may include links to images, other info.
-        string publicKey;					//public key of the seller used to encrypt shipping addresses for orders
+        string description;     			// sellers description of the listing. may include links to images, other info.
         uint price;							//price in wei of the listing
         uint timeListed;					// date and time the listing was created
         bool enabled;						// is the listing active or not
@@ -83,6 +85,24 @@ contract Market {
         return listing_bad_rate>=bad_seller_threshold;
     }
     
+    
+    /* General User Functions*/
+    
+    /* User can change their public key */
+    function setUserPublicKey (string _publicKey) returns(bool){
+        publicKeys[msg.sender] = _publicKey;
+        return true;
+        
+    }
+    
+    /* User can provide some basic info about themselves */
+    function setUserDescription (string _desc) returns(bool){
+        userDescription[msg.sender] = _desc;
+        return true;
+        
+    }
+    
+    
     /* Seller and Buyer Functions */
     
     /* Seller creates a new listing using this function */
@@ -93,7 +113,7 @@ contract Market {
         
         //add the new listing to our database
         nextFreeListingID++;
-        listings[nextFreeListingID-1] = Listing(msg.sender,_title,_description,_publicKey,_price,now,true,0,0,0);
+        listings[nextFreeListingID-1] = Listing(msg.sender,_title,_description,_price,now,true,0,0,0);
         return true;
     }
     
@@ -144,7 +164,7 @@ contract Market {
      }
      
      /* Seller can change the price of a listing */
-     function changePrice(uint id, uint newPrice) payable onlyValidListings(id) returns (bool){
+     function changeListingPrice(uint id, uint newPrice) payable onlyValidListings(id) returns (bool){
      
      	// a seller can change the price of their listing at any time to compensate for changes in 
      	// the value of ether. there is no fee to reduce the price of a listing. if a seller increases
@@ -161,7 +181,15 @@ contract Market {
      		return true;
      }
     
-    
+    /* Seller can change the description of a listing */
+     function changeListingDescription(uint id, string newDescription) onlyValidListings(id) returns (bool){
+     
+     		require(msg.sender == listings[id].seller);
+	    	require(listings[id].enabled);
+     		listings[id].description = newDescription;
+     		return true;
+     }
+     
     
     /* Functions used to execute transactions */
     

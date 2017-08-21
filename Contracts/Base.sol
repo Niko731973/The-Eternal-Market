@@ -4,7 +4,7 @@ contract Base{
 
     address public market;          	// Current location of the market contract
     address public owner;           	// Instantiator of TEM
-    string public message;		// displays a message
+    string public message;				// displays a message
 	
 	function Base(){
 	    owner = msg.sender;
