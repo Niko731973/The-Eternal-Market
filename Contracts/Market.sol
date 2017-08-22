@@ -35,9 +35,9 @@ contract Market {
     
     struct Order {
     
-	    address seller;
-	    address buyer;
-	    uint listingID;
+	    address seller;					// ether address of the seller
+	    address buyer;					// ether address of the buyer
+	    uint listingID;					// id of the listing the order was created from
 	    string shippingDetails;			// the shipping address of the buyer, encrypted with the sellers public key
 	    uint timeTracker;   			// time the contract was created. if the order has been finished this shows the time feedback was issued instead
 	    uint state;         		    // 0 unconfirmed, 1 shipped, 2 successful, 3 disputed, 4 aborted, 5 deadman activated
