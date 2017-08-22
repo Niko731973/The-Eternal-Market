@@ -14,7 +14,7 @@ import Buy from './layouts/buy/Buy'
 import Sell from './layouts/sell/Sell'
 import SignUp from './user/layouts/signup/SignUp'
 import Profile from './user/layouts/profile/Profile'
-import './util/datatables/jquery.dataTables.min'
+
 
 // Redux Store
 import store from './store'
