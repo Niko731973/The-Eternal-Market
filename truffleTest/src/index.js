@@ -4,7 +4,6 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
 import { syncHistoryWithStore } from 'react-router-redux'
 import getWeb3 from './util/web3/getWeb3'
-import * as database from './util/database.js';
 
 // Layouts
 import App from './App'

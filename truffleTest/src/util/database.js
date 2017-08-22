@@ -40,9 +40,14 @@ return temp;
 
 //returns the short form info for all active listings, used on the buy page
 export function ShortListings(){
-var listingList = {};
-listingList[1] = new Listing("seller"," title"," description"," price"," timeListed"," enabled"," successes"," aborted"," disputed");
-return listingList; 
+var listings = [];
+//for(var i = 1;i<100;i=i++){
+var a = {rating:"rating",price:"price1",title:"title1",successes:"successfulListings"};
+var b = {rating:"rat22ing",price:"pr22ice1",title:"tit22le1",successes:"successfulListings2"};
+listings.push(a);
+listings.push(b);
+//}
+return listings; 
 
 }
 

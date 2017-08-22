@@ -48,8 +48,10 @@
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
+    "ag-grid": "^12.0.2",
     "datatables.net": "^1.10.15",
     "datatables.net-dt": "^1.10.15",
+    "fixed-data-table": "^0.6.4",
     "jquery": "^3.2.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
