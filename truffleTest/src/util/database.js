@@ -1,3 +1,4 @@
+
 var Listing = function(seller, title, description, price, timeListed, enabled, successes, aborted, disputed) {
 
    		 this.seller = seller;						// ether address of the seller 
@@ -25,45 +26,43 @@ var Order = function(seller,buyer,listingID,shippingDetails,timeTracker,state,fe
 
 }
 
-var Listings = {};
-var Orders = {};
-
-
-//gets the details of one listing
-var fetchListing = function(id){
-
-
-}
-
-
-
 //gets the details of one order
-var fetchOrder = function(id){
-
-
-}
-
-//builds a database with all active listings
-var scrapeListings = function(){
+export function fetchOrder(id){
 
 }
 
+//returns all the details of a single listing
+export function GetListing(id){
+var temp = new Listing("seller"," title"," description"," price"," timeListed"," enabled"," successes"," aborted"," disputed");
+return temp; 
 
-//builds the database with all of the user (sellers) active orders
-var getSellerOrders = function(userAddress){
+}
 
-
+//returns the short form info for all active listings, used on the buy page
+export function ShortListings(){
+var listingList = {};
+listingList[1] = new Listing("seller"," title"," description"," price"," timeListed"," enabled"," successes"," aborted"," disputed");
+return listingList; 
 
 }
 
 
-//builds the database with all of the user (buyers) active orders
-var getBuyerOrders = function(buyerAddress){
+//returns the database with all of the user (sellers) active orders
+export function getSellerOrders(userAddress){
+var Orders = {};
+Orders[1] = new Order("seller","buyer","listingID","shippingDetails","timeTracker","state","feedback","stars","contractAddress");
+return Orders;
+}
 
 
+//returns all of the user (buyers) active orders
+export function getBuyerOrders(buyerAddress){
+var Orders = {};
+Orders[1] = new Order("seller","buyer","listingID","shippingDetails","timeTracker","state","feedback","stars","contractAddress");
+return Orders;
 }
 
 //gets the feedback for a single listing
-var getFeedback = function(id){
+export function feedback(id){
 
 }

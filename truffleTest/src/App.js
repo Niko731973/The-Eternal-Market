@@ -4,7 +4,8 @@ import { Link } from 'react-router'
 // Styles
 import './css/pure-min.css'
 import './App.css'
-import './util/datatables/jquery.dataTables.min.css'
+
+
 
 class App extends Component {
   render() {
@@ -17,7 +18,7 @@ class App extends Component {
           <Link to="/sell" className="pure-menu-link">Sell</Link>
         </li>
         <li className="pure-menu-item">
-          <Link to="/" className="pure-menu-link">About</Link>
+          <Link to="/about" className="pure-menu-link">About</Link>
         </li>
       </span>
     )

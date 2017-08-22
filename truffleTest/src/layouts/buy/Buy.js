@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import {ShortListings} from '../../util/database.js'
+import BuyTable from './BuyTable.js'
 
 class Buy extends Component {
   constructor(props, { authData }) {
@@ -12,8 +14,9 @@ class Buy extends Component {
         <div className="pure-g">
           <div className="pure-u-1-1">
             <h1>Buy</h1>
-            <p><table id="buyTable" class="display" width="90%"></table></p>
-          </div>
+            <p>https://medium.com/@zbzzn/integrating-react-and-datatables-not-as-hard-as-advertised-f3364f395dfa</p>
+            <BuyTable names={ShortListings()} />
+            </div>
         </div>
       </main>
     )

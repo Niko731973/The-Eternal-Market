@@ -4,17 +4,16 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
 import { syncHistoryWithStore } from 'react-router-redux'
 import getWeb3 from './util/web3/getWeb3'
-import $ from 'jquery'; 
-
+import * as database from './util/database.js';
 
 // Layouts
 import App from './App'
-import Home from './layouts/home/Home'
+import About from './layouts/about/About'
 import Buy from './layouts/buy/Buy'
 import Sell from './layouts/sell/Sell'
-import SignUp from './user/layouts/signup/SignUp'
-import Profile from './user/layouts/profile/Profile'
-
+import User from './layouts/user/User'
+import Listing from './layouts/listing/Listing'
+import CreateListing from './layouts/createListing/CreateListing'
 
 // Redux Store
 import store from './store'
@@ -35,10 +34,13 @@ ReactDOM.render((
     <Provider store={store}>
       <Router history={history}>
         <Route path="/" component={App}>
-          <IndexRoute component={Home} />
+          <IndexRoute component={Buy} />
+          <Route path="about" component={About} />
           <Route path="buy" component={Buy} />
           <Route path="sell" component={Sell} />
-          <Route path="profile" component={Profile} />
+          <Route path="user" component={User} />
+          <Route path="listing" component={Listing} />
+          <Route path="createListing" component={CreateListing} />
         </Route>
       </Router>
     </Provider>
