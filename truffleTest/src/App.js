@@ -31,9 +31,10 @@ class App extends Component {
             <MenuBarButtons />
           </ul>
         </nav>
-
-        {this.props.children}
+			{this.props.children}
       </div>
+      
+        
     );
   }
 }
