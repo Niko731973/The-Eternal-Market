@@ -1,1 +1,14 @@
+
+add oraclize function, owner can set url of oracle. anyone can request updated price.
+
+add contact info
+add public key
+add category code
+
+automatically filter old unpurchased items, add ability to remove item(s) from clients view
+
+
+
+
+
 install jquery and get datatables running using the test data
