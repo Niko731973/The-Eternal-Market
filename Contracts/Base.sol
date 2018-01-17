@@ -4,7 +4,8 @@ contract Base{
 
     address public market;          	// Current location of the market contract
     address public owner;           	// Instantiator of TEM
-    string public message;				// displays a message
+    string public website;		// IPFS address of app
+    string public message;		// displays a message
 	
 	function Base(){
 	    owner = msg.sender;
@@ -18,6 +19,11 @@ contract Base{
     function changeMessage(string _message){
         require(msg.sender==owner);
         message = _message;
+    }
+    
+    function changeWebsite(string _website){
+        require(msg.sender==owner);
+        website = _website;
     }
     
     function changeOwner(address _owner){
