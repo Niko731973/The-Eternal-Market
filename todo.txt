@@ -1,20 +1,3 @@
-
-add oraclize function, owner can set url of oracle. anyone can request updated price.
-
-add contact info as map from address
-add public key as map from address
-add category code to listing
-no public key in listing
-no shipping details in order
-
-no address contract in order
-
-eth stored in market, not in new contracts
-
 automatically filter old unpurchased items, add ability to remove item(s) from clients view
-
-
-
-
 
 install jquery and get datatables running using the test data
