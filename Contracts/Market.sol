@@ -84,8 +84,7 @@ contract Market {
     function addListing (string _title, string _description, uint _price) public {
         require(wallet[msg.sender]>= _price+listing_fee);
 	wallet[msg.sender]-= _price+listing_fee;
-	
-	require(dai.transfer(owner,listing_fee));
+	wallet[owner]+=listing_fee;
 	
         //add the new listing to our database
         nextFreeListingID++;
@@ -103,7 +102,7 @@ contract Market {
         require(wallet[msg.sender] >= listings[_id].price+order_fee);
         
 	wallet[msg.sender]-= listings[_id].price+order_fee;
-        require(dai.transfer(owner,order_fee));
+        wallet[owner] += order_fee;
         
         //add the order to the orders database
         nextFreeOrderID++;
@@ -213,7 +212,7 @@ contract Market {
     	require(msg.sender==orders[_id].buyer);
     	require(orders[_id].state == 1);
         require(now> (orders[_id].timeTracker+(3 weeks)));
-        require(dai.transfer(owner,orders[_id].price));
+        wallet[owner]+=orders[_id].price;
         orders[_id].state = 3;
         orders[_id].feedback = _feedback;
         orders[_id].timeTracker = now;
@@ -243,6 +242,7 @@ contract Market {
 
     // fallback function to accept token deposits
 	function tokenFallback(address _from, uint _value, bytes _data) public {
+	require(msg.sender==daiAddress);
 	wallet[_from]+=_value;         // funds a given address can spend
 }
 
