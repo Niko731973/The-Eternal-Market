@@ -14,9 +14,9 @@ contract Market {
     mapping (uint => Order) public orders;			 // mapping of orders
     mapping (address=> string) public publicKeys;	 // mapping of users public keys
     mapping (address=> string) public userDescription; // mapping of users descriptions
-    mapping (address=> uint) public wallet;         // funds a given address can withdrawl
     address public owner;							// the owner address of the market
-    address public DAIADDRESS = 0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359;				//address of DAI contract
+    address public daiAddress = 0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359;				//address of DAI contract
+    ERC223 dai = ERC223(daiAddress);
 
     /* Listing Structure */
     struct Listing {
@@ -83,9 +83,7 @@ contract Market {
     function addListing (string _title, string _description, uint _price) public {
         
         //check to see that enough tokens are provided is enough to pay the listing fee.
-        require(wallet[msg.sender] ==_price+listing_fee);
-        wallet[msg.sender]-=_price+listing_fee;
-        wallet[owner]+=listing_fee;
+        require(dai.transfer(this,price) && dai.transfer(owner,listing_fee));
         //add the new listing to our database
         nextFreeListingID++;
         listings[nextFreeListingID-1] = Listing(msg.sender,_title,_description,_price,now,true,0,0,0);
@@ -236,14 +234,12 @@ contract Market {
     function withdraw(uint _value) public {
         require(wallet[msg.sender]>=_value);
         wallet[msg.sender]-=_value;
-	ERC223 dai = ERC223(DAIADDRESS);
 	dai.transfer(msg.sender, _value,"");
         
     }
 
     // fallback function to accept token deposits
 	function tokenFallback(address _from, uint _value, bytes _data) public {
-	wallet[_from]+=_value;
 }
 
     /* Transfers ownership of TEM */
