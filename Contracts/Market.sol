@@ -31,6 +31,7 @@ contract Market {
         uint successes;						// # of successful orders
         uint aborted;						// # of aborted orders
         uint disputed;						// # of disputed orders
+	uint category;						// id of the category of the listing
     }
     
     /* Order Structure */
@@ -81,14 +82,14 @@ contract Market {
     /* Seller and Buyer Functions */
     
     /* Seller creates a new listing using this function */
-    function addListing (string _title, string _description, uint _price) public {
+    function addListing (string _title, string _description, uint _price, uint _category) public {
         require(wallet[msg.sender]>= _price+listing_fee);
 	wallet[msg.sender]-= _price+listing_fee;
 	wallet[owner]+=listing_fee;
 	
         //add the new listing to our database
         nextFreeListingID++;
-        listings[nextFreeListingID-1] = Listing(msg.sender,_title,_description,_price,now,true,0,0,0);
+        listings[nextFreeListingID-1] = Listing(msg.sender,_title,_description,_price,now,true,0,0,0,_category);
         
     }
     
