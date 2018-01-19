@@ -1,5 +1,5 @@
 pragma solidity ^0.4.9;
-import "./ERC223.sol";
+import "./PriceOracle.sol";
 
 contract Market {
     
@@ -17,7 +17,7 @@ contract Market {
     mapping (address=> uint) public wallet;         // funds a given address can withdrawl
     address public owner;							// the owner address of the market
     address public oracleAddress;				//address of price Oracle
-    uint public eth_price;				// price of one eth in usd...? needs to be wei?
+    bytes32 public eth_price;				// price of one eth in usd...? needs to be wei?
     
 
     /* Listing Structure */
@@ -44,6 +44,7 @@ contract Market {
 	    uint listingID;					// id of the listing the order was created from
 	    uint timeTracker;   			// time the contract was created. if the order has been finished this shows the time feedback was issued instead
 	    uint state;         		    // 0 unconfirmed, 1 shipped, 2 successful, 3 disputed, 4 aborted, 5 deadman activated
+        string deliveryInfo;            // encrypted delivery info
 	    string feedback;    			// buyer-submitted feedback on the order
 	    uint stars;						// buyer-submitted 1 through 5 star rating system
 	    uint price;                     // the price (minus fee) for the listing
@@ -66,6 +67,16 @@ contract Market {
         return listing_bad_rate>=bad_seller_threshold;
     }
     
+    // updates the market price 
+    function updatePrice() public {
+        eth_price = PriceOracle(oracleAddress).read();
+    }
+    
+    // Returns the Wei cost for USD (in cents) at the current eth price
+    function toWei(uint usd, bytes32 ethprice) public constant returns(uint){
+        return uint(ethprice)/usd/100;
+    }
+    
     
     /* General User Functions*/
     
@@ -83,10 +94,9 @@ contract Market {
     /* Seller and Buyer Functions */
     
     /* Seller creates a new listing using this function */
-    function addListing (string _title, string _description, uint _price, uint _category) public {
-        require(wallet[msg.sender]>= _price+listing_fee);
-	wallet[msg.sender]-= _price+listing_fee;
-	wallet[owner]+=listing_fee;
+    function addListing (string _title, string _description, uint _price, uint _category) public payable {
+        require(msg.value>=toWei(listing_fee, eth_price));
+	    wallet[owner]+=msg.value;
 	
         //add the new listing to our database
         nextFreeListingID++;
@@ -95,16 +105,18 @@ contract Market {
     }
     
     /* Buyer places a new order with this function */
-    function addOrder (uint _id) public payable{
+    function addOrder (uint _id, string _deliveryInfo) public payable{
     
         require(_id < nextFreeListingID);
         require(listings[_id].enabled);		//the listing for this order must be active
+        bytes32 currentEthPrice = eth_price;
         
         //buyer can only order if they sent enough funds
-        require(wallet[msg.sender] >= listings[_id].price+order_fee);
+        uint orderFeeinWei = toWei(order_fee,currentEthPrice);
+        uint listingPriceinWei = toWei(listings[_id].price, currentEthPrice);
+        require(msg.value >= orderFeeinWei+listingPriceinWei);
         
-	wallet[msg.sender]-= listings[_id].price+order_fee;
-        wallet[owner] += order_fee;
+        wallet[owner] += msg.value-listingPriceinWei;
         
         //add the order to the orders database
         nextFreeOrderID++;
@@ -113,7 +125,8 @@ contract Market {
         orders[i].seller = listings[_id].seller;
         orders[i].listingID = _id;
         orders[i].timeTracker = now;
-        orders[i].price = listings[_id].price;
+        orders[i].price = listingPriceinWei;
+        orders[i].deliveryInfo = _deliveryInfo;
         
      }
     
@@ -233,10 +246,9 @@ contract Market {
     	listing_fee = _new;
     }
     
-    function changeDaiAddress(address _new) public{
+    function changeOracleAddress(address _new) public{
         require(msg.sender==owner);
-        daiAddress = _new;
-        dai = ERC223(daiAddress);
+        oracleAddress = _new;
     }
     
     
@@ -250,14 +262,9 @@ contract Market {
     function withdraw(uint _value) public {
         require(wallet[msg.sender]>=_value);
         wallet[msg.sender]-=_value;
-	    dai.transfer(msg.sender, _value,"");
+	    msg.sender.transfer(_value);
         
     }
 
-    // fallback function to accept token deposits
-	function tokenFallback(address _from, uint _value, bytes _data) public {
-	require(msg.sender==daiAddress);
-	wallet[_from]+=_value;         // funds a given address can spend
-    }
     
 }
