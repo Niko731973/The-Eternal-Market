@@ -17,7 +17,8 @@ contract Market {
     mapping (address=> uint) public wallet;         // funds a given address can withdrawl
     address public owner;							// the owner address of the market
     address public oracleAddress;				//address of price Oracle
-    ERC223 dai;                                  //DAI contract
+    uint public eth_price;				// price of one eth in usd...? needs to be wei?
+    
 
     /* Listing Structure */
     struct Listing {
