@@ -1,12 +1,13 @@
-var Ownable = artifacts.require("./zeppelin/ownership/Ownable.sol");
-var Killable = artifacts.require("./zeppelin/lifecycle/Killable.sol");
-//var Authentication = artifacts.require("./Authentication.sol");
-/*
+var PriceOracle = artifacts.require("PriceOracle");
+var Market = artifacts.require("Market");
+var Base = artifacts.require("Base");
+
 module.exports = function(deployer) {
-  deployer.deploy(Ownable);
-  deployer.link(Ownable, Killable);
-  deployer.deploy(Killable);
-  deployer.link(Killable, Authentication);
-  deployer.deploy(Authentication);
+  deployer.deploy(PriceOracle);
 };
-*/
+module.exports = function(deployer) {
+deployer.deploy(Market);
+};
+module.exports = function(deployer) {
+  deployer.deploy(Base);
+};
