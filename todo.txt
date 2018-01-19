@@ -1,3 +1,21 @@
 automatically filter old unpurchased items, add ability to remove item(s) from clients view
 
 install jquery and get datatables running using the test data
+
+
+tests:
+
+create listing
+non owner try to delete listing
+owner try to delte listing
+create listing
+order price too low
+order price ok
+abort
+order
+confirm
+delivered
+order-ship-dispute
+update price
+non owner try to delete
+create listing
