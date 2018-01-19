@@ -6,7 +6,7 @@ decentralized & anonymous online marketplace
 
 ## About
 
-The Eternal Market (TEM) is a distributed application (DAPP) that allows anyone with ethereum blockchain access to buy or sell goods and services anonymously. TEM requires no login, only a valid Ethereum address. As a distributed application TEM is not stored on any server, and cannot be shut down. Orders are placed using DAI, a stablecoin, so that prices in the market will not fluxuate based on the ethereum exchange rate. TEM allows users located in oppressive regimes to trade banned goods and services freely. A teacher in an Afghani girl's school could use TEM to purchase books to through a mail-order service, or a company in the UK could sell VPN software to citizens of China to circumvent their censorship. 
+The Eternal Market (TEM) is a distributed application (DAPP) that allows anyone with ethereum blockchain access to buy or sell goods and services anonymously. TEM requires no login, only a valid Ethereum address. As a distributed application TEM is not stored on any server, and cannot be shut down. Listing prices are USD stabalized using the MakerDAO price oracle. TEM allows users located in oppressive regimes to trade banned goods and services freely. A teacher in an Afghani girl's school could use TEM to purchase books to through a mail-order service, or a company in the UK could sell VPN software to citizens of China to circumvent their censorship. 
 
 Once a listing is posted, there are only two ways it can be removed:
 * If the ratio of failed/successful sales is too high
@@ -19,9 +19,9 @@ TEM is upgradable, with the app hosted on the interplanetary file system:
 
 
 ### Example Order:
-Alice wants to purchase a widget from Bob for $25, who has listed widgets on TEM. Alice sends 25 DAI to the TEM contract, which are stored into a wallet only she can access. Alice orders a widget on Bob's listing page, and uses Bob's public key to encrypt her shipping address. She messages Bob this shipping information using Bob's preferred means of contact. Bob will not receive his ether until Alice has confirmed that she has received the widget.
+Alice wants to purchase a widget from Bob for $25, who has listed widgets on TEM. Alice orders a widget on Bob's listing page using $25 worth of ETH. She then uses Bob's public key to encrypt her shipping address. She messages Bob this shipping information using Bob's preferred means of contact. Bob will not receive his ether until Alice has confirmed that she has received the widget.
 
-When Bob receives the order he decrypts Alices address using his private key, and ships the widget to Alice. When Alice receives the widget, she confirms delivery and the DAI she paid for the widget are transfered to Bob's wallet.
+When Bob receives the order he decrypts Alices address using his private key, and ships the widget to Alice. When Alice receives the widget, she confirms delivery and the ETH she paid for the widget are transfered to Bob's wallet.
 
 Bob may post special instructions in his listing for buyers to follow. He may feel it is safest for buyers to pass their shipping information along via a TOR chat service, or in an encrypted email. Read each listing carefully to make sure your order is processed correctly!
 
@@ -45,6 +45,14 @@ The number of successful and disputed sales for each listing on TEM is tracked i
 
 Sellers have incentive to ship their products or deliver their services quickly. Because TEM cannot be shut down, Sellers have the potential to reap large profits from listings with a long track history of successful deliveries. Potential buyers can view each listings history, with feedback from previous buyers, the statistics of successful and disputed transactions.
 
+### Price Stabilization
+ETH (and many other cryptocurrencies) are notoriously volatile. TEM uses MakerDAO's decentralized medianizer pricefeed oracle to constantly adjust the listing prices to mitigate exchange rate volatility. A new price is set whenever:
+
+A) The Source price differs to the most recently submitted price by more than the defined amount (currently 1%)
+B) Last price update was more than 6 hours ago.
+
+See https://developer.makerdao.com/feeds/ for more information on how the oracle functions. 
+
 ### Staying Anonymous on TEM:
 
 Coming Soon...
@@ -52,7 +60,7 @@ Coming Soon...
 ### The future of TEM:
 
 * Secure messaging between users
-* Image storage for listings via IPFS
+* Image storage for listings via swarm/IPFS
 * Improved front-end GUI
 * ios/android apps
 
@@ -63,7 +71,7 @@ The Eternal Market is going through the final phase of testing and will be launc
 ## Buying
 Browse the current listings on the market. You can see the items for sale, read descriptions, see buyer feedback, and view some stats on each listing which serve to authenticate the seller.
 
-When you are ready to create a purchase, connect your ethereum address to TEM, and provide an ENCRYPTED mailing address. It is VERY IMPORTANT that you encrypt your mailing address with the sellers public key before you submit your transaction or else your address will be public and broadcast to the whole world!
+When you are ready to create a purchase, connect your ethereum address to TEM, and place your order. You must message the seller your shipping information, along with your order ID so they can complete your order. It is VERY IMPORTANT that you encrypt your mailing address with the sellers public key before you submit your transaction!
 
 How to use PGP to encrypt your shipping address ([link](http://www.bitcoinnotbombs.com/beginners-guide-to-pgp/))
 
@@ -75,7 +83,7 @@ After you have connected your ethereum address (where payment for your orders wi
 specify the following:
 1) Title
 2) Description of listing
-3) Price in USD (DAI)
+3) Price in USD
 
 Each listing has some additional statistics which are tracked automatically. This additional
 information is used to show the reliability of the seller.
