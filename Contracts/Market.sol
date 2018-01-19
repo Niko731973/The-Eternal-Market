@@ -16,8 +16,8 @@ contract Market {
     mapping (address=> string) public userDescription; // mapping of users descriptions
     mapping (address=> uint) public wallet;         // funds a given address can withdrawl
     address public owner;							// the owner address of the market
-    address public daiAddress = 0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359;				//address of DAI contract
-    ERC223 dai = ERC223(daiAddress);
+    address public oracleAddress;				//address of price Oracle
+    ERC223 dai;                                  //DAI contract
 
     /* Listing Structure */
     struct Listing {
@@ -232,12 +232,24 @@ contract Market {
     	listing_fee = _new;
     }
     
+    function changeDaiAddress(address _new) public{
+        require(msg.sender==owner);
+        daiAddress = _new;
+        dai = ERC223(daiAddress);
+    }
+    
+    
+    /* Transfers ownership of TEM */
+    function transferOwner(address _newOwner) public{
+    	require(msg.sender==owner);
+    	owner = _newOwner;
+    }
     
     //any funds in the market are transferred as profits to the requester
     function withdraw(uint _value) public {
         require(wallet[msg.sender]>=_value);
         wallet[msg.sender]-=_value;
-	dai.transfer(msg.sender, _value,"");
+	    dai.transfer(msg.sender, _value,"");
         
     }
 
@@ -245,12 +257,6 @@ contract Market {
 	function tokenFallback(address _from, uint _value, bytes _data) public {
 	require(msg.sender==daiAddress);
 	wallet[_from]+=_value;         // funds a given address can spend
-}
-
-    /* Transfers ownership of TEM */
-    function transferOwner(address _newOwner) public{
-    	require(msg.sender==owner);
-    	owner = _newOwner;
     }
     
 }
