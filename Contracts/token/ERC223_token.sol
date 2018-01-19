@@ -4,6 +4,9 @@ import './ERC223_interface.sol';
 import './ERC223_receiving_contract.sol';
 import './SafeMath.sol';
 
+/* Taken from https://github.com/Dexaran/ERC223-token-standard */
+
+
 /**
  * @title Reference implementation of the ERC223 standard token.
  */
