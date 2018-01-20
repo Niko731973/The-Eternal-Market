@@ -19,7 +19,7 @@ contract Market {
     address public oracleAddress;				//address of price Oracle
     bytes32 public eth_price;				// price of one eth in usd...? needs to be wei?
     
-
+    
     /* Listing Structure */
     struct Listing {
     

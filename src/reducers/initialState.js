@@ -1,4 +1,7 @@
 export default {  
-  listings: []//,
-  //detailed: []
+  listings: [],
+  buyerOrders:[],
+  sellerOrders:[],
+  listing: [],
+  user:[]
 }

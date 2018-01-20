@@ -17,3 +17,7 @@ export function loadListingsSuccess(listings) {
   return {type: types.LOAD_LISTINGS_SUCCESS, listings};
 }
 
+export function loadListingSuccess(listing) {  
+  return {type: types.LOAD_LISTING_SUCCESS, listing};
+}
+
