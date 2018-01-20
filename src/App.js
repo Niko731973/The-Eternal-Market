@@ -4,7 +4,8 @@ import { Link } from 'react-router'
 // Styles
 import './css/pure-min.css'
 import './css/eternalMarket.css'
-
+import './css/open-sans.css'
+import './css/pure-min.css'
 
 
 class App extends Component {

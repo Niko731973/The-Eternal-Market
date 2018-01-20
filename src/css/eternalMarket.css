@@ -2,6 +2,7 @@
 
 body,
 .pure-g [class*=pure-u] {
+  font-family: 'Open Sans', sans-serif;
 }
 
 h1, h2, h3 {
@@ -39,7 +40,7 @@ code {
   position: fixed;
   padding: 5px;
   background: #0c1a2b;
-  font-family:  'Arial Narrow', sans-serif;
+  font-family: 'Arial Narrow', sans-serif;
 }
 
 .navbar a {
@@ -50,10 +51,6 @@ code {
 .navbar a:focus,
 .navbar a:hover {
   background: #233e5e;
-}
-
-.avoid-clicks {
-  pointer-events: none;
 }
 
 .navbar .pure-menu-heading {
@@ -68,4 +65,8 @@ code {
 .navbar .uport-logo {
   height: 16px;
   margin-right: 10px;
+}
+
+.avoid-clicks {
+  pointer-events: none;
 }
