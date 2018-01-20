@@ -18,6 +18,9 @@ class App extends Component {
           <Link to="/sell" className="pure-menu-link">Sell</Link>
         </li>
         <li className="pure-menu-item">
+          <Link to="/purchases" className="pure-menu-link">Your Purchases</Link>
+        </li>
+        <li className="pure-menu-item">
           <Link to="/about" className="pure-menu-link">About</Link>
         </li>
       </span>

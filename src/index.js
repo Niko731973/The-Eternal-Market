@@ -3,16 +3,17 @@ import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
 import { syncHistoryWithStore } from 'react-router-redux'
-import getWeb3 from './util/web3/getWeb3'
+import getWeb3 from './util/getWeb3'
 
 // Layouts
 import App from './App'
-import About from './layouts/about/About'
-import Buy from './layouts/buy/Buy'
-import Sell from './layouts/sell/Sell'
-import User from './layouts/user/User'
-import Listing from './layouts/listing/Listing'
-import CreateListing from './layouts/createListing/CreateListing'
+import About from './layouts/About'
+import Buy from './layouts/Buy'
+import CreateListing from './layouts/CreateListing'
+import Listing from './layouts/Listing'
+import Sell from './layouts/Sell'
+import User from './layouts/User'
+import Purchases from './layouts/Purchases'
 
 // Redux Store
 import store from './store'
@@ -36,10 +37,11 @@ ReactDOM.render((
           <IndexRoute component={Buy} />
           <Route path="about" component={About} />
           <Route path="buy" component={Buy} />
+          <Route path="createListing" component={CreateListing} />
+          <Route path="listing" component={Listing} />
           <Route path="sell" component={Sell} />
           <Route path="user" component={User} />
-          <Route path="listing" component={Listing} />
-          <Route path="createListing" component={CreateListing} />
+          <Route path="purchases" component={Purchases} />
         </Route>
       </Router>
     </Provider>

@@ -1,20 +1,7 @@
 import React, { Component } from 'react'
-import {ShortListings} from '../../util/database.js'
+import {ShortListings} from '../util/database.js'
 import {AgGridReact} from "ag-grid-react";
-import '../../../node_modules/ag-grid/dist/styles/ag-grid.css'
-import '../../../node_modules/ag-grid/dist/styles/theme-bootstrap.css'
 
-
-/*
-
-componentDidUpdate(prevProps) {
-    // when old data was empty but new data contains entries it means it's a first load so columns will be resized, using "size" for immutable list
-    if(!prevProps.data.size && this.props.data.size) {
-      this.grid.sizeColumnsToFit();
-    }
-  }
-  
-  */
 
 
 

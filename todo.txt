@@ -1,3 +1,11 @@
+ag grid not functioning. all columns are overlapping on left!
+
+
+
+
+
+
+
 automatically filter old unpurchased items, add ability to remove item(s) from clients view
 
 install jquery and get datatables running using the test data
