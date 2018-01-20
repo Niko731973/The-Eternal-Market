@@ -1,4 +1,4 @@
-
+/*
 var Listing = function(seller, title, description, price, timeListed, enabled, successes, aborted, disputed) {
 
    		 this.seller = seller;						// ether address of the seller 
@@ -25,19 +25,21 @@ var Order = function(seller,buyer,listingID,shippingDetails,timeTracker,state,fe
 	    
 
 }
+*/
+
 
 //gets the details of one order
 export function fetchOrder(id){
 
 }
-
+/*
 //returns all the details of a single listing
 export function GetListing(id){
 var temp = new Listing("seller"," title"," description"," price"," timeListed"," enabled"," successes"," aborted"," disputed");
 return temp; 
 
 }
-
+*/
 //returns the short form info for all active listings, used on the buy page
 export function ShortListings(){
 var listings = [];
@@ -78,7 +80,7 @@ return listings;
 
 }
 
-
+/*
 //returns the database with all of the user (sellers) active orders
 export function getSellerOrders(userAddress){
 var Orders = {};
@@ -98,3 +100,4 @@ return Orders;
 export function feedback(id){
 
 }
+*/
