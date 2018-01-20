@@ -1,11 +1,10 @@
-start ganache
-console navigate to Truffle3
 truffle compile
 
 start ganache
 
 truffle migrate
 truffle test
+
 npm run start ("npm install -g" if missing dependencies)
 
 make sure metamask is point to http://127.0.0.1:7545 during dev

@@ -1,3 +1,7 @@
+connect to deployed contract, use a global variable?
+
+write code to pre-load data and set up relationships
+
 automatically filter old unpurchased items, 
 add ability to view all items
 add ability to remove item(s) from clients view, remember which ones are hidden

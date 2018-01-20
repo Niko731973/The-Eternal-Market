@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class User extends Component {
+class UpdateUserInfo extends Component {
   constructor(props, { authData }) {
     super(props)
     authData = this.props
@@ -11,9 +11,13 @@ class User extends Component {
       <main className="container">
         <div className="pure-g">
           <div className="pure-u-1-1">
-            <h1>User: Address</h1>
+            <h1>User Info</h1>
             Description
-            Public Key (In Box, Copiable)
+            Box, editable
+            update description
+            
+            Public Key (In Box, editable)
+            update public key 
             
             
           </div>
