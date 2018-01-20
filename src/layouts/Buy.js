@@ -1,78 +1,56 @@
 import React, { Component } from 'react'
-import {AgGridReact, AgGridColumn} from "ag-grid-react";
-
-
-/*
-
-componentDidUpdate(prevProps) {
-    // when old data was empty but new data contains entries it means it's a first load so columns will be resized, using "size" for immutable list
-    if(!prevProps.data.size && this.props.data.size) {
-      this.grid.sizeColumnsToFit();
-    }
-  }
-  
-  */
-var columnDefs = [
-        {
-          headerName: "Rating",
-          field: "rating"
-        },
-        {
-          headerName: "Price",
-          field: "price"
-        },
-        {
-          headerName: "Title",
-          field: "title"
-        },
-        {
-          headerName: "Successes",
-          field: "successes"
-        }];
-
-
-var DivStyle = {height: 500, paddingLeft: "10%", paddingRight: "10%"};
-
-
-
+import {AgGridReact} from "ag-grid-react";
 
 
 class Buy extends Component {
-  constructor(props, { authData }) {
-    super(props)
-    authData = this.props
+  constructor(props) {
+    super(props);
        this.state = {
-            rowData: [{rating:"rating",price:"price1",title:"title1",successes:"successfulListings"},
-                      {rating:"rat22ing",price:"pr22ice1",title:"tit22le1",successes:"successfulListings2"}
-            ]
-        }
-      
+           
+           columnDefs: this.createColumnDefs(),
+           rowData: this.createRowData()
+       }
       
   }
-    
-  onGridReady(params) {
+   onGridReady(params) {
         this.gridApi = params.api;
         this.columnApi = params.columnApi;
 
         this.gridApi.sizeColumnsToFit();
+    }    
+    
+    createColumnDefs() {
+        return [
+        { headerName: "Rating", field: "rating" },
+        { headerName: "Price", field: "price" },
+        { headerName: "Title", field: "title" },
+        { headerName: "Successes", field: "successes" }];
+    
+        }
+      
+      createRowData() {
+        return [{rating:"rating",price:"price1",title:"title1",successes:"successfulListings"},
+                      {rating:"rat22ing",price:"pr22ice1",title:"tit22le1",successes:"successfulListings2"}];
     }
+  
 
 
   render() {
         
     return(
-      <main className="container">
-            <h1>Buy</h1>
-        <div className="ag-bootstrap" style={DivStyle}>
+      <main className="container"> 
+        <h1>Buy</h1>
+        <div style={{height: "400px", width: "80%", paddingLeft: "10%"}}>
+        
+        
             <AgGridReact
-            
-            rowData={this.state.rowData}
-            onGridReady={this.onGridReady}>
-        <AgGridColumn field="rating"></AgGridColumn>
-    <AgGridColumn field="price"></AgGridColumn>
-    <AgGridColumn field="title"></AgGridColumn>
-    <AgGridColumn field="successes"></AgGridColumn>
-    </AgGridReact>
+                    // properties
+                    columnDefs={this.state.columnDefs}
+                    rowData={this.state.rowData}
+
+                    // events
+                    onGridReady={this.onGridReady}>
+                </AgGridReact>
         </div>
     </main>
     )

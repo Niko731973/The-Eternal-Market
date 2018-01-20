@@ -48,34 +48,6 @@ var b = {rating:"rat22ing",price:"pr22ice1",title:"tit22le1",successes:"successf
 listings.push(a);
 listings.push(b);
 listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
-listings.push(b);
 return listings; 
 
 }

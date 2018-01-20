@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 
 // Styles
 import './css/pure-min.css'
-import './App.css'
+import './css/eternalMarket.css'
 
 
 
@@ -11,6 +11,9 @@ class App extends Component {
   render() {
     const MenuBarButtons = () => (
       <span>
+        <li className="pure-menu-item">
+            <a className="avoid-clicks">$1201.13 ETH</a>
+        </li>
         <li className="pure-menu-item">
           <Link to="/buy" className="pure-menu-link">Buy</Link>
         </li>

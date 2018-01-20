@@ -4,8 +4,6 @@ App = {
 
   init: function() {
       
-      
-
     return App.initWeb3();
   },
 
