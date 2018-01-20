@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {ShortListings} from '../util/database.js'
+import {BuyPageListings} from '../util/database.js'
 import {AgGridReact} from "ag-grid-react";
 
 
@@ -23,9 +23,9 @@ var columns = [
 
 var DivStyle = {height: 500, paddingLeft: "10%", paddingRight: "10%"};
 
-const listings = ShortListings();
+const listings = BuyPageListings();
 
-class Buy extends Component {
+class Account extends Component {
   constructor(props, { authData }) {
     super(props)
     authData = this.props
@@ -54,4 +54,4 @@ class Buy extends Component {
   }
 }
 
-export default Buy
+export default Account

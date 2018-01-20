@@ -40,14 +40,17 @@ return temp;
 
 }
 */
+
 //returns the short form info for all active listings, used on the buy page
-export function ShortListings(){
+export function BuyPageListings(){
 var listings = [];
 var a = {rating:"rating",price:"price1",title:"title1",successes:"successfulListings"};
 var b = {rating:"rat22ing",price:"pr22ice1",title:"tit22le1",successes:"successfulListings2"};
-listings.push(a);
-listings.push(b);
-listings.push(b);
+for(let i = 0;i<100;i++){
+    listings.push(a);
+    listings.push(b);
+    listings.push(b);
+}
 return listings; 
 
 }

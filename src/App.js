@@ -6,6 +6,8 @@ import './css/pure-min.css'
 import './css/eternalMarket.css'
 import './css/open-sans.css'
 import './css/pure-min.css'
+import "../node_modules/ag-grid/dist/styles/ag-grid.css";
+import "../node_modules/ag-grid/dist/styles/theme-bootstrap.css";
 
 
 class App extends Component {
@@ -22,7 +24,7 @@ class App extends Component {
           <Link to="/sell" className="pure-menu-link">Sell</Link>
         </li>
         <li className="pure-menu-item">
-          <Link to="/purchases" className="pure-menu-link">Your Purchases</Link>
+          <Link to="/account" className="pure-menu-link">Account</Link>
         </li>
         <li className="pure-menu-item">
           <Link to="/about" className="pure-menu-link">About</Link>

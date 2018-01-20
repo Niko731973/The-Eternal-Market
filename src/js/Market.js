@@ -1,34 +1,52 @@
-App = {
+/*
+import {TruffleContract} from 'TruffleContract'
+var Market = {
   web3Provider: null,
   contracts: {},
 
   init: function() {
       
-    return App.initWeb3();
+    return Market.initWeb3();
   },
 
   initWeb3: function() {
     
 
-    return App.initContract();
+    return Market.fetchBase();
   },
 
-  initContract: function() {
+  fetchBase: function() {
       
    $.getJSON('Base.json', function(data) {
   // Get the necessary contract artifact file and instantiate it with truffle-contract
-  var MarketArtifact = data;
-  App.contracts.Base = TruffleContract(BaseArtifact);
+  var BaseArtifact = data;
+  Market.contracts.Base = TruffleContract(BaseArtifact);
 
   // Set the provider for our contract
-  App.contracts.Base.setProvider(App.web3Provider);
-  console.log(App.contracts.Base);
+  Market.contracts.Base.setProvider(App.web3Provider);
+  console.log(Market.contracts.Base);
   // Use our contract to retrieve and mark the adopted pets
        alert("hi");
   return;
 });
 
-    return App.bindEvents();
+    return Market.fetchMarket();
+  },
+    
+  fetchMarket : function(){
+      $.getJSON('Market.json', function(data) {
+  // Get the necessary contract artifact file and instantiate it with truffle-contract
+  var MarketArtifact = data;
+  Market.contracts.Market = TruffleContract(MarketArtifact);
+
+  // Set the provider for our contract
+  Market.contracts.Market.setProvider(App.web3Provider);
+  console.log(Market.contracts.Market);
+  // Use our contract to retrieve and mark the adopted pets
+       alert("hi");
+  return;
+});
+      
   },
 
   bindEvents: function() {
@@ -40,7 +58,7 @@ App = {
    
       var adoptionInstance;
 
-      App.contracts.Adoption.deployed().then(function(instance) {
+      Market.contracts.Adoption.deployed().then(function(instance) {
         adoptionInstance = instance;
 
         return adoptionInstance.getAdopters.call();
@@ -70,14 +88,14 @@ web3.eth.getAccounts(function(error, accounts) {
 
   var account = accounts[0];
 
-  App.contracts.Adoption.deployed().then(function(instance) {
+  Market.contracts.Adoption.deployed().then(function(instance) {
     adoptionInstance = instance;
 
     // Execute adopt as a transaction by sending account
     return adoptionInstance.adopt(petId, {from: account});
       
   }).then(function(result) {
-    return App.markAdopted();
+    return Market.markAdopted();
   }).catch(function(err) {
     console.log(err.message);
   });
@@ -88,7 +106,8 @@ web3.eth.getAccounts(function(error, accounts) {
 
 $(function() {
   $(window).load(function() {
-    App.init();
+    Market.init();
     alert("hi");
   });
 });
+*/
