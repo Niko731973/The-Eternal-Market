@@ -3,5 +3,6 @@ export default {
   buyerOrders:[],
   sellerOrders:[],
   listing: [],
-  user:[]
+  user:[],
+  ethPrice: []
 }
