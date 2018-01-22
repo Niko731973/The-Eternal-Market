@@ -1,14 +1,8 @@
-import AuthenticationContract from '../../build/contracts/Market.json'
-import { loginUser } from '../loginbutton/LoginButtonActions'
-import store from '../../../store'
+import MarketContract from '../../build/contracts/Market.json';
+//import { loginUser } from '../loginbutton/LoginButtonActions'
+import store from '../store';
 
-
-const contract = require('truffle-contract')
-
-//should check for web3, return the current instance of the market for method calls
-export function getMarketInstance(){
-    
-}
+const contract = require('truffle-contract');
 
 /* GET FUNCTIONS /*
 
@@ -16,24 +10,10 @@ export function getMarketInstance(){
 A short listing consists of the following:
 id, title, successRate, successes */
 export function GetListings() {
-    
- let web3 = store.getState().web3.web3Instance
-
-  // Double-check web3's status.
-  if (typeof web3 !== 'undefined') {
-
-    return function(dispatch) {
-        
-      // Using truffle-contract we create the authentication object.
-      const market = contract(MarketContract)
-      market.setProvider(web3.currentProvider)
-
-      // Declaring this for later so we can chain functions on
-      var marketInstance
-
-        market.deployed().then(function(instance) {
-          marketInstance = instance;
-
+    /*
+          var marketInstance;
+          = getMarketInstance();
+          console.log(marketInstance);
           let nextFreeListingNumber = marketInstance.nextFreeListingID();
             
           var listings = [];
@@ -44,13 +24,11 @@ export function GetListings() {
               console.log(listing);
           }
           
-        })
-        return dispatch; //would return listings array;
-      }
-  } else {
-    console.error('Web3 is not initialized.');
-  }
+        
+        return listings; //return listings array;
+        */
 }
+
 
 
 /* Returns all of the listing information for a given id, if 
@@ -66,6 +44,27 @@ export function GetUserInfo(address){
 
 // gets the current eth price from the market
 export function GetETHPrice(){
+    let w3 = store.getState().web3.web3Instance;
+    if( typeof w3 !== 'undefined'){
+        
+        // Using truffle-contract we create the authentication object.
+      var market = contract(MarketContract);
+        market.setProvider(w3.currentProvider);
+      
+        market.deployed().then(function(instance) {
+        var b32Price = instance.eth_price();
+            console.log(b32Price);
+            var price = w3.toDecimal(b32Price);
+            price = w3.fromWei(price);
+            console.log(price);
+          return price;
+        });
+        
+        
+    }else{
+    console.error('Web3 is not initialized.');
+    }
+    
     
 }
 

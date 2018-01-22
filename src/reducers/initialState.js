@@ -4,5 +4,7 @@ export default {
   sellerOrders:[],
   listing: [],
   user:[],
-  ethPrice: []
+  ethPrice: [],
+  marketAddress: [],
+  baseAddress: []
 }

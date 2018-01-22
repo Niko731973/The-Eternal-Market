@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
-import web3Reducer from './reducer/web3Reducer'
+import web3Reducer from './reducers/web3Reducer'
 
 const reducer = combineReducers({
   routing: routerReducer,

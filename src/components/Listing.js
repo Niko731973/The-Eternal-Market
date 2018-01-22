@@ -13,7 +13,7 @@ class Listing extends Component {
           <div className="pure-u-1-1">
             <h1>Listing Name Goes Here</h1>
         Description goes here
-        <br>
+        
         Enter your shipping address into the box below, then press the "encrypt" button to encrypt your shipping info with the sellers public key. 
         
         Shipping Info

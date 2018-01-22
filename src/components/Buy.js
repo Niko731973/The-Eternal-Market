@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {AgGridReact} from "ag-grid-react";
-import {BuyPageListings} from '../util/database.js' 
+import * as Market from '../api/MarketAPI'
 
 
 
@@ -12,11 +12,13 @@ class Buy extends Component {
            rowData: this.createRowData()
        }
       
+      
   }
    onGridReady(params) {
         this.gridApi = params.api;
         this.columnApi = params.columnApi;
         this.gridApi.sizeColumnsToFit();
+        Market.GetETHPrice();
     }    
     
     createColumnDefs() {
@@ -29,7 +31,7 @@ class Buy extends Component {
         }
       
       createRowData() {
-        return BuyPageListings();
+        return [{price:"50",title:"title",description:"test test test",successes:"50%"}];
     }
   
   render() {

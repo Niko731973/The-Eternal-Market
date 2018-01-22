@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import {BuyPageListings} from '../util/database.js'
 import {AgGridReact} from "ag-grid-react";
 
 
@@ -23,7 +22,7 @@ var columns = [
 
 var DivStyle = {height: 500, paddingLeft: "10%", paddingRight: "10%"};
 
-const listings = BuyPageListings();
+const listings = [{price:"50",title:"title",description:"test test test",successes:"50%"}];
 
 class Account extends Component {
   constructor(props, { authData }) {

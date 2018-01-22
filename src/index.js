@@ -7,14 +7,13 @@ import getWeb3 from './getWeb3'
 
 // Layouts
 import App from './App'
-import About from './layouts/About'
-import Account from './layouts/Account'
-import Buy from './layouts/Buy'
-import CreateListing from './layouts/CreateListing'
-import Listing from './layouts/Listing'
-import Sell from './layouts/Sell'
-import User from './layouts/User'
-import Market from './js/Market' 
+import About from './components/About'
+import Account from './components/Account'
+import Buy from './components/Buy'
+import CreateListing from './components/CreateListing'
+import Listing from './components/Listing'
+import Sell from './components/Sell'
+import User from './components/User'  
 
 // Redux Store
 import store from './store'
@@ -30,6 +29,10 @@ getWeb3
 .catch(() => {
   console.log('Error in web3 initialization.')
 })
+
+// allow console access to store for debugging
+window.store = store;
+
 
 ReactDOM.render((
     <Provider store={store}>
