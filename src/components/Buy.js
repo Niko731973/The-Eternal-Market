@@ -4,6 +4,7 @@ import * as Market from '../api/MarketAPI'
 
 
 
+       
 class Buy extends Component {
   constructor(props) {
     super(props);
@@ -12,13 +13,13 @@ class Buy extends Component {
            rowData: this.createRowData()
        }
       
-      
   }
    onGridReady(params) {
         this.gridApi = params.api;
         this.columnApi = params.columnApi;
         this.gridApi.sizeColumnsToFit();
-        Market.GetETHPrice();
+       Market.GetETHPrice();
+       
     }    
     
     createColumnDefs() {

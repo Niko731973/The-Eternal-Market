@@ -50,11 +50,12 @@ export function GetETHPrice(){
         // Using truffle-contract we create the authentication object.
       var market = contract(MarketContract);
         market.setProvider(w3.currentProvider);
-      
+        
         market.deployed().then(function(instance) {
         instance.eth_price().then(function(b32Price){
             var price = w3.toDecimal(b32Price);
             price = w3.fromWei(price);
+            
           return price; 
         });
         
