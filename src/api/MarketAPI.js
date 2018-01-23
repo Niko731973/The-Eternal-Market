@@ -47,25 +47,16 @@ export function GetUserInfo(address){
 export function GetETHPrice(){
     let w3 = store.getState().web3.web3Instance;
     if( typeof w3 !== 'undefined'){
-        
-	var ppp = contract(PriceOracleContract);
-	ppp.setProvider(w3.currentProvider);
-	ppp.deployed().then(function(instance){
-window.p = instance;
-});
-
 
         // Using truffle-contract we create the authentication object.
       var market = contract(MarketContract);
+        
         market.setProvider(w3.currentProvider);
         
-        MarketContract.at(MarketContract.address).then(function(instance) {
-window.m = instance;
+        market.deployed().then(function(instance) {
         instance.eth_price().then(function(b32Price){
-console.log(b32Price);
             var price = w3.toDecimal(b32Price);
             price = w3.fromWei(price);
-            console.log(price);
           return price; 
         });
         

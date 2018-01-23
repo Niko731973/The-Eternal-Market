@@ -2,69 +2,85 @@ var PriceOracle = artifacts.require("PriceOracle");
 var Market = artifacts.require("Market");
 var Base = artifacts.require("Base");
 
-var PriceOracleAddress, MarketAddress, BaseAddress;
-
-module.exports = function(deployer) {
+module.exports = function(deployer){
     
     
 // Deploy the price oracle, set a starting price, record the address of the oracle contract
+var m, b, p;
+var newprice = 12345;
     
-var p, m, b;
-
-PriceOracle.deployed().then(function (instance){
-    p = instance;
-    return p.setPrice(12345);})
+deployer.then(function (){
+    return deployer.deploy(PriceOracle);
     
-.then(function (result){
+ }).then( function (){
+    p = PriceOracle.address;
+    console.log("Deployed PriceOracle at address: "+p)
+    return PriceOracle.at(p).setPrice(newprice);
     
-console.log(result);
+ }).then( function (result){
+    
+console.log("Sent Price of "+newprice+ " to the oracle");
  //deployer.link(PriceOracle,Market); 
-   return p.read();})
+   return PriceOracle.at(p).read.call();
 
-.then(function (val){    
+ }).then( function (val){   
 
-return console.log("price is now: "+val);})
+return console.log("Oracle price is now: "+val);
     
-.then(function (){
+ }).then( function (){
     
-  return Market.deployed();  })
+  return deployer.deploy(Market);  
 
-.then(function (instance){
-    m = instance;
-    return m.changeOracleAddress(p.address); })
-
-.then(function (){
+ }).then( function (){
     
-    return m.oracleAddress.call(); })
+    m = Market.address;
+    console.log("Deployed Market at address: "+m)
+    return Market.at(m).changeOracleAddress(p); 
 
-
-.then(function (result){
+ }).then( function (){
     
-    return console.log("set oracle address to: "+result); })
+    console.log("setting market address to: "+ p);
+    return Market.at(m).oracleAddress.call(); 
+
+
+ }).then( function (result){
+    
+    return console.log("market has oracle address of: "+result); 
         
-.then(function(){
-    return m.updatePrice(); })
+ }).then( function (){
+    
+    console.log("updating price...");
+    return Market.at(m).updatePrice(); 
         
-.then(function(){
-  return m.eth_price.call(); })
+ }).then( function (){
+    
+  return Market.at(m).eth_price.call(); 
 
-.then(function(result){
+ }).then( function (result){
+  var theprice = web3.toDecimal(result);
+  theprice = web3.fromWei(theprice);
+  return console.log("new eth price in market is: "+theprice); 
 
-  return console.log("new eth price in market is: "+result); })
+ }).then( function (){
+    
+  return deployer.deploy(Base); 
 
-.then(function(){
-  return Base.deployed(); })
+ }).then( function (){
+    
+  b = Base.address;
+  console.log("Deployed Base at address: "+b)
+  console.log("setting market address to: "+ m);
+  return Base.at(b).changeMarketAddress(m); 
 
-        
-.then(function(instance){
-  b = instance;
-  console.log(m.address);
-  return b.changeMarketAddress(m.address); })
+ }).then( function (){    
+    
+    return Base.at(b).market.call(); 
 
-.then(function(){
-
-console.log("Success");
+ }).then(function (result){
+    
+    console.log("market address recorded as: "+result);
+    return console.log("Done");
+    
 });
-    
-
-}
+         
+         }
