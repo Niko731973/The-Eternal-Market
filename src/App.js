@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
+//import { LoadEthPrice } from './actions/LoadEthPrice'
+
 
 // Styles
 import './css/pure-min.css'
@@ -12,6 +14,7 @@ import "../node_modules/ag-grid/dist/styles/theme-bootstrap.css";
 
 class App extends Component {
   render() {
+      //store.dispatch(loadEthPrice());
     const MenuBarButtons = () => (
       <span>
         <li className="pure-menu-item">

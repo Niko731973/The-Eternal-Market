@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {AgGridReact} from "ag-grid-react";
-import * as Market from '../api/MarketAPI'
+import * as Market from '../../api/MarketAPI'
 
 
 

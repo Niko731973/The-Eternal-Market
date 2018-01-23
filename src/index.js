@@ -7,13 +7,13 @@ import getWeb3 from './getWeb3'
 
 // Layouts
 import App from './App'
-import About from './components/About'
-import Account from './components/Account'
-import Buy from './components/Buy'
-import CreateListing from './components/CreateListing'
-import Listing from './components/Listing'
-import Sell from './components/Sell'
-import User from './components/User'  
+import About from './components/pages/About'
+import Account from './components/pages/Account'
+import Buy from './components/pages/Buy'
+import CreateListing from './components/pages/CreateListing'
+import Listing from './components/pages/Listing'
+import Sell from './components/pages/Sell'
+import User from './components/pages/User'  
 
 // Redux Store
 import store from './store'

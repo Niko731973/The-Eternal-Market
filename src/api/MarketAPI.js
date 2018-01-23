@@ -10,7 +10,7 @@ const contract = require('truffle-contract');
 /* Returns an array of "short" enabled listings.
 A short listing consists of the following:
 id, title, successRate, successes */
-export function GetListings() {
+export function GetBuyListings() {
     /*
           var marketInstance;
           = getMarketInstance();
