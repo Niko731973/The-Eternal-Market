@@ -9,6 +9,7 @@ pragma solidity ^0.4.9;
  
 contract PriceOracle {
     bytes32 public val;
+
   function read() constant returns (bytes32) {
       return val;
 }
@@ -19,7 +20,7 @@ contract PriceOracle {
 // method (obviously) not included in the actual Medianizer
 
 function setPrice(uint _new) public{
-    uint price = _new* (1 ether);
+    uint price = _new * (1 ether);
     val = bytes32(price/100);
 }
 

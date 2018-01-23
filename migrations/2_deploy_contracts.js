@@ -9,71 +9,58 @@ module.exports = function(deployer) {
     
 // Deploy the price oracle, set a starting price, record the address of the oracle contract
     
-deployer.deploy(PriceOracle);
+var p, m, b;
+
 PriceOracle.deployed().then(function (instance){
+    p = instance;
+    return p.setPrice(12345);})
+.then(function (result){
+console.log(result);
+ //deployer.link(PriceOracle,Market); 
+   return p.read();})
 
-    instance.setPrice(123411);
-                                
+.then(function (val){    
+
+return console.log("price is now: "+val);})
+.then(function (){
+  return Market.deployed();  })
+
+.then(function (instance){
+    m = instance;
+    return m.changeOracleAddress(p.address); })
+
+.then(function (){
+    
+    return m.oracleAddress.call(); })
+
+
+.then(function (result){
+    
+    return console.log("set oracle address to: "+result); })
+        
+.then(function(){
+    return m.updatePrice(); })
+        
+.then(function(){
+  return m.eth_price.call(); })
+
+.then(function(result){
+
+  return console.log("new eth price in market is: "+result); })
+
+.then(function(){
+  return Base.deployed(); })
+
+        
+.then(function(instance){
+  b = instance;
+  console.log(m.address);
+  return b.changeMarketAddress(m.address); })
+
+.then(function(){
+
+console.log("Success");
 });
-
-deployer.link(PriceOracle, Market);
-
-deployer.deploy(Market);
-    
-Market.deployed().then(function (instance){
-    
-    instance.changeOracleAddress(PriceOracle.address);
-    return instance;
-    
-    
-}).then(function(instance){
-    
-    instance.updatePrice();
-});
-                             
-deployer.deploy(Base);
-
-Base.deployed().then(function(instance){
-    instance.changeMarketAddress(Market.address);
-});
-    
-    /*
-    PriceOracle.deployed().setPrice(123411);
-    PriceOracleAddress = PriceOracle.address;
-    
     
 
-    
-deployer.link(PriceOracle, Market);
-
-
-deployer.then(function(instance){
-      return Market.new();
-  
-  }).then(function(instance){
-      instance.changeOracleAddress(PriceOracleAddress);
-    
-      MarketAddress = instance.address;
-      return instance;
-  }).then(function(instance){
-    
-    instance.updatePrice();
-});
-    
-    
-    
-deployer.then(function(instance){
-      return Base.new();
-  
-  }).then(function(instance){
-      
-    instance.changeMarketAddress(MarketAddress);
-    BaseAddress = instance.address;
-  });
-    
-
-
-
-*/
-    
 }

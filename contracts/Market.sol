@@ -1,5 +1,9 @@
 pragma solidity ^0.4.9;
-import "./PriceOracle.sol";
+
+contract PriceOracle {
+  function read() constant returns (bytes32);
+}
+
 
 contract Market {
     

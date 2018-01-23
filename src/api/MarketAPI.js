@@ -1,4 +1,5 @@
 import MarketContract from '../../build/contracts/Market.json';
+import PriceOracleContract from '../../build/contracts/PriceOracle.json';
 //import { loginUser } from '../loginbutton/LoginButtonActions'
 import store from '../store';
 
@@ -47,15 +48,24 @@ export function GetETHPrice(){
     let w3 = store.getState().web3.web3Instance;
     if( typeof w3 !== 'undefined'){
         
+	var ppp = contract(PriceOracleContract);
+	ppp.setProvider(w3.currentProvider);
+	ppp.deployed().then(function(instance){
+window.p = instance;
+});
+
+
         // Using truffle-contract we create the authentication object.
       var market = contract(MarketContract);
         market.setProvider(w3.currentProvider);
         
         market.deployed().then(function(instance) {
+window.m = instance;
         instance.eth_price().then(function(b32Price){
+console.log(b32Price);
             var price = w3.toDecimal(b32Price);
             price = w3.fromWei(price);
-            
+            console.log(price);
           return price; 
         });
         
