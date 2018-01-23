@@ -1,10 +1,14 @@
 import * as types from './actionTypes';  
-import GetETHPrice from '../api/MarketAPI';
+import MarketAPI from '../api/MarketAPI';
+
+export function loadEthPriceSuccess(price) {  
+  return {type: types.LOAD_ETHPRICE_SUCCESS, price};
+}
 
 
-export function loadListings() {  
+export function loadEthPrice() {  
   return function(dispatch) {
-    return GetETHPrice.then(price => {
+    return MarketAPI.GetETHPrice().then(price => {
       dispatch(loadEthPriceSuccess(price));
     }).catch(error => {
       throw(error);
@@ -13,6 +17,4 @@ export function loadListings() {
 }
 
 
-export function loadEthPriceSuccess(price) {  
-  return {type: types.LOAD_ETHPRICE_SUCCESS, price};
-}
+

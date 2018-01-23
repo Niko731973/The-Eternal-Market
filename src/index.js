@@ -4,6 +4,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
 import { syncHistoryWithStore } from 'react-router-redux'
 import getWeb3 from './getWeb3'
+import { loadEthPrice } from './actions/loadEthPrice'
 
 // Layouts
 import App from './App'
@@ -32,8 +33,6 @@ getWeb3
 
 // allow console access to store for debugging
 window.store = store;
-
-
 ReactDOM.render((
     <Provider store={store}>
       <Router history={history}>

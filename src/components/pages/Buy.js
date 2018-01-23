@@ -18,7 +18,6 @@ class Buy extends Component {
         this.gridApi = params.api;
         this.columnApi = params.columnApi;
         this.gridApi.sizeColumnsToFit();
-       Market.GetETHPrice();
        
     }    
     
