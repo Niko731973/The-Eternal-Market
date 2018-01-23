@@ -59,7 +59,7 @@ window.p = instance;
       var market = contract(MarketContract);
         market.setProvider(w3.currentProvider);
         
-        market.deployed().then(function(instance) {
+        MarketContract.at(MarketContract.address).then(function(instance) {
 window.m = instance;
         instance.eth_price().then(function(b32Price){
 console.log(b32Price);

@@ -14,7 +14,9 @@ var p, m, b;
 PriceOracle.deployed().then(function (instance){
     p = instance;
     return p.setPrice(12345);})
+    
 .then(function (result){
+    
 console.log(result);
  //deployer.link(PriceOracle,Market); 
    return p.read();})
@@ -22,7 +24,9 @@ console.log(result);
 .then(function (val){    
 
 return console.log("price is now: "+val);})
+    
 .then(function (){
+    
   return Market.deployed();  })
 
 .then(function (instance){
