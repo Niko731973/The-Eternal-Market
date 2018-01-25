@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import {AgGridReact} from "ag-grid-react";
 import { connect } from 'react-redux';
-import { loadEthPrice } from '../../actions/loadEthPrice'
-import { loadMarketInstance } from '../../actions/loadMarketInstance'
 
 
 
@@ -14,8 +12,6 @@ class Buy extends Component {
            columnDefs: this.createColumnDefs(),
            rowData: this.createRowData()
        }
-      this.props.dispatch(loadMarketInstance());
-      this.props.dispatch(loadEthPrice());
   }
     
 

@@ -1,6 +1,6 @@
 var PriceOracle = artifacts.require("PriceOracle");
 var Market = artifacts.require("Market");
-var Base = artifacts.require("Base");
+var Base = artifacts.require("Base"); 
 
 module.exports = function(deployer){
     

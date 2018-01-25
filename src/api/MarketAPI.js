@@ -5,39 +5,7 @@ import store from '../store';
 
 const contract = require('truffle-contract');
 
-/* GET FUNCTIONS /*
 
-
-
-    
-    /*
-    
-    // Listing memory i = listings[_id];
-        return (i.seller, i.title, i.description, i.price, i.timeListed, i.enabled, i.successes, i.aborted, i.disputed);
-          var marketInstance;
-          = getMarketInstance();
-          console.log(marketInstance);
-          let nextFreeListingNumber = marketInstance.nextFreeListingID();
-            
-          var listings = [];
-          
-          // count back through listings, push each listing into our listings array
-          for(let i = nextFreeListingNumber-1;i>0;i--){
-              var listing = marketInstance.listings(i);
-              console.log(listing);
-          }
-          
-        
-        return listings; //return listings array;
-        */
-
-
-
-
-/* Returns the description and public key of a given user address, if they exist*/
-export function GetUserInfo(address){
-    
-}
 
 // gets the current eth price from the market in USD
 
@@ -137,7 +105,6 @@ static GetBuyListings() {
                 price = w3.fromWei(price);
                 price = parseFloat(price);
                 resolve(price);
-          
             });
     }
           else{
@@ -148,7 +115,13 @@ static GetBuyListings() {
   }
 }
 
+
 export default MarketAPI;  
+
+/* Returns the description and public key of a given user address, if they exist*/
+export function GetUserInfo(address){
+    
+}
     
 export function GetListingFee(){
     

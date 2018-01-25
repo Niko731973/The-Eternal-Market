@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import MenuBar from './components/MenuBar'
+import { loadEthPrice } from './actions/loadEthPrice'
+import { loadMarketInstance } from './actions/loadMarketInstance'
 
 // Styles
 import './css/pure-min.css'
@@ -13,6 +15,11 @@ import "../node_modules/ag-grid/dist/styles/theme-bootstrap.css";
 class App extends Component {
     
   render() {
+      
+      this.props.dispatch(loadMarketInstance()).then((result)=>{
+        this.props.dispatch(loadEthPrice());
+      }).catch(error => { console.log(error);});
+      
     return (
       <div className="App">
         <MenuBar />
