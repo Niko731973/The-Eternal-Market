@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import { loadEthPrice } from './actions/loadEthPrice'
 import { store } from './store'
-
+import { connect } from 'react-redux';
 
 // Styles
 import './css/pure-min.css'
@@ -12,15 +11,15 @@ import './css/pure-min.css'
 import "../node_modules/ag-grid/dist/styles/ag-grid.css";
 import "../node_modules/ag-grid/dist/styles/theme-bootstrap.css";
 
-window.a = loadEthPrice()
 class App extends Component {
+    
   render() {
       
       
     const MenuBarButtons = () => (
       <span>
         <li className="pure-menu-item">
-            <a className="avoid-clicks">$1201.13 ETH</a>
+            <a className="avoid-clicks">${this.props.ethPrice} ETH</a>
         </li>
         <li className="pure-menu-item">
           <Link to="/buy" className="pure-menu-link">Buy</Link>
@@ -52,4 +51,12 @@ class App extends Component {
   }
 }
 
-export default App
+function mapStateToProps(state, ownProps) {
+    
+    return {
+    ethPrice: state.ethPrice
+  };
+
+} 
+
+export default connect(mapStateToProps)(App);  

@@ -5,6 +5,6 @@ export default {
   listing: [],
   user:[],
   ethPrice: 0.00,
-  marketAddress: [],
+  marketInstance: {},
   baseAddress: []
 }

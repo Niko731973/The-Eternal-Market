@@ -11,9 +11,9 @@ export function loadEthPrice() {
     return MarketAPI.GetETHPrice().then(price => {
       dispatch(loadEthPriceSuccess(price));
     }).catch(error => {
-      throw(error);
-    });
-  };
+      dispatch({type: "could not load price", error})
+  });
+}
 }
 
 

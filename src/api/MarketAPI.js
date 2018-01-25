@@ -47,46 +47,44 @@ export function GetUserInfo(address){
 
 class MarketAPI {  
     
-  static getWeb3Instance(){
-    return new Promise(function(resolve, reject) {
-        let w3 = store.getState().web3.web3Instance;
+  static GetMarketInstance(){
+      return new Promise(function(resolve, reject) {
+          
+        var w3 = store.getState().web3.web3Instance;
+      
         if( typeof w3 !== 'undefined'){
-            resolve(w3);
-        }
-        reject(new Error("W3 is not configured"));
-    });
-}
-    
-  static getMarketInstance(){
-        return MarketAPI.getWeb3Instance().then(w3 => {
             var market = contract(MarketContract);
             market.setProvider(w3.currentProvider);
-            return market.deployed();
-        }).catch(error =>{
-            return error;
-        });
+            market.deployed().then(instance => {
+                resolve(instance);;
+            }).catch(error => {throw(error)});
+        
+        }
     
+        else{
+    throw(new Error("market instance not defined"));
+          }
+      });
+        
   }
     
   static GetETHPrice() {
-    return MarketAPI.getWeb3Instance().then( function(instance) {
-        
-        var w3 = instance;
-        
-        return MarketAPI.getMarketInstance().then(function(instance) {
-        
-            return instance.eth_price().then(function(b32Price){
-                
+      return new Promise(function(resolve, reject) {
+          let marketInstance = store.getState().marketInstance;
+          if(typeof marketInstance !== 'undefined'){
+          marketInstance.eth_price().then(function(b32Price){
+                let w3 = store.getState().web3.web3Instance;
                 var price = w3.toDecimal(b32Price);
                 price = w3.fromWei(price);
-                console.log(price);
-                return price;
-                
+                resolve(price);
+          
             });
-        });
-        
-    }).catch(error => {console.log(error); return error;});
-    
+    }
+          else{
+    throw(new Error("market instance not defined"));
+          }
+
+});
   }
 }
 
