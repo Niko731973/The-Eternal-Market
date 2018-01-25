@@ -135,6 +135,7 @@ static GetBuyListings() {
                 let w3 = store.getState().web3.web3Instance;
                 var price = w3.toDecimal(b32Price);
                 price = w3.fromWei(price);
+                price = parseFloat(price);
                 resolve(price);
           
             });
