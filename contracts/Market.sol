@@ -36,7 +36,6 @@ contract Market {
         uint successes;						// # of successful orders
         uint aborted;						// # of aborted orders
         uint disputed;						// # of disputed orders
-	uint category;						// id of the category of the listing
     }
     
     /* Order Structure */
@@ -50,8 +49,7 @@ contract Market {
 	    uint state;         		    // 0 unconfirmed, 1 shipped, 2 successful, 3 disputed, 4 aborted, 5 deadman activated
         string deliveryInfo;            // encrypted delivery info
 	    string feedback;    			// buyer-submitted feedback on the order
-	    uint stars;						// buyer-submitted 1 through 5 star rating system
-	    uint price;                     // the price (minus fee) for the listing
+	    uint price;                     // the funds stored for the order (minus fee)
 	    
     }
     
@@ -69,6 +67,19 @@ contract Market {
 		if(i.disputed == 0 && i.successes == 0){return false;} 				//listing has no orders yet
         uint listing_bad_rate = (i.disputed*100)/(i.disputed+i.successes);	//current dispute rate
         return listing_bad_rate>=bad_seller_threshold;
+    }
+    
+    function getListing(uint _id) public constant returns(address,string,string,uint,uint,bool,uint,uint,uint){
+        require(_id <nextFreeListingID);
+        Listing memory i = listings[_id];
+        return (i.seller, i.title, i.description, i.price, i.timeListed, i.enabled, i.successes, i.aborted, i.disputed);
+       }
+    
+    function getOrder(uint _id) public constant returns(address, address, uint, uint, uint, string, string, uint){
+         require(_id <nextFreeOrderID);
+         Order memory i = orders[_id];
+         return (i.seller, i.buyer, i.listingID, i.timeTracker, i.state, i.deliveryInfo, i.feedback, i.price);
+    
     }
     
     // updates the market price 
@@ -98,13 +109,12 @@ contract Market {
     /* Seller and Buyer Functions */
     
     /* Seller creates a new listing using this function */
-    function addListing (string _title, string _description, uint _price, uint _category) public payable {
+    function addListing (string _title, string _description, uint _price) public payable {
         require(msg.value>=toWei(listing_fee, eth_price));
 	    wallet[owner]+=msg.value;
-	
-        //add the new listing to our database
+	    //add the new listing to our database
         nextFreeListingID++;
-        listings[nextFreeListingID-1] = Listing(msg.sender,_title,_description,_price,now,true,0,0,0,_category);
+        listings[nextFreeListingID-1] = Listing(msg.sender,_title,_description,_price,now,true,0,0,0);
         
     }
     

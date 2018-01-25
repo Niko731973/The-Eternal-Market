@@ -7,11 +7,13 @@ const contract = require('truffle-contract');
 
 /* GET FUNCTIONS /*
 
-/* Returns an array of "short" enabled listings.
-A short listing consists of the following:
-id, title, successRate, successes */
-export function GetBuyListings() {
+
+
+    
     /*
+    
+    // Listing memory i = listings[_id];
+        return (i.seller, i.title, i.description, i.price, i.timeListed, i.enabled, i.successes, i.aborted, i.disputed);
           var marketInstance;
           = getMarketInstance();
           console.log(marketInstance);
@@ -28,15 +30,9 @@ export function GetBuyListings() {
         
         return listings; //return listings array;
         */
-}
 
 
 
-/* Returns all of the listing information for a given id, if 
-the given id is valid and enabled */
-export function GetListing(id){
-    
-}
 
 /* Returns the description and public key of a given user address, if they exist*/
 export function GetUserInfo(address){
@@ -46,6 +42,69 @@ export function GetUserInfo(address){
 // gets the current eth price from the market in USD
 
 class MarketAPI {  
+    
+    static GetListing(id){
+    
+    return new Promise(function(resolve, reject) {
+          let marketInstance = store.getState().marketInstance;
+          if(typeof marketInstance !== 'undefined'){
+              marketInstance.getListing().then(function(i){
+              var listing = {};
+              console.log(i);
+              listing.seller = i[0];
+              listing.title = i[1];
+              listing.description = i[2];
+              listing.price = i[3];
+              listing.timeListed = i[4];
+              listing.enabled = i[5];
+              listing.successes = i[6];
+              listing.aborted = i[7];
+              listing.disputed = i[8];
+               
+              resolve(listing);
+            });
+    }
+          else{
+            throw(new Error("market instance not defined"));
+          }
+
+});
+    
+       
+}
+    
+static GetBuyListings() {
+    
+    return new Promise(function(resolve, reject) {
+          let marketInstance = store.getState().marketInstance;
+          if(typeof marketInstance !== 'undefined'){
+              
+              marketInstance.nextFreeListingID().then(function(nextFreeListingID){
+                  if(nextFreeListingID === 1){
+                      throw(new Error("market has no listings"));
+                  }
+                  var listings = {};
+                  for(let i = nextFreeListingID-1;i>0;i-=1){
+                      MarketAPI.GetListing(i).then(listing => {
+                      
+                      listings.i = listing;
+                      
+                  }).catch(()=>{
+                      
+                      console.log("could not fetch listing id: "+i);
+                  });
+                  }
+                  
+              resolve(listings);
+            });
+          }
+          else{
+            throw(new Error("market instance not defined"));
+          }
+
+    });
+    
+}
     
   static GetMarketInstance(){
       return new Promise(function(resolve, reject) {
