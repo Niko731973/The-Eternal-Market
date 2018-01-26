@@ -7,6 +7,7 @@ import getWeb3 from './getWeb3'
 import { loadEthPrice } from './actions/loadEthPrice'
 import { loadMarketInstance } from './actions/loadMarketInstance'
 import { loadBuyListings } from './actions/loadBuyListings'
+import { loadSellListings } from './actions/loadSellListings'
 import MarketAPI from './api/MarketAPI';
 
 
@@ -45,6 +46,11 @@ getWeb3
   })
 .then( () => {
   console.log('Buy Listings Loaded'); 
+  console.log('Loading seller Listings');
+  return store.dispatch(loadSellListings());
+  })
+.then( () => {
+  return console.log('Sell Listings Loaded'); 
   })
 .catch((err) => {
   console.log('there was an error')

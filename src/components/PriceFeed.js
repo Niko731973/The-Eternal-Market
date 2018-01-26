@@ -9,6 +9,7 @@ class PriceFeed extends Component {
   }
     
   render() {
+      
     return(
       <a>${PriceFeed.toUSDFormat(this.props.ethPrice)} ETH</a>
     )

@@ -5,9 +5,11 @@ import store from '../store';
 
 const contract = require('truffle-contract');
 
+
 // gets the current eth price from the market in USD
 
 class MarketAPI {  
+   
     
     static GetListing(id){
     
@@ -42,22 +44,27 @@ class MarketAPI {
 }
     
     static isListingActive(listing){
+        console.log("listing is enabled: "+ listing.enabled)
         return listing.enabled;
 }
     
     static isSellerListing(listing){
-        return listing.seller === store.getState().web3.eth.accounts[0];
-}
+        console.log(listing.seller)
+        console.log(store.getState().web3.web3Instance.eth.accounts[0])
+            return listing.seller === store.getState().web3.web3Instance.eth.accounts[0];
+    }
+    
+    
+    
     
 static GetListings(condition){
     
     switch(condition){
             
         case 'active':
-            return MarketAPI.GetSelectedListings(MarketAPI.isListingActive)
+            return MarketAPI.GetSelectedListings(MarketAPI.isListingActive);
         case 'seller':
-            return MarketAPI.GetSelectedListings(MarketAPI.isSellerListing)
-            
+            return MarketAPI.GetSelectedListings(MarketAPI.isSellerListing);
         default:
             return MarketAPI.GetSelectedListings(true); // gets all listing
             
@@ -97,7 +104,7 @@ static GetSelectedListings(condition) {
                             }
                           
                           }).catch(error => {
-                              console.log("could not fetch listing id: "+i);
+                              console.log("could not fetch listing id: "+i,error);
                               resolve()
                           });
                           

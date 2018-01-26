@@ -8,6 +8,7 @@ export function loadSellListingsSuccess(sellListings) {
 export function loadSellListings() {  
   return function(dispatch) {
     return MarketAPI.GetListings('seller').then(sellListings => {
+        console.log(sellListings)
       dispatch(loadSellListingsSuccess(sellListings));
     }).catch(error => {
       dispatch({type: "could not load seller listings", error});

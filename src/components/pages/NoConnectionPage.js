@@ -11,9 +11,28 @@ class NoConnectionPage extends Component {
       <main className="container">
         <div className="pure-g">
           <div className="pure-u-1-1">
-            <h1>Web 3 Not Connected</h1>
+        <h1>NOT CONNECTED TO ETHEREUM</h1>
         <a>You must connect an ethereum address to use this page.</a>
-        Copy the message from Maker DAO 
+        <img class="img-ethereum-logo" alt="Ethereum" src="ethereum-logo.svg">
+        <p>The Eternal Market requires an Ethereum client to be running and current. We could not detect a client running which probably means it's not installed, running, or is misconfigured.</p>
+        <p>Please use one of the following clients to connect to Ethereum:</p>
+        <div>
+            <div>
+                <img class="img-logo" alt="Metamask" src="metamask-logo.svg">
+                <h2>METAMASK</h2>
+                <p><span class="align-number"><span class="numberCircle">1</span></span>Install <a class="span-montserrat-semi-bold a-link" href="https://metamask.io/" target="_blank">Metamask</a></p>
+                <p><span class="align-number"><span class="numberCircle">2</span></span>Use Chrome to browse <a class="span-montserrat-semi-bold a-link" href="https://oasisdex.com" target="_blank">xxx</p>
+            </div>
+            <div class="div-mist">
+                <img class="img-logo" alt="Mist" src="mist-logo.svg">
+                <h2>MIST</h2>
+                <p><span class="align-number"><span class="numberCircle">1</span></span>Install and run <a class="span-montserrat-semi-bold a-link" href="https://github.com/ethereum/mist/releases" target="_blank">Mist</a></p>
+                <p><span class="align-number"><span class="numberCircle">2</span></span>Use Mist to browse <a class="span-montserrat-semi-bold a-link" href="xxx" target="_blank">xx</a></p>
+            </div>
+        </div>
+        <p class="p-connect-geth">While you can also connect with <b>geth</b> or <b>parity</b>, a more advanced configuration is needed. See the
+            <a href="xxx" target="_blank">The Eternal Market documentation</a> for instructions.
+        </p>
           </div>
         </div>
       </main>
@@ -21,4 +40,4 @@ class NoConnectionPage extends Component {
   }
 }
 
-export default User
+export default NoConnectionPage
