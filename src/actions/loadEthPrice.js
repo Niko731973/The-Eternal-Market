@@ -10,7 +10,7 @@ export function loadEthPrice() {
     return MarketAPI.GetETHPrice().then(price => {
       dispatch(loadEthPriceSuccess(price));
     }).catch(error => {
-      dispatch({type: "could not load price", error})
+      dispatch({type: "could not load price", error});
   });
 };
 }

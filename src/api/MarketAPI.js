@@ -5,8 +5,6 @@ import store from '../store';
 
 const contract = require('truffle-contract');
 
-
-
 // gets the current eth price from the market in USD
 
 class MarketAPI {  
@@ -43,33 +41,81 @@ class MarketAPI {
        
 }
     
-static GetBuyListings() {
+    static isListingActive(listing){
+        return listing.enabled;
+}
+    
+    static isSellerListing(listing){
+        return listing.seller === store.getState().web3.eth.accounts[0];
+}
+    
+static GetListings(condition){
+    
+    switch(condition){
+            
+        case 'active':
+            return MarketAPI.GetSelectedListings(MarketAPI.isListingActive)
+        case 'seller':
+            return MarketAPI.GetSelectedListings(MarketAPI.isSellerListing)
+            
+        default:
+            return MarketAPI.GetSelectedListings(true); // gets all listing
+            
+            
+    }
+    
+    
+}
+    
+static GetSelectedListings(condition) {
     
     return new Promise(function(resolve, reject) {
+        
           let marketInstance = store.getState().marketInstance;
           if(typeof marketInstance !== 'undefined'){
               
               marketInstance.nextFreeListingID().then(function(nextFreeListingID){
+              nextFreeListingID = nextFreeListingID.toNumber();
+                  
                   if(nextFreeListingID === 1){
+                      console.log("market has no listings")
                       throw(new Error("market has no listings"));
                   }
+                  
                   var listings = [];
+                  var promisesArray = [];
                   for(let i = nextFreeListingID-1;i>0;i-=1){
-                      MarketAPI.GetListing(i).then(listing => {
-                      if(listing.enabled === true){
-                          
-                          
-                        listings.push(listing)
-                      }
                       
-                  }).catch(()=>{
                       
-                      console.log("could not fetch listing id: "+i);
-                  });
+                      
+                      promisesArray.push(new Promise(function(resolve, reject) {
+                          
+                          return MarketAPI.GetListing(i).then(listing => {
+                            if(condition(listing)){
+                                listings.push(listing)
+                                resolve()
+                            }
+                          
+                          }).catch(error => {
+                              console.log("could not fetch listing id: "+i);
+                              resolve()
+                          });
+                          
+                      }));
+                      
                   }
                   
-              resolve(listings);
-            });
+                  Promise.all(promisesArray).then(()=>{
+                      resolve(listings);
+                  }).catch(error => {
+                      console.log('error resolving promise array')
+                  });
+                 
+            }).catch(error => {
+                  console.log("could not fetch nextFreeListing ID")
+                  throw (new Error("could not fetch nextFreeListing ID"));
+                 
+              });
           }
           else{
             throw(new Error("market instance not defined"));

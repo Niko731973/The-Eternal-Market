@@ -24,7 +24,9 @@ class Buy extends Component {
     createColumnDefs() {
         return [
         { headerName: "Price", field: "price" },
-        { headerName: "Title", field: "title" }];
+        { headerName: "Title", field: "title" },
+        { headerName: "Successes", field: "successes" },
+        { headerName: "Listed", field: "timeListed" }];
     
         }
       

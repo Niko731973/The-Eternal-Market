@@ -1,5 +1,6 @@
 export default {  
   buyListings: [],
+  sellListings: [],
   buyerOrders:[],
   sellerOrders:[],
   listing: [],

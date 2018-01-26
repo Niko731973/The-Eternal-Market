@@ -39,13 +39,15 @@ getWeb3
   return store.dispatch(loadEthPrice());
   })
 .then(()=> {
-  console.log('Market Price Loaded'); 
+  console.log('Market Price Loaded');
+  console.log('loading buy listings');
   return store.dispatch(loadBuyListings());
   })
 .then( () => {
   console.log('Buy Listings Loaded'); 
   })
 .catch((err) => {
+  console.log('there was an error')
   console.log(err);
   console.log('Error in web3 initialization.')
 });
