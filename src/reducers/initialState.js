@@ -1,5 +1,5 @@
 export default {  
-  listings: [],
+  buyListings: [],
   buyerOrders:[],
   sellerOrders:[],
   listing: [],

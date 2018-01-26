@@ -6,6 +6,9 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import getWeb3 from './getWeb3'
 import { loadEthPrice } from './actions/loadEthPrice'
 import { loadMarketInstance } from './actions/loadMarketInstance'
+import { loadBuyListings } from './actions/loadBuyListings'
+import MarketAPI from './api/MarketAPI';
+
 
 // Layouts
 import App from './App'
@@ -29,21 +32,29 @@ getWeb3
   console.log('Web3 initialized!')
 })
 .then(() => {
-  store.dispatch(loadMarketInstance()) ;
+  return store.dispatch(loadMarketInstance()) ;
   })
 .then(()=> {
   console.log('Market Instance Loaded');
-  store.dispatch(loadEthPrice());
+  return store.dispatch(loadEthPrice());
+  })
+.then(()=> {
+  console.log('Market Price Loaded'); 
+  return store.dispatch(loadBuyListings());
   })
 .then( () => {
-  console.log('Market Price Loaded'); 
+  console.log('Buy Listings Loaded'); 
   })
-.catch(() => {
+.catch((err) => {
+  console.log(err);
   console.log('Error in web3 initialization.')
 });
 
-// allow console access to store for debugging
+// allow console access to vars for debugging
 window.store = store;
+window.m = MarketAPI;
+
+
 ReactDOM.render((
     <Provider store={store}>
       <Router history={history}>

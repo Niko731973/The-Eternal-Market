@@ -3,12 +3,14 @@ import { routerReducer } from 'react-router-redux'
 import web3Reducer from './reducers/web3Reducer'
 import ethPriceReducer from './reducers/ethPriceReducer'
 import marketInstanceReducer from './reducers/marketInstanceReducer'
+import buyListingsReducer from './reducers/buyListingsReducer'
 
 const reducer = combineReducers({
   routing: routerReducer,
   web3: web3Reducer,
   ethPrice: ethPriceReducer,
-  marketInstance: marketInstanceReducer
+  marketInstance: marketInstanceReducer,
+  buyListings: buyListingsReducer
 })
 
 export default reducer

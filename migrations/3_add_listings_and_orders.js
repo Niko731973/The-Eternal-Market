@@ -13,25 +13,22 @@ var listingsToAdd = [{title:"First Listing",
 var ordersToAdd = [{id:1, deliveryInfo:"my encrypted address"}];
 
 function myaddlisting (instance, title, description, price, fromacct , sendvalue){
-    console.log("sending to "+instance+" with title : " + title +" description: "+description+" price: "+price+" from: "+fromacct+" and sending "+web3.fromWei(sendvalue)+"ETH");
-    console.log("");
-    
-    return instance.addListing.sendTransaction(title,description,price,{
+    return instance.addListing(title,description,price,{
             from: fromacct,
             gas:4000000,
-            value: sendvalue},
-            function (error, result){ //get callback from function which is your transaction key
-                if(!error){
-                    resolve(result);
-                } else{
-                    reject(error);
-                }
-        }
-        );
-
+            value: sendvalue});
 }
 
-module.exports = function(deployer, accounts){
+function addmyorder (instance, id, delivery, fromacct, sendvalue){
+    
+    return instance.addOrder(id,delivery,{
+            from: fromacct,
+            gas:4000000,
+            value: sendvalue});
+}
+
+
+module.exports = function(deployer, network, accounts){
     
     
 // Deploy the price oracle, set a starting price, record the address of the oracle contract
@@ -39,31 +36,54 @@ var m = Market.address;
 var b = Base.address;
 var p = PriceOracle.address;
     
+var marketInstance;
+    
 var newprice = 12345; //price of eth at beginning in cents
 var listing_fee = 500;      // Fee in cents to create a listing
 var order_fee = 200;  
     
 deployer.then(function (){
+    
     return Market.at(m);
+    
      }).then( instance => {
     
-    console.log("adding listing 1");
+    marketInstance = instance;
+    console.log("adding listing 1...");
+    
     var i = listingsToAdd[0];
+    var thisFee = web3.toWei((listing_fee/100)/(newprice/100));
     
-    var listingUSD = listing_fee/100;
-    console.log("fee is $"+listingUSD+"")
-    var usdeth = newprice/100;
-    console.log("1 eth costs $"+usdeth);
-    var listing_fee_eth = listingUSD/usdeth;
     
-    console.log("sending fee of: "+web3.toWei(listing_fee_eth) + " wei, or "+listing_fee_eth.toFixed(8)+" ETH");
-    
-    return myaddlisting(instance,i.title,i.description,i.price, accounts[0] , web3.toWei(listing_fee_eth));
+    return myaddlisting(marketInstance,i.title,i.description,i.price, accounts[0] , thisFee);
     
     
  }).then( result => {
-    console.log(result);
+    return console.log("Listing 1 Added Successfully");
+    
+ }).then( result => {
+    
+    console.log("adding listing 2...");
+    
+    var i = listingsToAdd[1];
+    var thisFee = web3.toWei((listing_fee/100)/(newprice/100));
+    
+    
+    return myaddlisting(marketInstance,i.title,i.description,i.price, accounts[1] , thisFee);
+    
+ }).then( result => {
+    return console.log("Listing 2 Added Successfully");
+    
+ }).then( result => {
     return console.log("done");
+    
+ }).then( result => {
+    var myprice = order_fee+listingsToAdd[0].price;
+    var thisFee = web3.toWei((listing_fee/100)/(newprice/100));
+    return addmyorder(marketInstance,1,"my address here",accounts[1],thisFee);
+    
+ }).then( result => {
+    return console.log("Order 1 for listing 1 added Successfully");
     
  }).catch(error => {
     console.log(error);

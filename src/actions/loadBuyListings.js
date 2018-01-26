@@ -1,19 +1,18 @@
 import * as types from './actionTypes';  
-import GetBuyListings from '../api/MarketAPI';
-import {browserHistory} from 'react-router'
+import MarketAPI from '../api/MarketAPI';
 
+export function loadBuyListingsSuccess(listings) {  
+  return {type: types.LOAD_BUY_LISTINGS_SUCCESS, listings};
+}
 
 export function loadBuyListings() {  
   return function(dispatch) {
-    return MarketAPI.GetActiveListings().then(listings => {
-      dispatch(loadListingsSuccess(listings));
+    return MarketAPI.GetBuyListings().then(listings => {
+      dispatch(loadBuyListingsSuccess(listings));
     }).catch(error => {
-      throw(error);
+      dispatch({type: "could not load buy listings", error})
     });
   };
 }
 
 
-export function loadBuyListingsSuccess(listings) {  
-  return {type: types.LOAD_BUY_LISTINGS_SUCCESS, listings};
-}

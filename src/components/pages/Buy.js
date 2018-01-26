@@ -10,7 +10,6 @@ class Buy extends Component {
     super(props);
        this.state = {
            columnDefs: this.createColumnDefs(),
-           rowData: this.createRowData()
        }
   }
     
@@ -24,16 +23,11 @@ class Buy extends Component {
     
     createColumnDefs() {
         return [
-        { headerName: "Rating", field: "rating" },
         { headerName: "Price", field: "price" },
-        { headerName: "Title", field: "title" },
-        { headerName: "Successes", field: "successes" }];
+        { headerName: "Title", field: "title" }];
     
         }
       
-      createRowData() {
-        return [{price:"50",title:"title",description:"test test test",successes:"50%"}];
-    }
   
   render() {
         
@@ -44,7 +38,7 @@ class Buy extends Component {
             <AgGridReact
                     // properties
                     columnDefs={this.state.columnDefs}
-                    rowData={this.state.rowData}
+                    rowData={this.props.buyListings}
                     paginationAutoPageSize="true" 
                     enableSorting
                     enableFilter
@@ -62,5 +56,12 @@ class Buy extends Component {
   }
 }
 
+function mapStateToProps(state, ownProps) {
+    
+    return {
+    buyListings: state.buyListings
+  };
 
-export default connect((state) => state)(Buy);
+} 
+
+export default connect(mapStateToProps)(Buy);  

@@ -16,9 +16,9 @@ class MarketAPI {
     return new Promise(function(resolve, reject) {
           let marketInstance = store.getState().marketInstance;
           if(typeof marketInstance !== 'undefined'){
-              marketInstance.getListing().then(function(i){
+              marketInstance.getListing(id).then(function(i){
               var listing = {};
-              console.log(i);
+              listing.id = id;
               listing.seller = i[0];
               listing.title = i[1];
               listing.description = i[2];
@@ -30,8 +30,10 @@ class MarketAPI {
               listing.disputed = i[8];
                
               resolve(listing);
-            });
-    }
+            }).catch(error => {
+                  console.log(error);
+              });
+          }
           else{
             throw(new Error("market instance not defined"));
           }
@@ -51,11 +53,14 @@ static GetBuyListings() {
                   if(nextFreeListingID === 1){
                       throw(new Error("market has no listings"));
                   }
-                  var listings = {};
+                  var listings = [];
                   for(let i = nextFreeListingID-1;i>0;i-=1){
                       MarketAPI.GetListing(i).then(listing => {
-                      
-                      listings.i = listing;
+                      if(listing.enabled === true){
+                          
+                          
+                        listings.push(listing)
+                      }
                       
                   }).catch(()=>{
                       
