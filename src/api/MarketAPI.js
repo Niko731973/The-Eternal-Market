@@ -11,7 +11,7 @@ const contract = require('truffle-contract');
 class MarketAPI {  
    
     
-    static GetListing(id){
+static GetListing(id){
     
     return new Promise(function(resolve, reject) {
           let marketInstance = store.getState().marketInstance;
@@ -44,15 +44,12 @@ class MarketAPI {
 }
     
     static isListingActive(listing){
-        console.log("listing is enabled: "+ listing.enabled)
         return listing.enabled;
 }
     
-    static isSellerListing(listing){
-        console.log(listing.seller)
-        console.log(store.getState().web3.web3Instance.eth.accounts[0])
-            return listing.seller === store.getState().web3.web3Instance.eth.accounts[0];
-    }
+static isSellerListing(listing,userAddress){
+    return listing.seller === store.getState().userAddress;
+}
     
     
     
@@ -100,8 +97,8 @@ static GetSelectedListings(condition) {
                           return MarketAPI.GetListing(i).then(listing => {
                             if(condition(listing)){
                                 listings.push(listing)
-                                resolve()
                             }
+                                resolve()
                           
                           }).catch(error => {
                               console.log("could not fetch listing id: "+i,error);
@@ -171,7 +168,63 @@ static GetSelectedListings(condition) {
 
 });
   }
+    
+    
+    
+    
+static GetListingFee(id){
+    
+    return new Promise(function(resolve, reject) {
+          let marketInstance = store.getState().marketInstance;
+          if(typeof marketInstance !== 'undefined'){
+              marketInstance.listing_fee().then(listingFee => {
+               
+              resolve(listingFee);
+              
+            }).catch(error => {
+                  console.log(error);
+              });
+          }
+          else{
+            throw(new Error("market instance not defined"));
+          }
+
+});
+    
+       
 }
+    
+static GetOrderFee(id){
+    
+    return new Promise(function(resolve, reject) {
+          let marketInstance = store.getState().marketInstance;
+          if(typeof marketInstance !== 'undefined'){
+              marketInstance.order_fee().then(orderFee => {
+               
+              resolve(orderFee);
+              
+            }).catch(error => {
+                  console.log(error);
+              });
+          }
+          else{
+            throw(new Error("market instance not defined"));
+          }
+
+});
+    
+       
+}
+    
+    
+    
+    
+    
+    
+    
+}
+
+
 
 
 export default MarketAPI;  
@@ -181,13 +234,7 @@ export function GetUserInfo(address){
     
 }
     
-export function GetListingFee(){
-    
-}
 
-export function GetOrderFee(){
-    
-}
 
 export function IsBadListing(listingID){
     

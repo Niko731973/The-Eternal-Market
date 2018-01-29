@@ -35,6 +35,22 @@ class Sell extends Component {
         <h1>Sell</h1>
         <h3>User: <span><UserAddress /> </span></h3>
         <h2>Open Orders</h2>
+        <div style={{height: "400px", width: "80%", paddingLeft: "10%"}} className="ag-bootstrap">
+            <AgGridReact
+                    // properties
+                    columnDefs={this.state.columnDefs}
+                    rowData={this.props.sellOrders}
+                    paginationAutoPageSize="true" 
+                    enableSorting
+                    enableFilter
+                    supressHorizontalScroll 
+                    //disable column movement
+                    // pagation not working! need to fix
+
+                    // events
+                    onGridReady={this.onGridReady}>
+                </AgGridReact>
+        </div>
         <h2>Your Listings</h2>
         <div style={{height: "400px", width: "80%", paddingLeft: "10%"}} className="ag-bootstrap">
             <AgGridReact
