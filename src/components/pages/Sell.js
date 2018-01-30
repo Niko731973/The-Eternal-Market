@@ -10,6 +10,10 @@ class Sell extends Component {
            columnDefs: this.createColumnDefs(),
        }
   }
+    
+    componentWillReceiveProps(nextProps){
+        
+    }
 
    onGridReady(params) {
         this.gridApi = params.api;

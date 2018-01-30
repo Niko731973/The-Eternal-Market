@@ -59,6 +59,7 @@ getWeb3
   console.log('Error in web3 initialization.')
 });
 
+
 // allow console access to vars for debugging
 window.store = store;
 window.m = MarketAPI;

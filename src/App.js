@@ -14,24 +14,26 @@ import "../node_modules/ag-grid/dist/styles/theme-bootstrap.css";
 class App extends Component {
     
   render() {
-      if(typeof this.props.state.web3.web3Instance !== 'undefined')
-    return (
-      <div className="App">
-        <MenuBar />
-        {this.props.children}
-      </div>
-        
-    );
-      else
-          return(
+      if(!this.props.state.web3.web3Instance || typeof this.props.state.web3.web3Instance === 'undefined')
+        return(
               <div className="App">
               <MenuBar />
               <NoConnectionPage />
               </div>
           );
+    
+        
+    
+      else
+        return (
+      <div className="App">
+        <MenuBar />
+        {this.props.children}
+      </div>
+            );
   }
-}
 
+}
 function mapStateToProps(state, ownProps) {
     
     return {

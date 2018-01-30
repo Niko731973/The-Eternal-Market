@@ -48,7 +48,7 @@ static GetListing(id){
 }
     
 static isSellerListing(listing,userAddress){
-    return listing.seller === store.getState().userAddress;
+    return listing.seller === store.getState().web3.web3Instance.eth.accounts[0];
 }
     
     

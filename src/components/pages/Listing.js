@@ -7,7 +7,11 @@ class Listing extends Component {
     super(props);
     
   }
-
+    
+ componentWillReceiveProps(nextProps){
+        
+    }
+    
   render() {
         
     return(

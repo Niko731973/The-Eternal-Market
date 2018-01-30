@@ -9,13 +9,9 @@ class NoConnectionPage extends Component {
   render() {
     return(
       <main className="container">
-        <div className="pure-g">
-          <div className="pure-u-1-1">
         <h1>NOT CONNECTED TO ETHEREUM</h1>
-        <a>You must connect an ethereum address to use this page.</a>
+        <a>You must connect to web3 to use this page.</a>
         
-          </div>
-        </div>
       </main>
     )
   }

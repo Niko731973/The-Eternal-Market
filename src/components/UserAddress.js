@@ -3,27 +3,28 @@ import { connect } from 'react-redux';
 
 class UserAddress extends Component {
     
+    componentWillReceiveProps(nextProps){
+        console.log("current props:")
+        console.log(this.props);
+        console.log("next props")
+        console.log(nextProps);
+    }
+    
   render() {
-      if(this.props.web3 && 
-         this.props.web3.web3Instance&& 
-         this.props.web3.web3Instance.eth&&
-         this.props.web3.web3Instance.eth.accounts[0])
     return(
-      <a>{this.props.web3.web3Instance.eth.accounts[0]}</a>
-    )
-      else
-    return(
-      <a>No Ethereum Address Connected</a>
-    ) 
+      <a>{this.props.userAddress}</a>
+    );
   }
 }
 
 
-function mapStateToProps(state, ownProps) {
-    
-    return {
-    web3: state.web3
-  };
+function mapStateToProps(state) {
+    if(!state.web3.web3Instance.eth.accounts[0]){
+        
+      return ({userAddress: "No Address Connected"})
+        
+    }
+    return ({userAddress: state.web3.web3Instance.eth.accounts[0]})
 
 } 
 
