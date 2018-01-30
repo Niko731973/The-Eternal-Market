@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 class UserAddress extends Component {
     
   render() {
-      if(typeof this.props.web3.web3Instance !== 'undefined' && 
-        typeof this.props.web3.web3Instance !== 'undefined' &&
-        typeof this.props.web3.web3Instance.eth.accounts[0] !== 'undefined')
+      if(this.props.web3 && 
+         this.props.web3.web3Instance&& 
+         this.props.web3.web3Instance.eth&&
+         this.props.web3.web3Instance.eth.accounts[0])
     return(
       <a>{this.props.web3.web3Instance.eth.accounts[0]}</a>
     )

@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
+import MarketAPI from '../../api/MarketAPI'
 
 class Listing extends Component {
-  constructor(props, { authData }) {
-    super(props)
-    authData = this.props
+  constructor(props) {
+    super(props);
+    
   }
 
   render() {
+        
     return(
-      <main className="container">
-        <div className="pure-g">
-          <div className="pure-u-1-1">
-            <h1>Listing Name Goes Here</h1>
+      <main className="container"> 
+        <h3>{this.props.listing.title}</h3>
+        <div style={{height: "400px", width: "80%", paddingLeft: "10%"}} className="ag-bootstrap">
         Description goes here
         
         Enter your shipping address into the box below, then press the "encrypt" button to encrypt your shipping info with the sellers public key. 
@@ -24,12 +26,30 @@ class Listing extends Component {
         ~XX.XX Eth 
         
         Seller's Public Key
-      
-          </div>
         </div>
-      </main>
+       
+    
+    </main>
     )
   }
 }
 
-export default Listing
+function mapStateToProps(state, ownProps) {
+      // empty listing in case no listing is loaded yet into the store
+      let listing = {id:'', seller: '', title: '', description: '', price: '', timeListed: '', enabled: '', successes: '', disputed: '', aborted: ''};
+       
+      // get the id to load
+      const id = ownProps.params.id;
+    
+    if(!ownProps.listing || ownProps.listing.id !== id){
+        console.log(this.props);// ownProps.dispatch(MarketAPI.GetListing(id))
+        return {listing: listing};
+    }
+        
+    return {listing: state.listing};
+    
+         
+
+} 
+
+export default connect(mapStateToProps)(Listing);  

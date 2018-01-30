@@ -63,6 +63,14 @@ getWeb3
 window.store = store;
 window.m = MarketAPI;
 
+// used to select id's when loading listings, users, or orders
+export const dispatchThenRoute = (myAction, myPath) => {
+    return (dispatch) => {
+        dispatch(myAction)
+        browserHistory.push(myPath);
+    }
+}; 
+
 
 ReactDOM.render((
     <Provider store={store}>
@@ -73,7 +81,7 @@ ReactDOM.render((
           <Route path="account" component={Account} />
           <Route path="buy" component={Buy} />
           <Route path="createListing" component={CreateListing} />
-          <Route path="listing" component={Listing} />
+          <Route path="listing/:id" component={Listing} />
           <Route path="sell" component={Sell} />
           <Route path="user" component={User} />
         </Route>

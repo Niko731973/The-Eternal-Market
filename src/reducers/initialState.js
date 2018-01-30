@@ -3,7 +3,7 @@ export default {
   sellListings: [],
   buyerOrders:[],
   sellerOrders:[],
-  listing: [],
+  listing: null,
   user:[],
   ethPrice: 0.00,
   marketInstance: {},
