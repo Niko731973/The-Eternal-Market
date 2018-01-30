@@ -9,9 +9,13 @@ class PriceFeed extends Component {
   }
     
   render() {
-      
+      if(typeof this.props.web3instance !== 'undefined')
     return(
       <a>${PriceFeed.toUSDFormat(this.props.ethPrice)} ETH</a>
+    )
+    else
+    return(
+      <a></a>
     )
   }
 }
@@ -20,7 +24,8 @@ class PriceFeed extends Component {
 function mapStateToProps(state, ownProps) {
     
     return {
-    ethPrice: state.ethPrice
+    ethPrice: state.ethPrice,
+    web3instance: state.web3.web3Instance
   };
 
 } 

@@ -8,7 +8,6 @@ import { loadEthPrice } from './actions/loadEthPrice'
 import { loadMarketInstance } from './actions/loadMarketInstance'
 import { loadBuyListings } from './actions/loadBuyListings'
 import { loadSellListings } from './actions/loadSellListings'
-import { loadUserAddress } from './actions/loadUserAddress'
 import MarketAPI from './api/MarketAPI';
 
 
@@ -47,11 +46,6 @@ getWeb3
   })
 .then( () => {
   console.log('Buy Listings Loaded'); 
-  console.log('loading user address');
-  return store.dispatch(loadUserAddress());
-  })
-.then( () => {
-  console.log('User Address Loaded');
   console.log('Loading seller Listings');
   return store.dispatch(loadSellListings());
   })
