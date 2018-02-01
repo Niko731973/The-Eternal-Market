@@ -3,12 +3,7 @@ import { connect } from 'react-redux';
 
 class UserAddress extends Component {
     
-    componentWillReceiveProps(nextProps){
-        console.log("current props:")
-        console.log(this.props);
-        console.log("next props")
-        console.log(nextProps);
-    }
+
     
   render() {
     return(

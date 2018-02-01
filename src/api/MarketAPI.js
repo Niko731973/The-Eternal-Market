@@ -169,6 +169,31 @@ static GetSelectedListings(condition) {
 });
   }
     
+static CreateOrder(listingID,shippingInfo,usdtosend){
+    
+    var weiToSend = usdtosend*store.getState().ethPrice*1.01; //wei to send
+    
+    return new Promise(function(resolve, reject) {
+          let marketInstance = store.getState().marketInstance;
+          if(typeof marketInstance !== 'undefined'){
+              marketInstance.addOrder(listingID,shippingInfo,{
+            value: weiToSend}).then(result => {
+               console.log(result)
+              resolve();
+              
+            }).catch(error => {
+                  console.log(error);
+              });
+          }
+          else{
+            throw(new Error("market instance not defined"));
+          }
+
+});
+    
+    
+}
+    
     
     
     
@@ -255,9 +280,7 @@ export function UpdateUserDescription(newDescription){
 
 /* Buying/Selling Functions */
 
-export function CreateOrder(listingID,shippingInfo){
-    
-}
+
 
 export function CreateListing(title,description,price){
     //addListing(title,description,price, {value:fee});

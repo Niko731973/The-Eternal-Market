@@ -14,7 +14,6 @@ import "../node_modules/ag-grid/dist/styles/theme-bootstrap.css";
 class App extends Component {
     
   render() {
-      
       if(!this.props.state.web3.web3Instance || 
          typeof this.props.state.web3.web3Instance === 'undefined' ||
         !this.props.state.marketInstance ||

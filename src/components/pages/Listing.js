@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import store from '../../store'
 import ListingCore from '../ListingCore'
-import { loadMarketInstance } from '../../actions/loadMarketInstance'
+import MarketAPI from '../../api/MarketAPI'
 
 class Listing extends Component {
   constructor(props) {
@@ -14,10 +13,17 @@ class Listing extends Component {
             }  
   }
     
+  // fetch info about listing and fees, and the sellers public key    
   componentDidMount(){
-      this.props.state.marketInstance.GetListing(this.props.params.id).then(listing => {
-      this.setState({listing: listing, isLoading:false});
-      });
+      var listing = {};
+      
+      MarketAPI.GetListing(this.props.params.id).then(fetched => {
+      listing = fetched;
+      }).then( 
+      MarketAPI.GetOrderFee().then(orderFee => { 
+      this.setState({orderFee: orderFee, listing: listing, isLoading:false});
+      })
+      );
         
   }
   
@@ -28,7 +34,7 @@ class Listing extends Component {
       {isLoading ? (
         <div>Loading Listing...</div>
       ) : (
-        <ListingCore listing = {this.state.listing} />
+        <ListingCore {...this.state} />
       )}
     </main>
   );
@@ -40,16 +46,16 @@ class Listing extends Component {
 
 function mapStateToProps(state, ownProps) {
       // empty listing in case no listing is loaded yet into the store
-      let listing = {id:'', seller: '', title: '', description: '', price: '', timeListed: '', enabled: '', successes: '', disputed: '', aborted: ''};
+      let listing = {id:'', seller: '', title: '', description: '', price: '', timeListed: '', enabled: '', successes: '', disputed: '', aborted: '', orderFee: ''};
        
       // get the id to load from the url
       const listingID = ownProps.params.id;
     
     if(!ownProps.listingID || state.listing.id !== listingID){
-        return {listing: listing , marketInstance: state.marketInstance};
+        return {orderFee: '', listing: listing , marketInstance: state.marketInstance};
     }
       
-    return {listing: state.listing , marketInstance: state.marketInstance};
+    return {orderFee: '', listing: state.listing , marketInstance: state.marketInstance};
     
          
 

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import {AgGridReact} from "ag-grid-react";
 import { connect } from 'react-redux';
-import GridLinkToListing from '../GridLinkToListing'
+import GridLinkToListing from '../gridFormatting/GridLinkToListing'
+import PriceFormatting from '../gridFormatting/PriceFormatting'
 
 
 
@@ -23,7 +24,7 @@ class Buy extends Component {
     
     createColumnDefs() {
         return [
-        { headerName: "Price", field: "price" },
+        { headerName: "Price", field: "price" , cellRendererFramework: PriceFormatting},
         { headerName: "Title", field: "title" , cellRendererFramework: GridLinkToListing },
         { headerName: "Successes", field: "successes" },
         { headerName: "Listed", field: "timeListed" }];
