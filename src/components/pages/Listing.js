@@ -1,40 +1,43 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import MarketAPI from '../../api/MarketAPI'
+import ListingCore from '../ListingCore'
 
 class Listing extends Component {
   constructor(props) {
     super(props);
+      
+      this.state = {
+                listing : {},
+                isLoading: true
+            }
     
   }
     
- componentWillReceiveProps(nextProps){
+  componentWillMount(){
+      console.log(this.state.isLoading)
+      MarketAPI.GetListing(this.props.params.id).then(listing => {
+          this.state.listing = listing;
+          this.state.isLoading = false;
+      });
         
-    }
+  }
     
   render() {
-        
-    return(
-      <main className="container"> 
-        <h3>{this.props.listing.title}</h3>
-        <div style={{height: "400px", width: "80%", paddingLeft: "10%"}} className="ag-bootstrap">
-        Description goes here
-        
-        Enter your shipping address into the box below, then press the "encrypt" button to encrypt your shipping info with the sellers public key. 
-        
-        Shipping Info
-        Enter Shipping Information Box
-        Encrypt Button 
-        
-        Order (Usd Price) - 
-        ~XX.XX Eth 
-        
-        Seller's Public Key
-        </div>
-       
+      
+      return (
+          
+    {if(this.state.isLoading)(
+      <span>Loading...</span>
+    )}
+          
+    {if(!this.state.isLoading)(
+      <ListingCore  listing={this.state.listing} /> 
+    )}
     
-    </main>
-    )
+  );
+      
+        */
   }
 }
 
@@ -42,15 +45,14 @@ function mapStateToProps(state, ownProps) {
       // empty listing in case no listing is loaded yet into the store
       let listing = {id:'', seller: '', title: '', description: '', price: '', timeListed: '', enabled: '', successes: '', disputed: '', aborted: ''};
        
-      // get the id to load
-      const id = ownProps.params.id;
+      // get the id to load from the url
+      const listingID = ownProps.params.id;
     
-    if(!ownProps.listing || ownProps.listing.id !== id){
-        console.log(this.props);// ownProps.dispatch(MarketAPI.GetListing(id))
-        return {listing: listing};
+    if(!ownProps.listingID || state.listing.id !== listingID){
+        return {listing: listing };
     }
-        
-    return {listing: state.listing};
+      
+    return {listing: state.listing };
     
          
 

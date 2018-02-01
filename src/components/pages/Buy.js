@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {AgGridReact} from "ag-grid-react";
 import { connect } from 'react-redux';
+import GridLinkToListing from '../GridLinkToListing'
 
 
 
@@ -9,7 +10,7 @@ class Buy extends Component {
   constructor(props) {
     super(props);
        this.state = {
-           columnDefs: this.createColumnDefs(),
+           columnDefs: this.createColumnDefs()
        }
   }
     
@@ -18,13 +19,12 @@ class Buy extends Component {
         this.gridApi = params.api;
         this.columnApi = params.columnApi;
         this.gridApi.sizeColumnsToFit();
-       
     }    
     
     createColumnDefs() {
         return [
         { headerName: "Price", field: "price" },
-        { headerName: "Title", field: "title" },
+        { headerName: "Title", field: "title" , cellRendererFramework: GridLinkToListing },
         { headerName: "Successes", field: "successes" },
         { headerName: "Listed", field: "timeListed" }];
     
@@ -45,6 +45,7 @@ class Buy extends Component {
                     enableSorting
                     enableFilter
                     supressHorizontalScroll 
+        
                     //disable column movement
                     // pagation not working! need to fix
 

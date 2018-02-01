@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {AgGridReact} from "ag-grid-react";
 import { connect } from 'react-redux';
 import UserAddress from '../UserAddress'
+import { loadSellListings } from '../../actions/loadSellListings'
 
 class Sell extends Component {
   constructor(props) {
@@ -11,7 +12,9 @@ class Sell extends Component {
        }
   }
     
-    componentWillReceiveProps(nextProps){
+    componentDidMount(){
+        
+        this.props.dispatch(loadSellListings());
         
     }
 
