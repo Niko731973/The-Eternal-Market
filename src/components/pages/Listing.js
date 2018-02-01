@@ -11,35 +11,33 @@ class Listing extends Component {
                 listing : {},
                 isLoading: true
             }
-    
+
   }
     
   componentWillMount(){
-      console.log(this.state.isLoading)
+      
       MarketAPI.GetListing(this.props.params.id).then(listing => {
-          this.state.listing = listing;
-          this.state.isLoading = false;
+          this.setState({listing: listing, isLoading:false});
       });
         
   }
-    
+  
   render() {
-      
-      return (
-          
-    {if(this.state.isLoading)(
-      <span>Loading...</span>
-    )}
-          
-    {if(!this.state.isLoading)(
-      <ListingCore  listing={this.state.listing} /> 
-    )}
-    
+  const isLoading = this.state.isLoading;
+  return (
+    <main className="container"> 
+      {isLoading ? (
+        <div>Loading Listing...</div>
+      ) : (
+        <ListingCore listing = {this.state.listing} />
+      )}
+    </main>
   );
-      
-        */
-  }
 }
+     
+        
+  }
+
 
 function mapStateToProps(state, ownProps) {
       // empty listing in case no listing is loaded yet into the store
