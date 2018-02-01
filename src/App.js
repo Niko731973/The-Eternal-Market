@@ -14,16 +14,17 @@ import "../node_modules/ag-grid/dist/styles/theme-bootstrap.css";
 class App extends Component {
     
   render() {
-      if(!this.props.state.web3.web3Instance || typeof this.props.state.web3.web3Instance === 'undefined')
+      
+      if(!this.props.state.web3.web3Instance || 
+         typeof this.props.state.web3.web3Instance === 'undefined' ||
+        !this.props.state.marketInstance ||
+        typeof this.props.state.marketInstance === 'undefined' )
         return(
               <div className="App">
               <MenuBar />
               <NoConnectionPage />
               </div>
           );
-    
-        
-    
       else
         return (
       <div className="App">

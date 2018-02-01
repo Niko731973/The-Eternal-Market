@@ -15,7 +15,7 @@ static GetListing(id){
     
     return new Promise(function(resolve, reject) {
           let marketInstance = store.getState().marketInstance;
-          if(typeof marketInstance !== 'undefined'){
+          if(marketInstance && typeof marketInstance !== 'undefined'){
               marketInstance.getListing(id).then(function(i){
               var listing = {};
               listing.id = id;

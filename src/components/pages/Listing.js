@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import MarketAPI from '../../api/MarketAPI'
+import store from '../../store'
 import ListingCore from '../ListingCore'
+import { loadMarketInstance } from '../../actions/loadMarketInstance'
 
 class Listing extends Component {
   constructor(props) {
@@ -10,14 +11,12 @@ class Listing extends Component {
       this.state = {
                 listing : {},
                 isLoading: true
-            }
-
+            }  
   }
     
-  componentWillMount(){
-      
-      MarketAPI.GetListing(this.props.params.id).then(listing => {
-          this.setState({listing: listing, isLoading:false});
+  componentDidMount(){
+      this.props.state.marketInstance.GetListing(this.props.params.id).then(listing => {
+      this.setState({listing: listing, isLoading:false});
       });
         
   }
@@ -47,10 +46,10 @@ function mapStateToProps(state, ownProps) {
       const listingID = ownProps.params.id;
     
     if(!ownProps.listingID || state.listing.id !== listingID){
-        return {listing: listing };
+        return {listing: listing , marketInstance: state.marketInstance};
     }
       
-    return {listing: state.listing };
+    return {listing: state.listing , marketInstance: state.marketInstance};
     
          
 
