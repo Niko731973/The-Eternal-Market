@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {AgGridReact} from "ag-grid-react";
 import { connect } from 'react-redux';
 import GridLinkToListing from '../gridFormatting/GridLinkToListing'
+import { loadBuyListings } from '../../actions/loadBuyListings'
 import PriceFormatting from '../gridFormatting/PriceFormatting'
 
 
@@ -14,6 +15,12 @@ class Buy extends Component {
            columnDefs: this.createColumnDefs()
        }
   }
+    
+     componentWillMount(){
+        
+        this.props.dispatch(loadBuyListings());
+        
+    }
     
 
    onGridReady(params) {

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import MenuBar from './components/MenuBar'
 import NoConnectionPage from './components/pages/NoConnectionPage'
+import { loadEthPrice } from './actions/loadEthPrice'
 
 // Styles
 import './css/pure-min.css'
@@ -12,6 +13,10 @@ import "../node_modules/ag-grid/dist/styles/ag-grid.css";
 import "../node_modules/ag-grid/dist/styles/theme-bootstrap.css";
 
 class App extends Component {
+    
+    componentWillUpdate(nextProps,nextState){
+        this.props.dispatch(loadEthPrice())
+    }
     
   render() {
       if(!this.props.state.web3.web3Instance || 

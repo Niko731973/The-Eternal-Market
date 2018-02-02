@@ -1,8 +1,8 @@
 export default {  
   buyListings: [],
   sellListings: [],
-  buyerOrders:[],
-  sellerOrders:[],
+  buyOrders:[],
+  sellOrders:[],
   listing: null,
   user:[],
   ethPrice: 0.00,

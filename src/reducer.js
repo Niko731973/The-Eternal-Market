@@ -5,6 +5,7 @@ import ethPriceReducer from './reducers/ethPriceReducer'
 import marketInstanceReducer from './reducers/marketInstanceReducer'
 import buyListingsReducer from './reducers/buyListingsReducer'
 import sellListingsReducer from './reducers/sellListingsReducer'
+import sellOrdersReducer from './reducers/sellOrdersReducer'
 
 const reducer = combineReducers({
   routing: routerReducer,
@@ -12,7 +13,8 @@ const reducer = combineReducers({
   ethPrice: ethPriceReducer,
   marketInstance: marketInstanceReducer,
   buyListings: buyListingsReducer,
-  sellListings: sellListingsReducer
+  sellListings: sellListingsReducer,
+  sellOrders: sellOrdersReducer
 })
 
 export default reducer

@@ -3,18 +3,24 @@ import {AgGridReact} from "ag-grid-react";
 import { connect } from 'react-redux';
 import UserAddress from '../UserAddress'
 import { loadSellListings } from '../../actions/loadSellListings'
+import { loadSellOrders } from '../../actions/loadSellOrders'
+import PriceFormatting from '../gridFormatting/PriceFormatting'
+import OrderActionButtons from '../orderButtons/OrderActionButtons'
 
 class Sell extends Component {
   constructor(props) {
     super(props);
        this.state = {
-           columnDefs: this.createColumnDefs(),
+           listingColumnDefs: this.createListingColumnDefs(),
+           orderColumnDefs: this.createOrderColumnDefs()
        }
   }
     
-    componentDidMount(){
+    componentWillMount(){
         
-        this.props.dispatch(loadSellListings());
+        this.props.dispatch(loadSellListings()).then(results => {
+            this.props.dispatch(loadSellOrders());
+        });
         
     }
 
@@ -25,12 +31,21 @@ class Sell extends Component {
        
     }    
     
-    createColumnDefs() {
+    createListingColumnDefs() {
         return [
-        { headerName: "Price", field: "price" },
+        { headerName: "Price", field: "price", cellRendererFramework: PriceFormatting  },
         { headerName: "Title", field: "title" },
         { headerName: "Successes", field: "successes" },
         { headerName: "Listed", field: "timeListed" }];
+    
+        }
+    
+     createOrderColumnDefs() {
+        return [
+        { headerName: "Order Date", field: "timeTracker" },
+        { headerName: "Eth", field: "price" },
+        { headerName: "Title", field: "title" },
+        { headerName: "Action", field: "state", cellRendererFramework: OrderActionButtons  }];
     
         }
       
@@ -45,7 +60,7 @@ class Sell extends Component {
         <div style={{height: "400px", width: "80%", paddingLeft: "10%"}} className="ag-bootstrap">
             <AgGridReact
                     // properties
-                    columnDefs={this.state.columnDefs}
+                    columnDefs={this.state.orderColumnDefs}
                     rowData={this.props.sellOrders}
                     paginationAutoPageSize="true" 
                     enableSorting
@@ -62,7 +77,7 @@ class Sell extends Component {
         <div style={{height: "400px", width: "80%", paddingLeft: "10%"}} className="ag-bootstrap">
             <AgGridReact
                     // properties
-                    columnDefs={this.state.columnDefs}
+                    columnDefs={this.state.listingColumnDefs}
                     rowData={this.props.sellListings}
                     paginationAutoPageSize="true" 
                     enableSorting
@@ -84,7 +99,8 @@ class Sell extends Component {
 function mapStateToProps(state, ownProps) {
     
     return {
-    sellListings: state.sellListings
+    sellListings: state.sellListings,
+    sellOrders: state.sellOrders
   };
 
 } 

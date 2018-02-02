@@ -22,7 +22,7 @@ static GetListing(id){
               listing.seller = i[0];
               listing.title = i[1];
               listing.description = i[2];
-              listing.price = i[3];
+              listing.price = i[3].toNumber();
               listing.timeListed = i[4];
               listing.enabled = i[5];
               listing.successes = i[6];
@@ -43,7 +43,39 @@ static GetListing(id){
        
 }
     
-    static isListingActive(listing){
+static GetOrder(id){
+    
+    return new Promise(function(resolve, reject) {
+          let marketInstance = store.getState().marketInstance;
+          if(marketInstance && typeof marketInstance !== 'undefined'){
+              marketInstance.getOrder(id).then(function(i){
+              var order = {};
+                  //i.seller, i.buyer, i.listingID, i.timeTracker, i.state, i.deliveryInfo, i.feedback, i.price
+              order.id = id;
+              order.seller = i[0];
+              order.buyer = i[1];
+              order.listingID = i[2]
+              order.timeTracker = i[3]
+              order.state = i[4]
+              order.deliveryInfo = i[5]
+              order.feedback = i[6]
+              order.price = i[7]
+                  
+              resolve(order);
+            }).catch(error => {
+                  console.log(error);
+              });
+          }
+          else{
+            throw(new Error("market instance not defined"));
+          }
+
+});
+    
+       
+}
+    
+static isListingActive(listing){
         return listing.enabled;
 }
     
@@ -51,6 +83,9 @@ static isSellerListing(listing,userAddress){
     return listing.seller === store.getState().web3.web3Instance.eth.accounts[0];
 }
     
+static isSellerOrder(order,userAddress){
+    return order.seller === store.getState().web3.web3Instance.eth.accounts[0];
+}    
     
     
     
@@ -64,6 +99,21 @@ static GetListings(condition){
             return MarketAPI.GetSelectedListings(MarketAPI.isSellerListing);
         default:
             return MarketAPI.GetSelectedListings(true); // gets all listing
+            
+            
+    }
+    
+    
+}
+    
+static GetOrders(condition){
+    
+    switch(condition){
+            
+        case 'seller':
+            return MarketAPI.GetSelectedOrders(MarketAPI.isSellerOrder);
+        default:
+            return MarketAPI.GetSelectedOrders(true); // gets all listing
             
             
     }
@@ -112,12 +162,74 @@ static GetSelectedListings(condition) {
                   Promise.all(promisesArray).then(()=>{
                       resolve(listings);
                   }).catch(error => {
+                      console.log(error)
                       console.log('error resolving promise array')
                   });
                  
             }).catch(error => {
-                  console.log("could not fetch nextFreeListing ID")
+                  console.log(error)
                   throw (new Error("could not fetch nextFreeListing ID"));
+                 
+              });
+          }
+          else{
+              
+            throw(new Error("market instance not defined"));
+          }
+
+    });
+    
+}
+    
+    
+static GetSelectedOrders(condition) {
+    
+    return new Promise(function(resolve, reject) {
+        
+          let marketInstance = store.getState().marketInstance;
+          if(typeof marketInstance !== 'undefined'){
+              
+              marketInstance.nextFreeOrderID().then(function(nextFreeOrderID){
+              nextFreeOrderID = nextFreeOrderID.toNumber();
+                  
+                  if(nextFreeOrderID === 1){
+                      console.log("market has no orders")
+                      throw(new Error("market has no orders"));
+                  }
+                  
+                  var orders = [];
+                  var promisesArray = [];
+                  for(let i = nextFreeOrderID-1;i>0;i-=1){
+                      
+                      
+                      
+                      promisesArray.push(new Promise(function(resolve, reject) {
+                          
+                          return MarketAPI.GetOrder(i).then(order => {
+                            if(condition(order)){
+                                orders.push(order)
+                            }
+                                resolve()
+                          
+                          }).catch(error => {
+                              console.log("could not fetch order id: "+i,error);
+                              resolve()
+                          });
+                          
+                      }));
+                      
+                  }
+                  
+                  Promise.all(promisesArray).then(()=>{
+                      resolve(orders);
+                  }).catch(error => {
+                      console.log(error)
+                      console.log('error resolving promise array')
+                  });
+                 
+            }).catch(error => {
+                  console.log(error)
+                  throw (new Error("could not fetch nextFreeOrder ID"));
                  
               });
           }
@@ -158,7 +270,7 @@ static GetSelectedListings(condition) {
                 let w3 = store.getState().web3.web3Instance;
                 var price = w3.toDecimal(b32Price);
                 price = w3.fromWei(price);
-                price = parseFloat(price);
+                price = parseFloat(price)*100; //price is in cents
                 resolve(price);
             });
     }

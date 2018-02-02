@@ -59,31 +59,32 @@ deployer.then(function (){
     
     
  }).then( result => {
-    return console.log("Listing 1 Added Successfully");
-    
- }).then( result => {
-    
+    console.log("Listing 1 Added Successfully");
     console.log("adding listing 2...");
     
     var i = listingsToAdd[1];
     var thisFee = web3.toWei((listing_fee/100)/(newprice/100));
-    
-    
     return myaddlisting(marketInstance,i.title,i.description,i.price, accounts[1] , thisFee);
     
  }).then( result => {
-    return console.log("Listing 2 Added Successfully");
+    console.log("Listing 2 Added Successfully");
+    console.log("adding order to listing 1")
     
- }).then( result => {
-    return console.log("done");
-    
- }).then( result => {
     var myprice = order_fee+listingsToAdd[0].price;
     var thisFee = web3.toWei((listing_fee/100)/(newprice/100));
     return addmyorder(marketInstance,1,"my address here",accounts[1],thisFee);
     
  }).then( result => {
-    return console.log("Order 1 for listing 1 added Successfully");
+    console.log("Order 1 for listing 1 added Successfully");
+    console.log("adding order to listing 2")
+    
+    var myprice = order_fee+listingsToAdd[1].price;
+    var thisFee = web3.toWei((listing_fee/100)/(newprice/100));
+    return addmyorder(marketInstance,2,"my address here",accounts[0],thisFee);
+    
+ }).then( result => {
+    return console.log("Order 2 for listing 2 added Successfully");
+    
     
  }).catch(error => {
     console.log(error);

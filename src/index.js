@@ -4,10 +4,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
 import { syncHistoryWithStore } from 'react-router-redux'
 import getWeb3 from './getWeb3'
-import { loadEthPrice } from './actions/loadEthPrice'
 import { loadMarketInstance } from './actions/loadMarketInstance'
-import { loadBuyListings } from './actions/loadBuyListings'
-import { loadSellListings } from './actions/loadSellListings'
 import MarketAPI from './api/MarketAPI';
 
 
@@ -36,23 +33,8 @@ getWeb3
   return store.dispatch(loadMarketInstance()) ;
   })
 .then(()=> {
-  console.log('Market Instance Loaded');
-  return store.dispatch(loadEthPrice());
-  })
-.then(()=> {
-  console.log('Market Price Loaded');
-  console.log('loading buy listings');
-  return store.dispatch(loadBuyListings());
-  })
-.then( () => {
-  console.log('Buy Listings Loaded'); 
-  console.log('Loading seller Listings');
-  return store.dispatch(loadSellListings());
-  })
-.then( () => {
-  return console.log('Sell Listings Loaded'); 
-   
-  })
+  return console.log('Market Instance Loaded');
+})
 .catch((err) => {
   console.log('there was an error')
   console.log(err);
