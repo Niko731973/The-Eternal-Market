@@ -371,7 +371,7 @@ static GetOrderFee(id){
               
               marketInstance.order_fee().then(orderFee => {
                
-              resolve(orderFee);
+              resolve(orderFee.toNumber());
               
             }).catch(error => {
                   console.log(error);

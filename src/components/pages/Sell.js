@@ -6,6 +6,7 @@ import { loadSellListings } from '../../actions/loadSellListings'
 import { loadSellOrders } from '../../actions/loadSellOrders'
 import PriceFormatting from '../gridFormatting/PriceFormatting'
 import OrderActionButtons from '../orderButtons/OrderActionButtons'
+import EditListingButton from '../orderButtons/EditListingButton'
 
 class Sell extends Component {
   constructor(props) {
@@ -36,7 +37,8 @@ class Sell extends Component {
         { headerName: "Price", field: "price", cellRendererFramework: PriceFormatting  },
         { headerName: "Title", field: "title" },
         { headerName: "Successes", field: "successes" },
-        { headerName: "Listed", field: "timeListed" }];
+        { headerName: "Listed", field: "timeListed" },
+        { headerName: "Action", field: "id" , cellRendererFramework: EditListingButton}];
     
         }
     
