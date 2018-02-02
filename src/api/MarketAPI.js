@@ -171,25 +171,34 @@ static GetSelectedListings(condition) {
     
 static CreateOrder(listingID,shippingInfo,usdtosend){
     
-    var weiToSend = usdtosend*store.getState().ethPrice*1.01; //wei to send
-    
     return new Promise(function(resolve, reject) {
-          let marketInstance = store.getState().marketInstance;
+        
+    MarketAPI.GetWeiFromUSD(usdtosend).then(weiToSend => {
+        
+        let marketInstance = store.getState().marketInstance;
           if(typeof marketInstance !== 'undefined'){
-              marketInstance.addOrder(listingID,shippingInfo,{
-            value: weiToSend}).then(result => {
-               console.log(result)
-              resolve();
+              
+            marketInstance.addOrder(listingID,shippingInfo,{
+            value: weiToSend,
+            from: store.getState().web3.web3Instance.eth.accounts[0]
+              }).then(result => {
+              resolve(result);
               
             }).catch(error => {
                   console.log(error);
               });
           }
           else{
+              
             throw(new Error("market instance not defined"));
+              
           }
 
 });
+        
+        
+    });
+          
     
     
 }
@@ -218,12 +227,36 @@ static GetListingFee(id){
     
        
 }
+    //returns the amount of wei (at the current market price), given a price in cents
+    static GetWeiFromUSD(usd){
+        return new Promise(function(resolve, reject) {
+        var w3 = store.getState().web3.web3Instance;
+             if( typeof w3 !== 'undefined'){
+              MarketAPI.GetETHPrice().then(marketPrice => {
+                  
+               resolve(w3.toWei(usd/marketPrice,'ether'))
+                  
+              
+            }).catch(error => {
+                  console.log(error);
+              });
+          
+         
+            }else{
+                console.log('no web3 found')
+                reject();
+            }
+        });
+        
+
+}
     
 static GetOrderFee(id){
     
     return new Promise(function(resolve, reject) {
           let marketInstance = store.getState().marketInstance;
           if(typeof marketInstance !== 'undefined'){
+              
               marketInstance.order_fee().then(orderFee => {
                
               resolve(orderFee);

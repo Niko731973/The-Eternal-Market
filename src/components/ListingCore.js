@@ -12,19 +12,23 @@ class ListingCore extends Component {
                 listing: props.listing
             }  
        this.handleChange = this.handleChange.bind(this);
+       this.sendOrder = this.sendOrder.bind(this);
+
   }
     
     componentWillMount(){
+        if(this.state.listing.enabled){
+            
       let p1 = this.props.listing.price.toNumber()
       let p2 = this.props.orderFee.toNumber()
       const totalPrice = p1+p2
       this.setState({totalPrice: totalPrice});
+            
+        }
     }
     
   sendOrder(){
-      //cannot access state inside
-      console.log(this.state)
-    MarketAPI.CreateOrder(this.state.listing.id,this.state.shippingAddress,this.state.totalPrice).then(result=>{
+    MarketAPI.CreateOrder(this.state.listing.id,this.state.shippingAddress,this.state.totalPrice/100).then(result=>{
         
         console.log(result);
     })
@@ -36,7 +40,13 @@ handleChange(event) {
     
   render() {
       const data = {price:this.state.totalPrice} //our price must be located in a data object for the formatter to work
-   
+   if(!this.state.listing.enabled)
+      return(
+        <div style={{height: "400px", width: "80%", paddingLeft: "10%"}} className="ag-bootstrap">
+        <h2>Listing Not Found</h2>
+        <p>The requested listing is disabled or does not exist</p>
+      </div>
+      )
     return(
         <div style={{height: "400px", width: "80%", paddingLeft: "10%"}} className="ag-bootstrap">
         <h2>{this.props.listing.title}</h2>

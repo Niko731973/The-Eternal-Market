@@ -46,7 +46,7 @@ class Listing extends Component {
 
 function mapStateToProps(state, ownProps) {
       // empty listing in case no listing is loaded yet into the store
-      let listing = {id:'', seller: '', title: '', description: '', price: '', timeListed: '', enabled: '', successes: '', disputed: '', aborted: '', orderFee: ''};
+      let listing = {id:'', seller: '', title: '', description: '', price: '', timeListed: '', enabled: false, successes: '', disputed: '', aborted: '', orderFee: ''};
        
       // get the id to load from the url
       const listingID = ownProps.params.id;
