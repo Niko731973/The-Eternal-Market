@@ -6,22 +6,16 @@ import React, { Component } from 'react'
 
 
 class DateFormatting extends Component {
-    constructor(props) {
-        super(props);
-    }
     
     
   render() {
-      const price = priceConvert(this.props.price/100)
+      const date = new Date(this.props.value.toNumber()*1000).toDateString();
     return(
-        <a>${Intl.NumberFormat('en-US',{minimumFractionDigits: 2}).format(price)}</a>
+        <a>{date}</a>
       
     )
   }
 }
 
-function priceConvert(p){
-    return (p).toFixed(2);
-}
 
 export default DateFormatting

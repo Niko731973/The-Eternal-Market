@@ -6,9 +6,6 @@ import React, { Component } from 'react'
 
 
 class PriceFormatting extends Component {
-    constructor(props) {
-        super(props);
-    }
     
     
   render() {

@@ -39,7 +39,6 @@ handleChange(event) {
   }
     
   render() {
-      const data = {price:this.state.totalPrice} //our price must be located in a data object for the formatter to work
       
       
    // do not display disabled listings   

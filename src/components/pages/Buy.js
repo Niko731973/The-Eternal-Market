@@ -37,10 +37,13 @@ class Buy extends Component {
         { headerName: "Listed", field: "timeListed" }];
     
         }
+    
+    
       
   
   render() {
         
+       
     return(
       <main className="container"> 
         <h1>Buy</h1>
@@ -64,8 +67,12 @@ class Buy extends Component {
     
     </main>
     )
+       
+      
   }
 }
+
+
 
 function mapStateToProps(state, ownProps) {
     

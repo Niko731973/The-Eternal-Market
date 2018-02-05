@@ -5,6 +5,9 @@ import UserAddress from '../UserAddress'
 import { loadSellListings } from '../../actions/loadSellListings'
 import { loadSellOrders } from '../../actions/loadSellOrders'
 import PriceFormatting from '../gridFormatting/PriceFormatting'
+import EthFormatting from '../gridFormatting/EthFormatting'
+import OrderTitleFormatting from '../gridFormatting/OrderTitleFormatting'
+import DateFormatting from '../gridFormatting/DateFormatting'
 import OrderActionButtons from '../orderButtons/OrderActionButtons'
 import EditListingButton from '../orderButtons/EditListingButton'
 
@@ -37,23 +40,29 @@ class Sell extends Component {
         { headerName: "Price", field: "price", cellRendererFramework: PriceFormatting  },
         { headerName: "Title", field: "title" },
         { headerName: "Successes", field: "successes" },
-        { headerName: "Listed", field: "timeListed" },
+        { headerName: "Listed", field: "timeListed" , cellRendererFramework: DateFormatting },
         { headerName: "Action", field: "id" , cellRendererFramework: EditListingButton}];
     
         }
     
      createOrderColumnDefs() {
         return [
-        { headerName: "Order Date", field: "timeTracker" },
-        { headerName: "Eth", field: "price" },
-        { headerName: "Title", field: "title" },
+        { headerName: "Order Date", field: "timeTracker" , cellRendererFramework: DateFormatting  },
+        { headerName: "ETH", field: "price", cellRendererFramework: EthFormatting  },
+        { headerName: "Title", field: "id" , cellRendererFramework: OrderTitleFormatting},
         { headerName: "Action", field: "state", cellRendererFramework: OrderActionButtons  }];
     
         }
+    
+    userAddressConnected(){
+   
+    return (this.props.web3 && this.props.web3.web3Instance && this.props.web3.web3Instance.eth && this.props.web3.web3Instance.eth.accounts &&
+           this.props.web3.web3Instance.eth.accounts[0] !== '')
+}
       
   
   render() {
-        
+    if(this.userAddressConnected())
     return(
       <main className="container"> 
         <h1>Sell</h1>
@@ -95,6 +104,17 @@ class Sell extends Component {
     
     </main>
     )
+      
+      return(
+      <main className="container"> 
+        <h1>Sell</h1>
+        <h3>User: <span><UserAddress /> </span></h3>
+        <div style={{height: "400px", width: "80%", paddingLeft: "10%"}} className="ag-bootstrap">
+           You must connect an ethereum address to use this page.
+        </div>
+    
+    </main>
+    )
   }
 }
 
@@ -102,7 +122,8 @@ function mapStateToProps(state, ownProps) {
     
     return {
     sellListings: state.sellListings,
-    sellOrders: state.sellOrders
+    sellOrders: state.sellOrders,
+    web3: state.web3
   };
 
 } 

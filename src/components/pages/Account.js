@@ -39,9 +39,15 @@ class Account extends Component {
 ];
     
         }
+    
+     userAddressConnected(){
+    return (this.props.web3 && this.props.web3.web3Instance && this.props.web3.web3Instance.eth && this.props.web3.web3Instance.eth.accounts &&
+           this.props.web3.web3Instance.eth.accounts[0] !== '')
+}
 
   render() {
         
+    if(this.userAddressConnected())
     return(
       <main className="container"> 
         <h1>Your Account</h1>
@@ -70,6 +76,17 @@ class Account extends Component {
     
     </main>
     )
+      
+      return(
+      <main className="container"> 
+        <h1>Account</h1>
+        <h3>User: <span><UserAddress /> </span></h3>
+        <div style={{height: "400px", width: "80%", paddingLeft: "10%"}} className="ag-bootstrap">
+           You must connect an ethereum address to use this page.
+        </div>
+    
+    </main>
+    )
   }
 }
 
@@ -77,7 +94,8 @@ class Account extends Component {
 function mapStateToProps(state, ownProps) {
     
     return {
-    state: state
+    state: state,
+    web3: state.web3
   };
 
 } 
