@@ -19,23 +19,28 @@ class Account extends Component {
   constructor(props) {
     super(props);
        this.state = {
-           columnDefs: this.createOrderColumnDefs(),
+           orderColumnDefs: this.createOrderColumnDefs(),
        }
   }
     
     
     componentWillMount(){
-        
         this.props.dispatch(loadBuyOrders());
         }
         
+   onGridReady(params) {
+        this.gridApi = params.api;
+        this.columnApi = params.columnApi;
+        this.gridApi.sizeColumnsToFit();
+       
+    }    
     
     
      createOrderColumnDefs() {
         return [
         { headerName: "Order Date", field: "timeTracker" , cellRendererFramework: DateFormatting  },
         { headerName: "ETH", field: "price", cellRendererFramework: EthFormatting  },
-        { headerName: "Title", field: "id" , cellRendererFramework: OrderTitleFormatting},
+        { headerName: "Title", field: "id" , cellRendererFramework: OrderTitleFormatting },
         { headerName: "Action", field: "state", cellRendererFramework: OrderActionButtons  }];
     
     }
