@@ -87,6 +87,10 @@ static isSellerOrder(order,userAddress){
     return order.seller === store.getState().web3.web3Instance.eth.accounts[0];
 }    
     
+static isBuyerOrder(order,userAddress){
+    return order.buyer === store.getState().web3.web3Instance.eth.accounts[0];
+}    
+    
     
     
 static GetListings(condition){
@@ -112,6 +116,8 @@ static GetOrders(condition){
             
         case 'seller':
             return MarketAPI.GetSelectedOrders(MarketAPI.isSellerOrder);
+        case 'buyer':
+            return MarketAPI.GetSelectedOrders(MarketAPI.isBuyerOrder);
         default:
             return MarketAPI.GetSelectedOrders(true); // gets all listing
             

@@ -6,6 +6,7 @@ import marketInstanceReducer from './reducers/marketInstanceReducer'
 import buyListingsReducer from './reducers/buyListingsReducer'
 import sellListingsReducer from './reducers/sellListingsReducer'
 import sellOrdersReducer from './reducers/sellOrdersReducer'
+import buyOrdersReducer from './reducers/buyOrdersReducer'
 
 const reducer = combineReducers({
   routing: routerReducer,
@@ -14,7 +15,8 @@ const reducer = combineReducers({
   marketInstance: marketInstanceReducer,
   buyListings: buyListingsReducer,
   sellListings: sellListingsReducer,
-  sellOrders: sellOrdersReducer
+  sellOrders: sellOrdersReducer,
+  buyOrders: buyOrdersReducer
 })
 
 export default reducer

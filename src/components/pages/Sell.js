@@ -10,6 +10,7 @@ import OrderTitleFormatting from '../gridFormatting/OrderTitleFormatting'
 import DateFormatting from '../gridFormatting/DateFormatting'
 import OrderActionButtons from '../orderButtons/OrderActionButtons'
 import EditListingButton from '../orderButtons/EditListingButton'
+import GridLinkToListing from '../gridFormatting/GridLinkToListing'
 
 class Sell extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class Sell extends Component {
     createListingColumnDefs() {
         return [
         { headerName: "Price", field: "price", cellRendererFramework: PriceFormatting  },
-        { headerName: "Title", field: "title" },
+        { headerName: "Title", field: "title"  },
         { headerName: "Successes", field: "successes" },
         { headerName: "Listed", field: "timeListed" , cellRendererFramework: DateFormatting },
         { headerName: "Action", field: "id" , cellRendererFramework: EditListingButton}];
@@ -55,9 +56,9 @@ class Sell extends Component {
         }
     
     userAddressConnected(){
-   
-    return (this.props.web3 && this.props.web3.web3Instance && this.props.web3.web3Instance.eth && this.props.web3.web3Instance.eth.accounts &&
-           this.props.web3.web3Instance.eth.accounts[0] !== '')
+    let w3 = this.props.web3;
+    return (w3 && w3.web3Instance && w3.web3Instance.eth && w3.web3Instance.eth.accounts &&
+          typeof w3.web3Instance.eth.accounts[0] !== 'undefined')
 }
       
   

@@ -6,10 +6,11 @@ class EditListingButton extends Component {
     
     
   render() {
+      
     return(
         <div>
       <Link to={'/listing/'+this.props.value}>
-    <button>Edit</button></Link></div>
+    <button type='button'>Edit</button></Link></div>
         
     )
   }

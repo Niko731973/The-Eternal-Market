@@ -2,7 +2,14 @@ import React, { Component } from 'react'
 import {AgGridReact} from "ag-grid-react";
 import { connect } from 'react-redux';
 import UserAddress from '../UserAddress'
-
+import { loadBuyOrders } from '../../actions/loadBuyOrders'
+import PriceFormatting from '../gridFormatting/PriceFormatting'
+import EthFormatting from '../gridFormatting/EthFormatting'
+import OrderTitleFormatting from '../gridFormatting/OrderTitleFormatting'
+import DateFormatting from '../gridFormatting/DateFormatting'
+import OrderActionButtons from '../orderButtons/OrderActionButtons'
+import EditListingButton from '../orderButtons/EditListingButton'
+import GridLinkToListing from '../gridFormatting/GridLinkToListing'
 
 
 
@@ -12,37 +19,32 @@ class Account extends Component {
   constructor(props) {
     super(props);
        this.state = {
-           columnDefs: this.createColumnDefs(),
+           columnDefs: this.createOrderColumnDefs(),
        }
   }
     
-    createColumnDefs() {
-        return [
-    {
-        headerName: 'Rating' , field: 'rating'
-    },
-    {
-        headerName: 'Price' , field: 'price'
-    },
-    {
-        headerName: 'Title' , field: 'title'
-    },
-    {
-        headerName: 'Successes' , field: 'successes'
-    },
-    {
-        headerName: 'Status' , field: 'state'
-    },
-    {
-        headerName: 'Ordered' , field: 'time'
-    }
-];
     
+    componentWillMount(){
+        
+        this.props.dispatch(loadBuyOrders());
         }
+        
+    
+    
+     createOrderColumnDefs() {
+        return [
+        { headerName: "Order Date", field: "timeTracker" , cellRendererFramework: DateFormatting  },
+        { headerName: "ETH", field: "price", cellRendererFramework: EthFormatting  },
+        { headerName: "Title", field: "id" , cellRendererFramework: OrderTitleFormatting},
+        { headerName: "Action", field: "state", cellRendererFramework: OrderActionButtons  }];
+    
+    }
+    
     
      userAddressConnected(){
-    return (this.props.web3 && this.props.web3.web3Instance && this.props.web3.web3Instance.eth && this.props.web3.web3Instance.eth.accounts &&
-           this.props.web3.web3Instance.eth.accounts[0] !== '')
+    let w3 = this.props.web3;
+    return (w3 && w3.web3Instance && w3.web3Instance.eth && w3.web3Instance.eth.accounts &&
+          typeof w3.web3Instance.eth.accounts[0] !== 'undefined')
 }
 
   render() {
@@ -52,12 +54,12 @@ class Account extends Component {
       <main className="container"> 
         <h1>Your Account</h1>
         <h3>User: <span><UserAddress /> </span></h3>
-        <h2>Purchases</h2>
+        <h2>Your Purchases</h2>
         <div style={{height: "400px", width: "80%", paddingLeft: "10%"}} className="ag-bootstrap">
             <AgGridReact
                     // properties
-                    columnDefs={this.state.columnDefs}
-                    rowData={this.props.sellOrders}
+                    columnDefs={this.state.orderColumnDefs}
+                    rowData={this.props.buyOrders}
                     paginationAutoPageSize="true" 
                     enableSorting
                     enableFilter
@@ -95,7 +97,8 @@ function mapStateToProps(state, ownProps) {
     
     return {
     state: state,
-    web3: state.web3
+    web3: state.web3,
+    buyOrders: state.buyOrders,
   };
 
 } 
